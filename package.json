@@ -1,0 +1,57 @@
+{
+  "name": "vonnegut-reader",
+  "description": "The reflowable reading component of the ink-frontend",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "sapper dev",
+    "build": "sapper build --legacy",
+    "export": "sapper export --legacy",
+    "start": "node __sapper__/build",
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "check-format": "prettier --check '**/*.{js,json,css}'",
+    "lint": "healthier",
+    "test": "run-p --race dev cy:run lint check-format",
+    "format": "prettier --write '**/*.{js,json,css,yml}'",
+    "storybook": "start-storybook -p 6006 --https --ssl-cert=dev/localhost.cert --ssl-key=dev/localhost.key -s ./",
+    "build-storybook": "build-storybook"
+  },
+  "healthier": {
+    "ignore": [
+      "__sapper__",
+      "rollup.config.js"
+    ]
+  },
+  "dependencies": {
+    "compression": "^1.7.1",
+    "express": "^4.17.1",
+    "sirv": "^0.4.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/runtime": "^7.0.0",
+    "@storybook/addon-actions": "^5.1.11",
+    "@storybook/addon-links": "^5.1.11",
+    "@storybook/addons": "^5.1.11",
+    "@storybook/svelte": "^5.1.11",
+    "babel-loader": "^8.0.6",
+    "cypress": "^3.4.1",
+    "healthier": "*",
+    "npm-run-all": "^4.1.5",
+    "prettier": "*",
+    "rollup": "^1.12.0",
+    "rollup-plugin-babel": "^4.0.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-svelte": "^5.0.1",
+    "rollup-plugin-terser": "^4.0.4",
+    "sapper": "^0.27.0",
+    "standard": "^13.1.0",
+    "svelte": "^3.8.1",
+    "svelte-loader": "^2.13.6"
+  }
+}
