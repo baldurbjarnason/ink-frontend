@@ -1,3 +1,3 @@
-const { sapper } = require('./__sapper__/build/server/server');
+const { sapper } = require("./__sapper__/build/server/server");
 
-module.exports = sapper
+module.exports = sapper;

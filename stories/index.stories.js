@@ -1,10 +1,9 @@
-import { storiesOf } from '@storybook/svelte'
-import { action } from '@storybook/addon-actions'
+import { storiesOf } from "@storybook/svelte";
+import { action } from "@storybook/addon-actions";
 
-import Book from './Book.svelte'
+import Book from "./Book.svelte";
 
-storiesOf('Book', module)
-  .add('with text', () => ({
-    Component: Book,
-    props: { text: 'Book First pass' }
-  }))
+storiesOf("Book", module).add("with text", () => ({
+  Component: Book,
+  props: { text: "Book First pass" }
+}));

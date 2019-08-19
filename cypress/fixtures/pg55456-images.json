@@ -5,9 +5,7 @@
   "resources": [
     {
       "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@cover.jpg",
-      "rel": [
-        "cover"
-      ],
+      "rel": ["cover"],
       "encodingFormat": "image/jpeg"
     },
     {
@@ -297,9 +295,7 @@
     },
     {
       "url": "/demo-epub/pg55456-images/OEBPS/toc.ncx",
-      "rel": [
-        "ncx"
-      ],
+      "rel": ["ncx"],
       "encodingFormat": "application/x-dtbncx+xml"
     },
     {
@@ -356,16 +352,10 @@
   "inLanguage": "fr",
   "name": "Aventures d'Alice au pays des merveilles",
   "identifier": "http://www.gutenberg.org/ebooks/55456",
-  "creator": [
-    "Lewis Carroll"
-  ],
+  "creator": ["Lewis Carroll"],
   "author": [],
-  "translator": [
-    "Henri Bué"
-  ],
-  "illustrator": [
-    "John Tenniel"
-  ],
+  "translator": ["Henri Bué"],
+  "illustrator": ["John Tenniel"],
   "editor": [],
   "colorist": [],
   "contributor": []

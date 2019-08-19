@@ -21,9 +21,7 @@
   "resources": [
     {
       "url": "placeholder-cover.png",
-      "rel": [
-        "cover"
-      ],
+      "rel": ["cover"],
       "encodingFormat": "image/jpeg"
     },
     {
@@ -38,24 +36,18 @@
     },
     {
       "url": "toc.ncx",
-      "rel": [
-        "ncx"
-      ],
+      "rel": ["ncx"],
       "encodingFormat": "application/x-dtbncx+xml"
     },
     {
       "type": "LinkedResource",
-      "rel": [
-        "alternate"
-      ],
+      "rel": ["alternate"],
       "url": "original.epub",
       "encodingFormat": "application/epub+zip"
     },
     {
       "type": "LinkedResource",
-      "rel": [
-        "alternate"
-      ],
+      "rel": ["alternate"],
       "url": "original.opf",
       "encodingFormat": "application/oebps-package+xml"
     }
