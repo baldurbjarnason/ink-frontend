@@ -1,0 +1,89 @@
+{
+  "type": "NCX",
+  "url": "/demo-epub/pg55456-images/OEBPS/toc.ncx",
+  "children": [
+    {
+      "label": "\n        AVENTURES D’ALICE AU PAYS DES MERVEILLES.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-1.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        TABLE.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-1.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE PREMIER. AU FOND DU TERRIER.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-1.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE II. LA MARE AUX LARMES.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-1.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE III. LA COURSE COCASSE.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-1.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE IV. L’HABITATION DU LAPIN BLANC.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-2.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE V. CONSEILS D’UNE CHENILLE.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-2.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE VI. PORC ET POIVRE.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-2.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE VII. UN THÉ DE FOUS.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-3.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE VIII. LE CROQUET DE LA REINE.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-3.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE IX. HISTOIRE DE LA FAUSSE-TORTUE.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-4.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE X. LE QUADRILLE DE HOMARDS.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-4.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE XI. QUI A VOLÉ LES TARTES?\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-5.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        CHAPITRE XII. DÉPOSITION D’ALICE.\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-5.htm.html",
+      "children": []
+    },
+    {
+      "label": "\n        Au lecteur\n      ",
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-6.htm.html",
+      "children": [
+        {
+          "label": "\n          Obviously fake subchapter\n        ",
+          "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-6.htm.html",
+          "children": []
+        }
+      ]
+    }
+  ],
+  "heading": "Aventures d'Alice au pays des merveilles",
+  "inLanguage": "fr"
+}

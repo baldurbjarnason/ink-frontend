@@ -102,6 +102,13 @@
         <text>Au lecteur</text>
       </navLabel>
       <content src="@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-6.htm.html#note_au_lecteur"/>
+
+      <navPoint id="np-15" playOrder="211">
+        <navLabel>
+          <text>Obviously fake subchapter</text>
+        </navLabel>
+        <content src="@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-6.htm.html#note_au_lecteur2"/>
+      </navPoint>
     </navPoint>
   </navMap>
   <pageList id="pages" class="pagelist">

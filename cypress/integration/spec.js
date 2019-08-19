@@ -8,7 +8,7 @@ describe("OPF parser", () => {
 
   it("converts basic OPF for EPUB 2.0", () => {
     cy.request(
-      "/api/parse-opf?opf=demo-epub%2Fpg55456-images%2FOEBPS%2Fcontent.opf"
+      "/api/parse-opf?opf=%2Fdemo-epub%2Fpg55456-images%2FOEBPS%2Fcontent.opf"
     ).then(response => {
       const { body } = response;
       expect(body).to.have.property("inLanguage", "fr");
