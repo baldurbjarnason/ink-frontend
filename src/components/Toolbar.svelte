@@ -1,6 +1,7 @@
 <script>
   // your script goes here
   export let returnPath
+  export let segment
 </script>
 
 <style>
@@ -14,7 +15,7 @@
     background-color: white;
     z-index: 2;
     line-height: 1;
-    padding: 0.25rem var(--reader-left-margin);
+    padding: 0.25rem 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -39,10 +40,10 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-<div class="Toolbar">
+<nav class="Toolbar">
   <slot name="left-button"><a href="{returnPath}" class="Toolbar-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a></slot>
   <div class="Toolbar-title">
     <slot></slot>
   </div>
-  <div></div>
-</div>
+  <div>{segment}</div>
+</nav>
