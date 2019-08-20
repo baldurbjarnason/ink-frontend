@@ -1,4 +1,4 @@
-// import * as fs from "fs";
+import * as fs from "fs";
 import { parseOPF } from "../../api/opf-to-metadata.js";
 import { getter } from "../../api/fetch.js";
 
@@ -14,10 +14,12 @@ export async function get(req, res, next) {
       body,
       url.hostname === "example.com" ? url.pathname : file
     );
-    // await fs.promises.writeFile(
-    //   "book2.json",
-    //   JSON.stringify(metadata, null, 2)
-    // );
+    if (file.includes('pg55456-images')) {
+      await fs.promises.writeFile(
+        "book2.json",
+        JSON.stringify(metadata, null, 2)
+      );
+    }
     return res.json(metadata);
   } catch (err) {
     next(err);

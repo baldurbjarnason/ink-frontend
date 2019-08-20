@@ -24,7 +24,9 @@
     },
     {
       "url": "http://localhost:3000/demo-epub/moby-dick/OPS/toc.xhtml",
-      "rel": ["contents"],
+      "rel": [
+        "contents"
+      ],
       "encodingFormat": "application/xhtml+xml"
     },
     {
@@ -44,7 +46,9 @@
     },
     {
       "url": "http://localhost:3000/demo-epub/moby-dick/OPS/images/9780316000000.jpg",
-      "rel": ["cover"],
+      "rel": [
+        "cover"
+      ],
       "encodingFormat": "image/jpeg"
     },
     {
@@ -756,6 +760,15 @@
       "url": "http://localhost:3000/demo-epub/moby-dick/OPS/toc-short.xhtml",
       "rel": [],
       "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "type": "LinkedResource",
+      "rel": [
+        "alternate",
+        "describedby"
+      ],
+      "url": "http://localhost:3000/demo-epub/moby-dick/OPS/package.opf",
+      "encodingFormat": "application/oebps-package+xml"
     }
   ],
   "readingOrder": [
@@ -1477,11 +1490,17 @@
   "name": "Moby-Dick",
   "identifier": "code.google.com.epub-samples.moby-dick-basic",
   "creator": [],
-  "publisher": ["Harper & Brothers, Publishers"],
-  "author": ["Herman Melville"],
+  "publisher": [
+    "Harper & Brothers, Publishers"
+  ],
+  "author": [
+    "Herman Melville"
+  ],
   "translator": [],
   "illustrator": [],
   "editor": [],
   "colorist": [],
-  "contributor": ["Dave Cramer"]
+  "contributor": [
+    "Dave Cramer"
+  ]
 }

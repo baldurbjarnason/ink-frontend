@@ -25,8 +25,6 @@ export function parseOPF(text, opfPath) {
   book.json.epubVersion = packageElement.attr("version");
   const ncxId = $("spine").attr("toc");
   const coverId = $('[name="cover"]').attr("content");
-  // This needs to add a reference to the OPF file itself for later use.
-  // Use rel=describedBy
   book.resources = $("manifest > item")
     .map((index, item) => {
       const node = $(item);
@@ -65,6 +63,12 @@ export function parseOPF(text, opfPath) {
     delete item.id;
     return item;
   });
+  book.resources = book.resources.concat({
+    type: 'LinkedResource',
+    rel: ['alternate', 'describedby'],
+    url: opfPath,
+    encodingFormat: 'application/oebps-package+xml'
+  })
   book.creator = $("dc\\:creator")
     .map((index, author) => {
       return $(author).text();
