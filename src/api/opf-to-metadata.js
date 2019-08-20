@@ -25,6 +25,8 @@ export function parseOPF(text, opfPath) {
   book.json.epubVersion = packageElement.attr("version");
   const ncxId = $("spine").attr("toc");
   const coverId = $('[name="cover"]').attr("content");
+  // This needs to add a reference to the OPF file itself for later use.
+  // Use rel=describedBy
   book.resources = $("manifest > item")
     .map((index, item) => {
       const node = $(item);

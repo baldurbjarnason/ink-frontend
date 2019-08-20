@@ -1,5 +1,5 @@
 import createDOMPurify from "dompurify";
-import { testProp } from "../api/allowed-css-props.js";
+import { testProp } from "../allowed-css-props.js";
 const purifyConfig = {
   KEEP_CONTENT: false,
   RETURN_DOM: true,
@@ -166,6 +166,7 @@ export async function getChapter(url, index) {
     }
   });
   const chapter = await DocumentFetch(url);
+  const stylesheets = Array.from(chapter.documentElement.querySelectorAll('link[rel="stylesheet"]')).map(node => node.getAttribute('src'))
   const clean = DOMPurify.sanitize(
     chapter.documentElement.outerHTML,
     purifyConfig

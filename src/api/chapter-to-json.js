@@ -1,6 +1,8 @@
 import createDOMPurify from 'dompurify/dist/purify.es.js'
 import {JSDOM} from 'jsdom'
 import {testProp} from './allowed-css-props.js'
+import serializer from 'xmlserializer'
+import * as fs from "fs";
 
 const purifyConfig = {
   KEEP_CONTENT: false,
@@ -10,12 +12,37 @@ const purifyConfig = {
   FORBID_TAGS: ['meta', 'form', 'title', 'link'],
   FORBID_ATTR: ['srcset', 'action', 'background', 'poster']
 }
+const tagLocations = [
+  "p",
+  "h1",
+  "h2",
+  "h3",
+  "h4",
+  "h5",
+  "h6",
+  "table",
+  "svg",
+  "hr",
+  "form",
+  "details",
+  "ul",
+  "ol",
+  "dl",
+  "figure",
+  "blockquote",
+  "aside"
+];
 
-export async function cleanCSS (text, url) {
-  const dom = new JSDOM(`<html><head><style>${text}</style></head><body></body></html>`, {
-    contentType: 'text/html'
+export async function chapterToJSON (chapter, chapterPath, contentType = 'text/html', index) {
+  let locations = 0;
+  let h1 = 0;
+  let h2 = 0;
+  const order = parseInt(index, 10) + 1;
+  const dom = new JSDOM(chapter, {
+    contentType
   })
   const window = dom.window
+  const stylesheets = Array.from(window.document.querySelectorAll('link[rel="stylesheet"]')).map(node => getPath(node.getAttribute('href'), chapterPath))
   const DOMPurify = createDOMPurify(window)
   // Based on sample from https://github.com/cure53/DOMPurify/tree/master/demos, same license as DOMPurify
   const regex = /(url\("?)(?!data:)/gim
@@ -95,6 +122,15 @@ export async function cleanCSS (text, url) {
       var output = []
       addCSSRules(output, node.sheet.cssRules)
       node.textContent = output.join('\n')
+    } else if (tagLocations.indexOf(data.tagName) !== -1) {
+      if (data.tagName === "h1") {
+        h1 = h1 + 1;
+        locations = 0;
+      } else if (data.tagName === "h2") {
+        h2 = h2 + 1;
+        locations = 0;
+      }
+      node.dataset.location = `${order}.${h1}.${h2}.${locations++}`;
     }
   })
   
@@ -117,10 +153,42 @@ export async function cleanCSS (text, url) {
         node.removeAttribute('style')
       }
     }
+    if (node.hasAttribute('src')) {
+      node.setAttribute('src', getPath(node.getAttribute('src'), chapterPath))
+    }
+    if (node.hasAttribute('href')) {
+      node.setAttribute('href', getPath(node.getAttribute('href'), chapterPath))
+    }
   })
   const clean = DOMPurify.sanitize(
-    window.document.documentElement,
+    window.document.body,
     purifyConfig
   )
-  return clean.querySelector('style').textContent
+  const headingElement = clean.querySelector('h1')
+  let heading
+  if (headingElement) {
+    heading = headingElement.textContent
+  } 
+  let html
+  if (contentType === 'application/xhtml+xml') {
+    html = serializer.serializeToString(clean)
+  } else {
+    html = clean.innerHTML
+  }
+  const result = {html, stylesheets, heading}
+  await fs.promises.writeFile(
+    "epub.html.json",
+    JSON.stringify(result)
+  );
+  return result
+}
+
+function getPath(path, opfPath) {
+  const opf = new URL(opfPath, "http://example.com/");
+  // If host is example.com, then this is a local request.
+  if (opf.hostname === "example.com") {
+    return new URL(decodeURIComponent(path), opf).pathname + opf.hash;
+  } else {
+    return new URL(decodeURIComponent(path), opf).href;
+  }
 }

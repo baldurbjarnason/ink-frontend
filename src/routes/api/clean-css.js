@@ -13,11 +13,6 @@ export async function get (req, res, next) {
       body,
       url.hostname === "example.com" ? url.pathname : file
     );
-    // await fs.promises.writeFile(
-    //   "book2.json",
-    //   JSON.stringify(metadata, null, 2)
-    // );
-    console.log(style)
     res.set('Content-Type', 'text/css')
     return res.send(style);
   } catch (err) {
