@@ -1,8 +1,8 @@
 import createDOMPurify from 'dompurify/dist/purify.es.js'
 import {JSDOM} from 'jsdom'
 import {testProp} from './allowed-css-props.js'
-import serializer from 'xmlserializer'
-import * as fs from "fs";
+// import serializer from 'xmlserializer'
+// import * as fs from "fs";
 
 const purifyConfig = {
   KEEP_CONTENT: false,
@@ -43,6 +43,11 @@ export async function chapterToJSON (chapter, chapterPath, contentType = 'text/h
   })
   const window = dom.window
   const stylesheets = Array.from(window.document.querySelectorAll('link[rel="stylesheet"]')).map(node => getPath(node.getAttribute('href'), chapterPath))
+  const headingElement = window.document.querySelector('h1')
+  let heading
+  if (headingElement) {
+    heading = headingElement.textContent
+  } 
   const DOMPurify = createDOMPurify(window)
   // Based on sample from https://github.com/cure53/DOMPurify/tree/master/demos, same license as DOMPurify
   const regex = /(url\("?)(?!data:)/gim
@@ -132,8 +137,10 @@ export async function chapterToJSON (chapter, chapterPath, contentType = 'text/h
       }
       node.dataset.location = `${order}.${h1}.${h2}.${locations++}`;
     }
+    if (node.getAttributeNS && node.getAttributeNS('http://www.idpf.org/2007/ops', 'type')) {
+      node.dataset.epubType = node.getAttributeNS('http://www.idpf.org/2007/ops', 'type')
+    }
   })
-  
   DOMPurify.addHook('afterSanitizeAttributes', function (node) {
     if (node.hasAttribute('style')) {
       var styles = node.style
@@ -161,25 +168,20 @@ export async function chapterToJSON (chapter, chapterPath, contentType = 'text/h
     }
   })
   const clean = DOMPurify.sanitize(
-    window.document.body,
+    window.document.documentElement,
     purifyConfig
   )
-  const headingElement = clean.querySelector('h1')
-  let heading
-  if (headingElement) {
-    heading = headingElement.textContent
-  } 
-  let html
-  if (contentType === 'application/xhtml+xml') {
-    html = serializer.serializeToString(clean)
-  } else {
-    html = clean.innerHTML
-  }
+  let html = ''
+  clean.querySelectorAll('style').forEach((element) => {
+    element.removeAttribute('xmlns')
+    html = html + element.outerHTML.replace(' xmlns="http://www.w3.org/1999/xhtml"', '')
+  })
+  html = html + clean.querySelector('body').innerHTML.replace(' xmlns="http://www.w3.org/1999/xhtml"', '')
   const result = {html, stylesheets, heading}
-  await fs.promises.writeFile(
-    "epub.html.json",
-    JSON.stringify(result)
-  );
+  // await fs.promises.writeFile(
+  //   "epub.html.json",
+  //   JSON.stringify(result)
+  // );
   return result
 }
 

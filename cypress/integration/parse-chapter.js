@@ -8,7 +8,7 @@ describe("Sanitize and parse chapter", () => {
 
   it("Chapter parsing and sanitisation", () => {
     cy.request(
-      "/api/parse-chapter?chapter=%2Fdemo-epub%2Fpg55456-images%2FOEBPS%2F%40public%40vhost%40g%40gutenberg%40html%40files%4055456%4055456-h%4055456-h-1.htm.html&index=1"
+      "/api/parse-chapter?chapter=%2Fdemo-epub%2Fpg55456-images%2FOEBPS%2F%40public%40vhost%40g%40gutenberg%40html%40files%4055456%4055456-h%4055456-h-1.htm.xhtml&index=1"
     ).then(response => {
       const { body } = response;
       expect(body).to.have.property(
