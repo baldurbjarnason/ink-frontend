@@ -1,12 +1,19 @@
 <script>
   // your script goes here
-  import {modal, click, keydown, open} from '../src/actions/modal.js'
-  import { fly } from 'svelte/transition'
+  import {modal, setup, open} from '../src/actions/modal.js'
+  import {popper} from '../src/actions/popper.js'
+  import { fly, fade } from 'svelte/transition'
   console.log($modal)
+  let popperButton
+  $: console.log(popperButton)
 </script>
 
 <style>
   /* your styles go here */
+  .Modal[hidden] [role="document"] {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
   .Modal:not([hidden]) [role="document"]{
     background-color: #fff;
     max-width: 95vw;
@@ -22,21 +29,33 @@
     box-shadow: 1px 1px 14px -2px rgba(0, 0, 0, 0.15);
     z-index: 10;
   }
-  [aria-hidden='true'] [role="document"] {
-    opacity: 0;
-    transform: translateX(-100%);
+  .Modal2 [role="document"]{
+    background-color: #f0f0f0;
+    color: black;
+    --popper-arrow-color: #f0f0f0;
   }
 </style>
 
 <!-- markup (zero or more items) goes here -->
 
-<button use:open={{id: 'test-modal', label: 'Use This'}}>Click Me!</button>
+<button use:open={{id: 'test-modal'}}>Click Me!</button>
+<button bind:this={popperButton} use:open={{id: 'test-modal2', caller: popperButton}}>Click Me!</button>
 
-<div class="Modal" on:click={click} on:keydown={keydown} id="test-modal" aria-hidden="true" hidden="true" role="dialog" tabIndex="-1">
-{#if $modal}
-   <div role="document" transition:fly={{ y: 200, duration: 2000 }}>
+<div class="Modal" use:setup id="test-modal">
+{#if $modal && $modal.id === 'test-modal'}
+   <div role="document" transition:fly={{ y: 200, duration: 400 }}>
 <h1>Modal Content.</h1>
 <p>  <input type="text">
+<button type="Button" data-close-modal>Close</button></p>
+</div>
+{/if}
+</div>
+<div class="Modal2" use:setup id="test-modal2">
+{#if $modal && $modal.id === 'test-modal2'}
+   <div role="document" transition:fade={{ duration: 400 }} use:popper={{ref: popperButton, arrow: true}}>
+    <div class="popper__arrow" x-arrow=""></div>
+<h1>Modal Content.</h1>
+<p>  <input type="text" data-autofocus>
 <button type="Button" data-close-modal>Close</button></p>
 </div>
 {/if}

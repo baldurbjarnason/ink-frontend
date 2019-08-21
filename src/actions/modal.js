@@ -1,4 +1,3 @@
-import Popper from "popper.js";
 import { writable } from 'svelte/store';
 
 export const modal = writable()
@@ -8,23 +7,59 @@ modal.subscribe(value => {
   activeModal = value
 })
 
+// Actions
 export function open (node, options) {
-  function listener (event) {
-    event.preventDefault()
-    event.stopPropagation()
-    opener(options)
+  const eventHandler = {
+    options,
+    handleEvent (event) {
+      if (activeModal) return
+      event.preventDefault()
+      event.stopPropagation()
+      opener(this.options)
+    }
   }
-  node.addEventListener('click', listener)
+  node.addEventListener('click', eventHandler)
+  return {
+    update (props) {
+      eventHandler.options = props
+    },
+    destroy () {
+      node.removeEventListener('click', eventHandler)
+    }
+  }
+}
+
+let documentSetup
+export function setup (node, options) {
+  if (!window) return
+  if (!documentSetup) {
+    document.body.addEventListener("click", event => {
+      if (activeModal && !activeModal.contains(event.target)) {
+        closer();
+      }
+    });
+    documentSetup = true
+  }
+  node.setAttribute('aria-hidden', 'true')
+  node.setAttribute('hidden', 'true')
+  node.setAttribute('role', 'dialog')
+  node.setAttribute('tabIndex', '-1')
+  node.addEventListener('click', click)
+  node.addEventListener('keydown', keydown)
+  node.dataset.modal = 'true'
   return {
     destroy () {
-      node.removeEventListener('click', listener)
+      node.removeEventListener('click', click)
+      node.removeEventListener('keydown', keydown)
     }
   }
 }
 
 function once (emitter, eventName) {
+  if (!emitter) return
   return new Promise(resolve => {
     function listener (event) {
+      console.log('animation done')
       resolve(event)
     }
     emitter.addEventListener(eventName, listener, { once: true })
@@ -33,20 +68,6 @@ function once (emitter, eventName) {
 
 const FOCUSABLE_ELEMENTS =
   'button:not([hidden]):not([disabled]), [href]:not([hidden]), input:not([hidden]):not([type="hidden"]):not([disabled]), select:not([hidden]):not([disabled]), textarea:not([hidden]):not([disabled]), [tabindex="0"]:not([hidden]):not([disabled]), summary:not([hidden]), [contenteditable]:not([hidden]), audio[controls]:not([hidden]), video[controls]:not([hidden])';
-
-export function scrollBehaviour(toggle) {
-  const body = document.querySelector("body");
-  switch (toggle) {
-    case "enable":
-      Object.assign(body.style, { overflow: "", height: "" });
-      break;
-    case "disable":
-      Object.assign(body.style, { overflow: "hidden", height: "100vh" });
-      break;
-    default:
-  }
-}
-
 export function keydown(event) {
   if (activeModal) {
     if (event.keyCode === 27) closer();
@@ -75,6 +96,19 @@ function maintainFocus(event) {
   }
 }
 
+export function scrollBehaviour(toggle) {
+  const body = document.querySelector("body");
+  switch (toggle) {
+    case "enable":
+      Object.assign(body.style, { overflow: "", height: "" });
+      break;
+    case "disable":
+      Object.assign(body.style, { overflow: "hidden", height: "100vh" });
+      break;
+    default:
+  }
+}
+
 export function click(event) {
   if (activeModal) {
     if (event.target.hasAttribute('data-close-modal')) {
@@ -83,12 +117,6 @@ export function click(event) {
     }
   }
 }
-
-document.body.addEventListener("click", event => {
-  if (activeModal && !activeModal.contains(event.target)) {
-    closer();
-  }
-});
 let activeElement
 let popper
 
@@ -100,15 +128,6 @@ export async function opener(props) {
   }
   const heading = node.querySelector("h1, h2, h3, h4, h5, h6");
   const doc = node.querySelector('[role="document"]')
-  const autofocus =
-    node.querySelector("[autofocus]") ||
-    node.querySelector("[data-autofocus]");
-  let focusTarget;
-  if (autofocus) {
-    focusTarget = autofocus;
-  } else {
-    focusTarget = node;
-  }
   if (props.label) {
     node.setAttribute("aria-label", props.label);
   } else if (heading) {
@@ -134,19 +153,22 @@ export async function opener(props) {
       child.setAttribute("aria-hidden", "true");
     }
   }
-  if (props.caller) {
-    popper = new Popper(props.caller, doc, {
-      // positionFixed: true,
-      arrow: { enabled: true }
-    });
-  }
   activeElement = document.activeElement;
   scrollBehaviour("disable");
   node.setAttribute("aria-hidden", "false");
   node.removeAttribute("hidden");
   node.classList.add("is-open");
   modal.set(node)
-  node.parentElement.classList.add("js-modal-open");
+  await once(doc, "introend");
+  const autofocus =
+    node.querySelector("[autofocus]") ||
+    node.querySelector("[data-autofocus]");
+  let focusTarget;
+  if (autofocus) {
+    focusTarget = autofocus;
+  } else {
+    focusTarget = node;
+  }
   window.requestAnimationFrame(() => {
     focusTarget.focus();
   });
@@ -157,7 +179,8 @@ export async function closer() {
   const doc = node.querySelector('[role="document"]')
   modal.set(null)
   // doc.classList.add("is-closing");
-  await once(doc, "animationend");
+  await once(doc, "outroend");
+  console.log('after close')
   // doc.classList.remove("is-closing");
   node.setAttribute("aria-hidden", "true");
   node.setAttribute("hidden", "true");
@@ -184,10 +207,6 @@ export async function closer() {
         child.removeAttribute("inert");
       }
     }
-  }
-  if (popper) {
-    popper.destroy();
-    popper = null;
   }
   window.requestAnimationFrame(() => {
     if (activeElement) {

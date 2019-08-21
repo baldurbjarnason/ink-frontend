@@ -1,3 +1,6 @@
+<script>
+	import Modal from '../../stories/Modal.svelte'
+</script>
 <style>
 	h1, figure, p {
 		text-align: center;
@@ -43,3 +46,5 @@
 </figure>
 
 <p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+
+<Modal />
