@@ -1,5 +1,5 @@
 <script>
-  import Toolbar from '../Toolbar.svelte'
+  import Toolbar from './Toolbar.svelte'
   import Navbar from './Navbar.svelte'
   import Chapter from './Chapter.svelte'
   import Progress from './Progress.svelte'

@@ -1,9 +1,9 @@
 import { storiesOf } from "@storybook/svelte";
 import { action } from "@storybook/addon-actions";
 
-import Book from "./Book.svelte";
+import Modal from "./Modal.svelte";
 
 storiesOf("Book", module).add("with text", () => ({
-  Component: Book,
+  Component: Modal,
   props: { text: "Book First pass" }
 }));
