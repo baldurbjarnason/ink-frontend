@@ -5,11 +5,14 @@ import { getter } from "../../api/fetch.js";
 export async function get(req, res, next) {
   const fetch = getter(req, res);
   // Should use getter to always fetch, no url wrangling
-  const file = req.query.opf;
-  const url = new URL(file, "http://example.com/");
+  const file = req.query.id;
   try {
-    const response = await fetch(file);
+    const idResponse = await fetch(file);
+    const book = await idResponse.json();
+    const opf = book.resources.find(item => item.encodingFormat === "application/oebps-package+xml")
+    const response = await fetch(opf.url);
     const body = await response.text();
+    const url = new URL(opf.url, "http://example.com/");
     const metadata = parseOPF(
       body,
       url.hostname === "example.com" ? url.pathname : file

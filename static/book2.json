@@ -1,0 +1,381 @@
+{
+  "type": "Publication",
+  "links": [],
+  "resources": [
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@cover.jpg",
+      "rel": [
+        "cover"
+      ],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@couverture.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@lettre.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@frontispice.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@agrandissement.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-1.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-8.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-10.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@stars.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-15.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-18.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-23.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-26.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-29.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-35.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-45.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-48.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-51.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-56.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-60.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-65.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-66.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-67.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-68.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-79.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-83.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-90.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-93.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-96.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-99.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-106.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-113.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-116.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-120.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-124.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-131.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-135.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-141.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-144.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-154.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-159.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-168.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-172.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-175.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-180.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-189.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@images@page-191.jpg",
+      "rel": [],
+      "encodingFormat": "image/jpeg"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/pgepub.css",
+      "rel": [],
+      "encodingFormat": "text/css"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/0.css",
+      "rel": [],
+      "encodingFormat": "text/css"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/1.css",
+      "rel": [],
+      "encodingFormat": "text/css"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-0.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-1.htm.xhtml",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-2.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-3.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-4.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-5.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-6.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-7.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/toc.ncx",
+      "rel": [
+        "ncx"
+      ],
+      "encodingFormat": "application/x-dtbncx+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/wrap0000.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "type": "LinkedResource",
+      "rel": [
+        "alternate",
+        "describedby"
+      ],
+      "url": "/demo-epub/pg55456-images/OEBPS/content.opf",
+      "encodingFormat": "application/oebps-package+xml"
+    }
+  ],
+  "readingOrder": [
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-0.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-1.htm.xhtml",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-2.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-3.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-4.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-5.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-6.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    },
+    {
+      "url": "/demo-epub/pg55456-images/OEBPS/@public@vhost@g@gutenberg@html@files@55456@55456-h@55456-h-7.htm.html",
+      "rel": [],
+      "encodingFormat": "application/xhtml+xml"
+    }
+  ],
+  "json": {
+    "epubVersion": "2.0"
+  },
+  "inLanguage": "fr",
+  "name": "Aventures d'Alice au pays des merveilles",
+  "identifier": "http://www.gutenberg.org/ebooks/55456",
+  "creator": [
+    "Lewis Carroll"
+  ],
+  "publisher": [],
+  "author": [],
+  "translator": [
+    "Henri Bué"
+  ],
+  "illustrator": [
+    "John Tenniel"
+  ],
+  "editor": [],
+  "colorist": [],
+  "contributor": []
+}
