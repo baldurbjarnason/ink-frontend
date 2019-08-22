@@ -1,4 +1,21 @@
 <script>
+// Process:
+// Preload in doc/[id].svelte
+//    - /id-to-opf to get a full featured JSON
+//    - set book store with id and href
+// Preload in doc/[id]/[...path].svelte
+//    - use /id-to-opf to get a full featured JSON
+//    - use parse-chapter to get chapter
+//    - set chapter store with href
+// Book.svelte, called with book json and chapter and params - onMount:
+// - set up settings store
+// - derive contents store from book store
+// - derive bookmarks store from book
+// Chapter.svelte - onMount:
+// - set up current location store
+// - navigation data from book + chapter href
+// - derive annotations store from book + chapter
+// - derive chapter title from book + contents + chapter.href
   import Toolbar from './Toolbar.svelte'
   import Navbar from './Navbar.svelte'
   import Chapter from './Chapter.svelte'
