@@ -7,6 +7,7 @@ export async function get (req, res, next) {
   const file = req.query.chapter;
   const index = req.query.index
   const url = new URL(file, "http://example.com/");
+  console.log(file)
   try {
     const response = await fetch(file);
     const body = await response.text();

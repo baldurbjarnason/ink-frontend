@@ -34,4 +34,20 @@ describe("OPF parser", () => {
       });
     });
   });
+
+  it("converts basic OPF for EPUB 2.0 directly from id", () => {
+    cy.request(
+      "/api/id-to-opf?id=%2Fbook2.json"
+    ).then(response => {
+      const { body } = response;
+      expect(body).to.have.property("inLanguage", "fr");
+      expect(body).to.have.property(
+        "name",
+        `Aventures d'Alice au pays des merveilles`
+      );
+      cy.fixture("pg55456-images.json").then(book1 => {
+        expect(body).to.deep.equal(book1);
+      });
+    });
+  });
 });
