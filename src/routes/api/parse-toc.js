@@ -1,4 +1,4 @@
-// import * as fs from "fs";
+import * as fs from "fs";
 import { parseToC } from "../../api/toc-to-json.js";
 import { getter } from "../../api/fetch.js";
 
@@ -14,10 +14,18 @@ export async function get(req, res, next) {
       body,
       url.hostname === "example.com" ? url.pathname : file
     );
-    // await fs.promises.writeFile(
-    //   "toc.json",
-    //   JSON.stringify(toc, null, 2)
-    // );
+    if (file.includes('childrens-literature')) {
+      await fs.promises.writeFile(
+        "childrens-literature.json",
+        JSON.stringify(toc, null, 2)
+      );
+    }
+    if (file.includes('pg55456-images')) {
+      await fs.promises.writeFile(
+        "pg55456-images.json",
+        JSON.stringify(toc, null, 2)
+      );
+    }
     return res.json(toc);
   } catch (err) {
     next(err);
