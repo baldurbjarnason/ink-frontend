@@ -1,49 +1,21 @@
 <script>
-// Process:
-// Preload in doc/[id].svelte
-//    - /id-to-opf to get a full featured JSON
-//    - set book store with id and href
-// Preload in doc/[id]/[...path].svelte
-//    - use /id-to-opf to get a full featured JSON
-//    - use parse-chapter to get chapter
-//    - set chapter store with href
-// Book.svelte, called with book json and chapter and params - onMount:
-// - set up settings store
-// - derive contents store from book store
-// - derive bookmarks store from book
-// Chapter.svelte - onMount:
-// - set up current location store
-// - navigation data from book + chapter href
-// - derive annotations store from book + chapter
-// - derive chapter title from book + contents + chapter.href
-  import Toolbar from './Toolbar.svelte'
   import Navbar from './Navbar.svelte'
   import Chapter from './Chapter.svelte'
-  import Progress from './Progress.svelte'
   import ContentsButton from './ContentsButton.svelte'
-  import { getContext, setContext } from 'svelte'
-  import {getNavigation} from '../api/get-navigation.js'
-  export let bookId
-  export let bookPath
-  let api = getContext('ink-api')
-  let book
-  if (bookId) {
-    book = api.book
-      .get(`/${bookId}`)
-  }
-  let navigationPromise
-  if (book && bookPath) {
-    navigationPromise = getNavigation(bookPath, book)
-  }
-  let currentLocation
+  import {book, chapter, navigation, contents, currentLocation, theme, fontSize, chapterTitle} from './stores.js'
   function handleCurrent ({detail}) {
-    currentLocation = detail.highest.dataset.location
+    currentLocation.set({
+      location: detail.highest.dataset.location
+    })
   }
   let loadedLocations = []
   function handleAppearing ({detail}) {
     loadedLocations = loadedLocations.concat(detail.nodes)
   }
-  // your script goes here
+  let bookBody
+  if (bookBody) {
+    bookBody.style.setProperty('--reader-font-size', $fontSize)
+  }
 </script>
 
 <style>
@@ -53,47 +25,29 @@
 }
 </style>
 
-<!-- markup (zero or more items) goes here -->
-<Toolbar returnPath={'/info' + bookId}>
-  <div slot="left-button"><ContentsButton /></div>
-{#if book}
-  {#await book}
-    <!-- promise is pending -->
-    <div class="BookToolbar-title">Loading...</div>
-  {:then bookObject}
-    <!-- promise was fulfilled -->
-    <div class="BookToolbar-title">{bookObject.name}</div>
-  {:catch error}
-    <!-- promise was rejected -->
-    <div class="BookToolbar-title">Loading failed!</div>
-  {/await} 
+<svelte:head>
+{#if $chapter.stylesheets.length !== 0}
+  {#each $chapter.stylesheets as sheet}
+     <link rel="stylesheet" href="{sheet}">
+  {/each}
+{/if}
+<title>{$book.name} - {$chapterTitle} - Rebus Ink</title>
+</svelte:head>
+
+{#if $book}
+<div class="BookBody" bind:this={bookBody}>
+<!-- Should have all chapters appear, they should get values from stores and only use props for chapter assignments. Only when props match store is the chapter rendered -->
+  {#each $book.readingOrder as chapter, index}
+    <Chapter on:current={handleCurrent} on:appearing={handleAppearing} chapterIndex={index} />
+  {/each}
+</div>
 {/if} 
-</Toolbar>
-{#if book}
-  {#await book}
-    <!-- promise is pending -->
-    <div class="BookBody BookBody--loading Loading">Loading...</div>
-  {:then bookObject}
-    <!-- promise was fulfilled -->
-    <div class="BookBody">
-    {#each bookObject.readingOrder as chapter, index}
-       <!-- content here -->
-       <Chapter chapter={chapter} book={bookObject} current={bookPath} index={index} on:current={handleCurrent} on:appearing={handleAppearing} />
-    {/each}
-    </div>
-  {#if navigationPromise}
-    {#await navigationPromise}
-      <!-- promise is pending -->
-      <Navbar />
-    {:then navigation}
-      <Navbar navigation={navigation}>
-        <Progress chapters={bookObject.readingOrder} current={bookPath} />
+    
+  {#if $navigation}
+
+      <Navbar navigation={$navigation}>
       </Navbar>
-    {/await} 
+      {:else}
+      <Navbar />
   {/if} 
-  {:catch error}
-    <!-- promise was rejected -->
-    <div class="BookBody BookBody--failed">Loading failed!</div>
-  {/await} 
-{/if} 
 

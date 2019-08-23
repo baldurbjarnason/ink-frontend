@@ -33,7 +33,7 @@
   --button-background-color: #f9f9f9;
 }
 :root {
-  --reader-font-size: 0.9rem;
+  --reader-font-size: 1.1rem;
   --reader-paragraph-spacing: 1rem;
   --reader-left-margin: 2rem;
   --reader-text-color: #444;
@@ -42,11 +42,11 @@
   --reader-background-color: white;
   --reader-border-color: #fafaef;
   --reader-line-height: 1.45;
-  --reader-font-family: var(--sans-fonts);
+  --reader-font-family: var(--old-style-fonts);
 }
 @media (max-width: 820px) {
   :root {
-    --reader-font-size: 0.85rem;
+    --reader-font-size: 1rem;
     --reader-paragraph-spacing: 1rem;
     --reader-left-margin: 1.5rem;
   }

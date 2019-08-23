@@ -1,28 +1,15 @@
 <script>
   import {onMount, onDestroy, createEventDispatcher} from 'svelte'
+  import {book, chapter, navigation, contents, currentLocation, theme, fontSize} from './stores.js'
 	import { fade, fly } from 'svelte/transition'
-  import {getChapter} from '../api/get-chapter.js'
   import ChapterBody from './ChapterBody.svelte'
   const dispatch = createEventDispatcher()
-  export let chapter
-  export let book
-  export let current
-  export let index
-  let {url} = chapter
-  let bookURL = new URL(book.id, window.location)
-  let chapterHref = new URL(chapter.url, bookURL).href
-  let htmlPromise
-  let visible
-  if ((current === url) || (index=== 0 && !current)) {
-    htmlPromise = getChapter(chapterHref, index)
-    visible = true
-  } else {
-    visible = false
-  }
+  let {url, index} = $chapter
   let positionObserver
   let locationObserver
   let highest
   let chapterElement
+  export let chapterIndex
   onMount(() => {
     if (!positionObserver) {
       positionObserver = new window.IntersectionObserver(onPosition, {
@@ -57,8 +44,8 @@
     }
   })
   onDestroy(() => {
-    positionObserver.disconnect()
-    locationObserver.disconnect()
+    if (positionObserver) positionObserver.disconnect()
+    if (locationObserver) locationObserver.disconnect()
   })
   function handleIntroEnd () {
     window.requestAnimationFrame(() => {
@@ -77,7 +64,7 @@
   line-height: var(--reader-line-height);
   font-size: var(--reader-font-size);
   color: var(--reader-text-color);
-  font-family: 'Source Serif Pro', serif;
+  font-family: var(--reader-font-family);
   background-color: var(--reader-background-color);
   line-height: var(--reader-line-height);
   display: block;
@@ -251,24 +238,25 @@
   background-color: #f9f9f9;
   box-shadow: 0 0 0 0.25rem #f9f9f9;
 }
-:global(article, blockquote, details, dl, figcaption, figure, hr, ol, p, section, table, ul) {
-  margin: 0;
+:global(p,
+ol,
+ul,
+dl,
+blockquote,
+figure,
+table,
+hr,
+section,
+article,
+details,
+figcaption) {
+  margin-top: var(--reader-paragraph-spacing);
+  margin-bottom: var(--reader-paragraph-spacing);
 }
 </style>
 
-{#if visible}
-  {#await htmlPromise}
-      <div class="Chapter Chapter--loading Loading" transition:fade>Loading...</div>
-    <!-- promise is pending -->
-  {:then html}
-    <!-- The direction of the fly transition should depend on navigation order -->
+{#if $book && $chapter && $chapter.index === chapterIndex}
     <div class="Chapter" in:fly="{{ x: 0, y: 200, duration: 250 }}" out:fly="{{ x: 0, y: -200, duration: 250 }}" bind:this={chapterElement} on:introend={handleIntroEnd}>
-    <ChapterBody html={html} />
+    <ChapterBody html={$chapter.html} />
     <div class="ChapterNotes"></div></div>
-  {:catch error}
-    <div class="Chapter Chapter-error" transition:fade>
-    <p>An error occured:</p>
-    <pre><code>{JSON.stringify(error, null, 2)}</code></pre></div>
-    <!-- promise was rejected -->
-  {/await}
 {/if}
