@@ -20,15 +20,15 @@ export const contents = derived(book, ($book, set) => {
 })
 
 export const navigation = derived([book, chapter], ([$book, $chapter]) => {
-  let prev
+  let previous
   let next
   let current
   if ($book.resources && $chapter.index) {
-    prev = $book.resources[$chapter.index - 1]
+    previous = $book.resources[$chapter.index - 1]
     next = $book.resources[$chapter.index + 1]
     current = $book.resources[$chapter.index]
   }
-  return {prev, current, next}
+  return {previous, current, next}
 })
 
 export const chapterTitle = derived([chapter, contents], ([$chapter, $contents]) => {
