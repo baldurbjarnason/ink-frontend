@@ -36,9 +36,7 @@ describe("OPF parser", () => {
   });
 
   it("converts basic OPF for EPUB 2.0 directly from id", () => {
-    cy.request(
-      "/api/id-to-opf?id=%2Fbook2.json"
-    ).then(response => {
+    cy.request("/api/id-to-opf?id=%2Fbook2.json").then(response => {
       const { body } = response;
       expect(body).to.have.property("inLanguage", "fr");
       expect(body).to.have.property(

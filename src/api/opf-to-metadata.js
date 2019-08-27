@@ -64,11 +64,11 @@ export function parseOPF(text, opfPath) {
     return item;
   });
   book.resources = book.resources.concat({
-    type: 'LinkedResource',
-    rel: ['alternate', 'describedby'],
+    type: "LinkedResource",
+    rel: ["alternate", "describedby"],
     url: opfPath,
-    encodingFormat: 'application/oebps-package+xml'
-  })
+    encodingFormat: "application/oebps-package+xml"
+  });
   book.creator = $("dc\\:creator")
     .map((index, author) => {
       return $(author).text();

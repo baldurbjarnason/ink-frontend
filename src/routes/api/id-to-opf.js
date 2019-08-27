@@ -9,7 +9,9 @@ export async function get(req, res, next) {
   try {
     const idResponse = await fetch(file);
     const book = await idResponse.json();
-    const opf = book.resources.find(item => item.encodingFormat === "application/oebps-package+xml")
+    const opf = book.resources.find(
+      item => item.encodingFormat === "application/oebps-package+xml"
+    );
     const response = await fetch(opf.url);
     const body = await response.text();
     const url = new URL(opf.url, "http://example.com/");

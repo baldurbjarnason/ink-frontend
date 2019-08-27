@@ -1,69 +1,69 @@
-import { writable } from 'svelte/store';
+import { writable } from "svelte/store";
 
-export const modal = writable()
+export const modal = writable();
 
-let activeModal
+let activeModal;
 modal.subscribe(value => {
-  activeModal = value
-})
+  activeModal = value;
+});
 
 // Actions
-export function open (node, options) {
+export function open(node, options) {
   const eventHandler = {
     options,
-    handleEvent (event) {
-      if (activeModal) return
-      event.preventDefault()
-      event.stopPropagation()
-      opener(this.options)
+    handleEvent(event) {
+      if (activeModal) return;
+      event.preventDefault();
+      event.stopPropagation();
+      opener(this.options);
     }
-  }
-  node.addEventListener('click', eventHandler)
+  };
+  node.addEventListener("click", eventHandler);
   return {
-    update (props) {
-      eventHandler.options = props
+    update(props) {
+      eventHandler.options = props;
     },
-    destroy () {
-      node.removeEventListener('click', eventHandler)
+    destroy() {
+      node.removeEventListener("click", eventHandler);
     }
-  }
+  };
 }
 
-let documentSetup
-export function setup (node, options) {
-  if (!window) return
+let documentSetup;
+export function setup(node, options) {
+  if (!window) return;
   if (!documentSetup) {
     document.body.addEventListener("click", event => {
       if (activeModal && !activeModal.contains(event.target)) {
         closer();
       }
     });
-    documentSetup = true
+    documentSetup = true;
   }
-  node.setAttribute('aria-hidden', 'true')
-  node.setAttribute('hidden', 'true')
-  node.setAttribute('role', 'dialog')
-  node.setAttribute('tabIndex', '-1')
-  node.addEventListener('click', click)
-  node.addEventListener('keydown', keydown)
-  node.dataset.modal = 'true'
+  node.setAttribute("aria-hidden", "true");
+  node.setAttribute("hidden", "true");
+  node.setAttribute("role", "dialog");
+  node.setAttribute("tabIndex", "-1");
+  node.addEventListener("click", click);
+  node.addEventListener("keydown", keydown);
+  node.dataset.modal = "true";
   return {
-    destroy () {
-      node.removeEventListener('click', click)
-      node.removeEventListener('keydown', keydown)
+    destroy() {
+      node.removeEventListener("click", click);
+      node.removeEventListener("keydown", keydown);
     }
-  }
+  };
 }
 
-function once (emitter, eventName) {
-  if (!emitter) return
+function once(emitter, eventName) {
+  if (!emitter) return;
   return new Promise(resolve => {
-    function listener (event) {
-      console.log('animation done')
-      resolve(event)
+    function listener(event) {
+      console.log("animation done");
+      resolve(event);
     }
-    emitter.addEventListener(eventName, listener, { once: true })
-  })
+    emitter.addEventListener(eventName, listener, { once: true });
+  });
 }
 
 const FOCUSABLE_ELEMENTS =
@@ -111,23 +111,23 @@ export function scrollBehaviour(toggle) {
 
 export function click(event) {
   if (activeModal) {
-    if (event.target.hasAttribute('data-close-modal')) {
+    if (event.target.hasAttribute("data-close-modal")) {
       closer();
       event.preventDefault();
     }
   }
 }
-let activeElement
-let popper
+let activeElement;
+let popper;
 
 export async function opener(props) {
-  const {id} = props
-  const node = document.getElementById(id)
+  const { id } = props;
+  const node = document.getElementById(id);
   if (activeModal) {
     await closer();
   }
   const heading = node.querySelector("h1, h2, h3, h4, h5, h6");
-  const doc = node.querySelector('[role="document"]')
+  const doc = node.querySelector('[role="document"]');
   if (props.label) {
     node.setAttribute("aria-label", props.label);
   } else if (heading) {
@@ -158,11 +158,10 @@ export async function opener(props) {
   node.setAttribute("aria-hidden", "false");
   node.removeAttribute("hidden");
   node.classList.add("is-open");
-  modal.set(node)
+  modal.set(node);
   await once(doc, "introend");
   const autofocus =
-    node.querySelector("[autofocus]") ||
-    node.querySelector("[data-autofocus]");
+    node.querySelector("[autofocus]") || node.querySelector("[data-autofocus]");
   let focusTarget;
   if (autofocus) {
     focusTarget = autofocus;
@@ -174,13 +173,13 @@ export async function opener(props) {
   });
 }
 export async function closer() {
-  if (!activeModal) return
-  const node = activeModal
-  const doc = node.querySelector('[role="document"]')
-  modal.set(null)
+  if (!activeModal) return;
+  const node = activeModal;
+  const doc = node.querySelector('[role="document"]');
+  modal.set(null);
   // doc.classList.add("is-closing");
   await once(doc, "outroend");
-  console.log('after close')
+  console.log("after close");
   // doc.classList.remove("is-closing");
   node.setAttribute("aria-hidden", "true");
   node.setAttribute("hidden", "true");

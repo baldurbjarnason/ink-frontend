@@ -1,6 +1,8 @@
 body {
   margin: 0;
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
   font-size: 14px;
   line-height: 1.5;
@@ -42,11 +44,17 @@ code {
 }
 
 :root {
-  --sans-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --old-style-fonts: "Iowan Old Style", "Sitka Text", Palatino, "Book Antiqua", serif;
+  --sans-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --old-style-fonts: "Iowan Old Style", "Sitka Text", Palatino, "Book Antiqua",
+    serif;
   --modern-serif-fonts: Athelas, Constantia, Georgia, serif;
-  --neutral-fonts:  -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, Noto, "Helvetica Neue", Arial, sans-serif;
+  --neutral-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Noto, "Helvetica Neue", Arial, sans-serif;
   --humanist-sans: Seravek, Calibri, Roboto, Arial, sans-serif;
   --monospace-fonts: "Andale Mono", Consolas, monospace;
   --font-size: 125%;
@@ -153,22 +161,22 @@ button,
 select {
   text-transform: none;
 }
-[type='button'],
-[type='reset'],
-[type='submit'],
+[type="button"],
+[type="reset"],
+[type="submit"],
 button {
   -webkit-appearance: button;
 }
-[type='button']::-moz-focus-inner,
-[type='reset']::-moz-focus-inner,
-[type='submit']::-moz-focus-inner,
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner,
 button::-moz-focus-inner {
   border-style: none;
   padding: 0;
 }
-[type='button']:-moz-focusring,
-[type='reset']:-moz-focusring,
-[type='submit']:-moz-focusring,
+[type="button"]:-moz-focusring,
+[type="reset"]:-moz-focusring,
+[type="submit"]:-moz-focusring,
 button:-moz-focusring {
   outline: 1px dotted ButtonText;
 }
@@ -189,20 +197,20 @@ progress {
 textarea {
   overflow: auto;
 }
-[type='checkbox'],
-[type='radio'] {
+[type="checkbox"],
+[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
-[type='number']::-webkit-inner-spin-button,
-[type='number']::-webkit-outer-spin-button {
+[type="number"]::-webkit-inner-spin-button,
+[type="number"]::-webkit-outer-spin-button {
   height: auto;
 }
-[type='search'] {
+[type="search"] {
   -webkit-appearance: textfield;
   outline-offset: -2px;
 }
-[type='search']::-webkit-search-decoration {
+[type="search"]::-webkit-search-decoration {
   -webkit-appearance: none;
 }
 ::-webkit-file-upload-button {
@@ -263,10 +271,10 @@ img {
   outline-offset: 0;
 }
 
-ink-modal[aria-hidden='true'],
-menu-modal[aria-hidden='true'],
-ink-collection-modal[aria-hidden='true'],
-collection-sidebar[aria-hidden='true'] {
+ink-modal[aria-hidden="true"],
+menu-modal[aria-hidden="true"],
+ink-collection-modal[aria-hidden="true"],
+collection-sidebar[aria-hidden="true"] {
   visibility: hidden;
   pointer-events: none;
 }
@@ -279,12 +287,12 @@ collection-sidebar[aria-hidden='true'] {
   pointer-events: none;
 }
 
-strong[slot='modal-title'] {
+strong[slot="modal-title"] {
   font-weight: 700;
 }
 
 /* Modal Styles */
-[aria-hidden='true'] {
+[aria-hidden="true"] {
   visibility: hidden;
   position: absolute;
   pointer-events: none;
@@ -293,16 +301,16 @@ strong[slot='modal-title'] {
   --arrow-size: 10px;
   z-index: 5;
 }
- .popper__arrow {
+.popper__arrow {
   --arrow-size: 10px;
   width: 0;
   height: 0;
   border-style: solid;
   position: absolute;
   margin: 10px;
-  border-color: var(--popper-arrow-color,white);
+  border-color: var(--popper-arrow-color, white);
 }
- .popper__arrow {
+.popper__arrow {
   width: 0;
   height: 0;
   border-style: solid;
@@ -313,56 +321,56 @@ strong[slot='modal-title'] {
   margin-bottom: 10px;
 }
 [x-placement^="top"] .popper__arrow {
-    border-width: 10px 10px 0 10px;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    bottom: -10px;
-    left: calc(50% - 10px);
-    margin-top: 0;
-    margin-bottom: 0;
+  border-width: 10px 10px 0 10px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  bottom: -10px;
+  left: calc(50% - 10px);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 [x-placement^="bottom"] {
-    margin-top: 10px;
+  margin-top: 10px;
 }
 
 [x-placement^="bottom"] .popper__arrow {
-    border-width: 0 10px 10px 10px;
-    border-left-color: transparent;
-    border-right-color: transparent;
-    border-top-color: transparent;
-    top: -10px;
-    left: calc(50% - 10px);
-    margin-top: 0;
-    margin-bottom: 0;
+  border-width: 0 10px 10px 10px;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  top: -10px;
+  left: calc(50% - 10px);
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 [x-placement^="right"] {
-    margin-left: 10px;
+  margin-left: 10px;
 }
 [x-placement^="right"] .popper__arrow {
-    border-width: 10px 10px 10px 0;
-    border-left-color: transparent;
-    border-top-color: transparent;
-    border-bottom-color: transparent;
-    left: -10px;
-    top: calc(50% - 10px);
-    margin-left: 0;
-    margin-right: 0;
+  border-width: 10px 10px 10px 0;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  left: -10px;
+  top: calc(50% - 10px);
+  margin-left: 0;
+  margin-right: 0;
 }
 [x-placement^="left"],
 .tooltip[x-placement^="left"] {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 [x-placement^="left"] .popper__arrow {
-    border-width: 10px 0 10px 10px;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    right: calc(0 - 10px);
-    top: calc(50% - 10px);
-    margin-left: 0;
-    margin-right: 0;
+  border-width: 10px 0 10px 10px;
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  right: calc(0 - 10px);
+  top: calc(50% - 10px);
+  margin-left: 0;
+  margin-right: 0;
 }
 
 body#body {

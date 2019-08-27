@@ -1,1 +1,19 @@
-{"@context":["https://www.w3.org/ns/activitystreams",{"reader":"https://rebus.foundation/ns/reader"}],"id":"/reader-readerID","authId":"google-oauth2|1038374","profile":null,"name":null,"preferences":null,"json":null,"published":"2019-06-28T23:20:00.809Z","updated":"2019-06-28T23:20:00.809Z","deleted":null,"type":"Person","summaryMap":{"en":"Reader with id /reader-readerID"},"inbox":"/reader-readerID/inbox","outbox":"/reader-readerID/activity"}
+{
+  "@context": [
+    "https://www.w3.org/ns/activitystreams",
+    { "reader": "https://rebus.foundation/ns/reader" }
+  ],
+  "id": "/reader-readerID",
+  "authId": "google-oauth2|1038374",
+  "profile": null,
+  "name": null,
+  "preferences": null,
+  "json": null,
+  "published": "2019-06-28T23:20:00.809Z",
+  "updated": "2019-06-28T23:20:00.809Z",
+  "deleted": null,
+  "type": "Person",
+  "summaryMap": { "en": "Reader with id /reader-readerID" },
+  "inbox": "/reader-readerID/inbox",
+  "outbox": "/reader-readerID/activity"
+}

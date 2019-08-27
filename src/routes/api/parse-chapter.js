@@ -1,11 +1,10 @@
-
 import { getter } from "../../api/fetch.js";
-import {chapterToJSON} from '../../api/chapter-to-json'
+import { chapterToJSON } from "../../api/chapter-to-json";
 
-export async function get (req, res, next) {
+export async function get(req, res, next) {
   const fetch = getter(req, res);
   const file = req.query.chapter;
-  const index = req.query.index
+  const index = req.query.index;
   const url = new URL(file, "http://example.com/");
   try {
     const response = await fetch(file);
@@ -18,7 +17,7 @@ export async function get (req, res, next) {
     );
     return res.json(chapter);
   } catch (err) {
-    console.error(err)
+    console.error(err);
     next(err);
   }
 }

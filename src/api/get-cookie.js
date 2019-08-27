@@ -1,16 +1,16 @@
-export function getCookie (name) {
+export function getCookie(name) {
   return decodeURIComponent(
     document.cookie.replace(
       new RegExp(
-        '(?:(?:^|.*;)\\s*' +
-          encodeURIComponent(name).replace(/[-.+*]/g, '\\$&') +
-          '\\s*\\=\\s*([^;]*).*$)|^.*$'
+        "(?:(?:^|.*;)\\s*" +
+          encodeURIComponent(name).replace(/[-.+*]/g, "\\$&") +
+          "\\s*\\=\\s*([^;]*).*$)|^.*$"
       ),
-      '$1'
+      "$1"
     )
-  )
+  );
 }
 
-export function getToken () {
-  return getCookie('XSRF-TOKEN')
+export function getToken() {
+  return getCookie("XSRF-TOKEN");
 }

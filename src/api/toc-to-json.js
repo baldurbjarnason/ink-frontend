@@ -51,7 +51,7 @@ function parseListItem(i, element, toc, $) {
   };
   if (item.find("> a")) {
     child.label = item.find("> a").text();
-    child.url = item.find("> a").attr("href")
+    child.url = item.find("> a").attr("href");
   } else if (item.find("> span")) {
     child.label = item.find("> span").text();
   }
@@ -94,7 +94,7 @@ function getPath(path, opfPath) {
   const opf = new URL(opfPath, "http://example.com/");
   // If host is example.com, then this is a local request.
   if (opf.hostname === "example.com") {
-    const url = new URL(path, opf)
+    const url = new URL(path, opf);
     return url.pathname + url.hash;
   } else {
     return new URL(path, opf).href;

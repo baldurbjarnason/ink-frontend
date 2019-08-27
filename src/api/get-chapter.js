@@ -166,7 +166,9 @@ export async function getChapter(url, index) {
     }
   });
   const chapter = await DocumentFetch(url);
-  const stylesheets = Array.from(chapter.documentElement.querySelectorAll('link[rel="stylesheet"]')).map(node => node.getAttribute('src'))
+  const stylesheets = Array.from(
+    chapter.documentElement.querySelectorAll('link[rel="stylesheet"]')
+  ).map(node => node.getAttribute("src"));
   const clean = DOMPurify.sanitize(
     chapter.documentElement.outerHTML,
     purifyConfig

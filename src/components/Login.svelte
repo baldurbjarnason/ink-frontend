@@ -12,7 +12,7 @@
     })
     $session = await response.json()
   });
-  $: console.log(whoami)
+  $: console.log($session)
 </script>
 
 <style>
