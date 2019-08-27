@@ -12,7 +12,6 @@
     })
     $session = await response.json()
   });
-  $: console.log($session)
 </script>
 
 <style>
@@ -90,6 +89,7 @@
               id="sign-up-form"
             >
               <button
+                class="Button"
                 on:click={() => document.getElementById('sign-up-form').submit()}
                 name="Sign Up"
                 >Sign Up</button
@@ -113,6 +113,7 @@
               id="sign-in-form"
             >
               <button
+                class="Button"
                 on:click={() => document.getElementById('sign-in-form').submit()}
                 name="Sign In"
               >Sign In</button>

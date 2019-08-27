@@ -1,6 +1,7 @@
 <script>
   import Toolbar from '../components/Toolbar.svelte';
   import Login from '../components/Login.svelte'
+  import Profile from '../components/Profile.svelte'
 
 	export let segment;
 </script>
@@ -73,6 +74,7 @@
 </style>
 
 <Login />
+<Profile />
 <Toolbar {segment}/>
 <main>
 	<slot></slot>

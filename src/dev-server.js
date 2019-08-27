@@ -18,10 +18,10 @@ export function devServer(app, sapper) {
   passport.use(
     new httpStrategies.BasicStrategy((username, password, callback) => {
       if (password === "devpassword") {
-        const user = { id: username };
+        const user = { id: `private|${username}` };
         return callback(null, user);
       } else {
-        return null, false;
+        return callback(null, false);
       }
     })
   );
