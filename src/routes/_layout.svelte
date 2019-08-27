@@ -1,5 +1,6 @@
 <script>
-	import Toolbar from '../components/Toolbar.svelte';
+  import Toolbar from '../components/Toolbar.svelte';
+  import Login from '../components/Login.svelte'
 
 	export let segment;
 </script>
@@ -71,7 +72,7 @@
 	}
 </style>
 
-
+<Login />
 <Toolbar {segment}/>
 <main>
 	<slot></slot>
