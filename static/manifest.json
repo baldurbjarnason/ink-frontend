@@ -1,8 +1,8 @@
 {
   "background_color": "#ffffff",
   "theme_color": "#333333",
-  "name": "TODO",
-  "short_name": "TODO",
+  "name": "Rebus Ink",
+  "short_name": "Ink",
   "display": "minimal-ui",
   "start_url": "/",
   "icons": [
