@@ -1,7 +1,8 @@
 <script>
   // your script goes here
-  export let book
+  export let book = {}
   export let layout = 'covers'
+  console.log(book)
   let { resources = [], author = [] } = book
   let url
   if (book.id) {
@@ -121,8 +122,7 @@ a.BookCard-link {
 .list .BookCard-icon {
   display: none;
 }
-.list .BookCard-paragraph,
-.list .BookCard-total {
+.list .BookCard-paragraph {
   padding: 0;
   margin: 0;
 }

@@ -41,7 +41,7 @@
 <button use:open={{id: 'test-modal'}}>Click Me!</button>
 <button bind:this={popperButton} use:open={{id: 'test-modal2', caller: popperButton}}>Click Me!</button>
 
-<div class="Modal" use:setup id="test-modal">
+<div class="Modal" use:setup id="test-modal" hidden>
 {#if $modal && $modal.id === 'test-modal'}
    <div role="document" transition:fly={{ y: 200, duration: 400 }}>
 <h1>Modal Content.</h1>

@@ -1,8 +1,62 @@
 import { storiesOf } from "@storybook/svelte";
-import { action } from "@storybook/addon-actions";
+// import { action } from "@storybook/addon-actions";
 
 import Modal from "./Modal.svelte";
 import LibraryItem from "./LibraryItem.svelte";
+import LibraryList from "./LibraryList.svelte";
+
+const list = [
+  {
+    name: 'Book Title 1',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 2',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 3',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 4',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 5',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 6',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 7',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 8',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 9',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  },
+  {
+    name: 'Book Title 10',
+    id: 'https://example.com/id',
+    author: [{ name: 'Fancy Author' }]
+  }
+]
 
 storiesOf("Modal", module).add("with text", () => ({
   Component: Modal,
@@ -32,5 +86,20 @@ storiesOf("LibraryItem", module)
         ]
       },
       layout: "covers"
+    }
+  }));
+storiesOf("LibraryList", module)
+  .add("covers", () => ({
+    Component: LibraryList,
+    props: {
+      list,
+      layout: "covers"
+    }
+  }))
+  .add("grid", () => ({
+    Component: LibraryList,
+    props: {
+      list,
+      layout: "grid"
     }
   }));
