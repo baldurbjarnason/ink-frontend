@@ -6,15 +6,6 @@
 </script>
 
 <style>
-  .LoginModal {
-    position: fixed;
-    z-index: 100;
-    background-color: white;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-  }
   .TwoUp {
   display: flex;
   justify-content: space-around;
@@ -50,11 +41,6 @@
 }
 .Card h2 {
   line-height: 1.2;
-}
-
-.Card--flat {
-  box-shadow: none;
-  background-color: rgba(255, 255, 255, 0.85);
 }
 
 </style>

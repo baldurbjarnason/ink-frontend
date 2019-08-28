@@ -84,9 +84,6 @@
 :global(.Chapter > *) {
   grid-column: 2 / 3;
 }
-.Chapter.Loading {
-  opacity: 0.5;
-}
 
 .Chapter :global(.Highlight) {
   background-color: #ffff98;

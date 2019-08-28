@@ -35,9 +35,6 @@
   background-repeat: no-repeat;
   padding: 5vh 5vw;
 }
-.center {
-  text-align: center;
-}
 
 @media (max-width: 840px) {
   .TwoUp {
