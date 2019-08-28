@@ -96,10 +96,17 @@ storiesOf("LibraryList", module)
       layout: "covers"
     }
   }))
-  .add("grid", () => ({
+  .add("square", () => ({
     Component: LibraryList,
     props: {
       list,
-      layout: "grid"
+      layout: "square"
+    }
+  }))
+  .add("list", () => ({
+    Component: LibraryList,
+    props: {
+      list,
+      layout: "list"
     }
   }));

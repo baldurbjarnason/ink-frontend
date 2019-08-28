@@ -119,6 +119,29 @@ a.BookCard-link {
   height: 6rem;
   border-radius: 0px;
 }
+.square .BookCard-overlay {
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.62);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity cubic-bezier(0.075, 0.82, 0.165, 1) 250ms;
+  border-radius: 0;
+  text-decoration: none;
+  font-weight: 600;
+  text-align: center;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.square:hover .BookCard-overlay, .square .BookCard-overlay:focus {
+  opacity: 1;
+  pointer-events: all;
+}
 .list .BookCard-icon {
   display: none;
 }
@@ -151,6 +174,11 @@ a:focus {
       <div class={layout}><a href="{url}" class="icon-link">
       <img class="BookCard-icon" alt="{book.description ||
         ''}" src="{cover}"></a>
+        {#if layout === 'square'}
+        <a href="{url}" class="BookCard-overlay">{
+    book.name
+  }</a>
+        {/if}
       <div class="BookCard-group">
         <h4 class="BookCard-title"><a href="{url}" class="BookCard-link">{
     book.name
