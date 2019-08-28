@@ -2,7 +2,6 @@
   import { stores } from '@sapper/app';
   const { session } = stores();
   import {create} from '../api/create-profile.js'
-  $: console.log($session)
 </script>
 
 <style>

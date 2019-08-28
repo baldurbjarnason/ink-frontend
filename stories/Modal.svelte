@@ -3,9 +3,7 @@
   import {modal, setup, open} from '../src/actions/modal.js'
   import {popper} from '../src/actions/popper.js'
   import { fly, fade } from 'svelte/transition'
-  console.log($modal)
   let popperButton
-  $: console.log(popperButton)
 </script>
 
 <style>
