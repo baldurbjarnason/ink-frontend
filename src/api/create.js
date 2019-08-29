@@ -1,15 +1,8 @@
 import { fetchWrap, get } from "./fetch-wrap.js";
-import { stores } from "@sapper/app";
-const { session } = stores();
-
-let user;
-let profile;
-session.subscribe(value => {
-  user = value.user;
-  profile = value.profile;
-});
 
 export async function create(payload) {
+  const profile = window._session.profile
+  const user = window._session.user
   try {
     const response = await fetchWrap(profile.create, {
       method: "POST",

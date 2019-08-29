@@ -1,7 +1,11 @@
 <script>
+  import {onMount} from 'svelte'
   import { stores } from '@sapper/app';
-  const { session } = stores();
   import {create} from '../api/create-profile.js'
+  const { session } = stores();
+  onMount(() => {
+    window._session = $session
+  });
 </script>
 
 <style>

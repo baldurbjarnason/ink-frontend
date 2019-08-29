@@ -5,6 +5,7 @@ import Modal from "./Modal.svelte";
 import LibraryItem from "./LibraryItem.svelte";
 import LibraryList from "./LibraryList.svelte";
 import Upload from "./Upload.svelte";
+import UploadQueue from "./UploadQueue.svelte";
 
 const list = [
   {
@@ -114,5 +115,9 @@ storiesOf("LibraryList", module)
 
 storiesOf("Upload", module).add("main", () => ({
   Component: Upload,
+  props: {}
+}));
+storiesOf("UploadQueue", module).add("basic timed queue display", () => ({
+  Component: UploadQueue,
   props: {}
 }));

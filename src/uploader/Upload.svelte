@@ -1,6 +1,16 @@
 <script>
   // your script goes here
+  import {onMount} from 'svelte'
   export let upload = (files) => console.log(files)
+  onMount(() => {
+    if (!document.getElementById("import-pdf-cover-page")) {
+      const canvas = document.createElement("canvas");
+      canvas.id = "import-pdf-cover-page";
+      canvas.hidden = true;
+      canvas.setAttribute("style", "display: none;");
+      document.body.appendChild(canvas);
+    }
+  });
 </script>
 
 <style>

@@ -1,23 +1,15 @@
-import { uploadMedia } from "./uploadMedia.js";
+import { uploadMedia } from "./upload-media.js";
 import { create } from "../api/create.js";
-
-const canvas = document.createElement("canvas");
-canvas.id = "import-pdf-cover-page";
-canvas.hidden = true;
-canvas.setAttribute("style", "display: none;");
-document.body.appendChild(canvas);
 
 export async function createPDF(file) {
   let book = { type: "Publication", links: [], json: {} };
+  const canvas = document.getElementById("import-pdf-cover-page")
   const fileArray = await fileToArrayBuffer(file);
   const loadingTask = window.pdfjsLib.getDocument({
     data: fileArray,
     cMapUrl: window.CMAP_URL,
     cMapPacked: window.CMAP_PACKED
   });
-  // loadingTask.onProgress = ({ loaded, total }) => {
-  //   console.log('progress: ', loaded / total)
-  // }
   const pdf = await loadingTask.promise;
   const infoData = await pdf.getMetadata();
   const info = infoData.info;

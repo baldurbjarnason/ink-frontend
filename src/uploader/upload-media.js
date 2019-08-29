@@ -1,12 +1,5 @@
 import queue from "async-es/queue";
 import { fetchWrap } from "../api/fetch-wrap.js";
-import { stores } from "@sapper/app";
-const { session } = stores();
-
-let user;
-session.subscribe(value => {
-  user = value.user;
-});
 
 export async function uploadMedia(doc) {
   const { book, media } = await doc;
@@ -64,6 +57,7 @@ function uploadData(doc) {
 }
 
 async function upload(payload, endpoint) {
+  const user = window._session.user
   try {
     const response = await fetchWrap(endpoint, {
       credentials: "include",
