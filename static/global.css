@@ -43,25 +43,6 @@ code {
   }
 }
 
-:root {
-  --sans-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --old-style-fonts: "Iowan Old Style", "Sitka Text", Palatino, "Book Antiqua",
-    serif;
-  --modern-serif-fonts: Athelas, Constantia, Georgia, serif;
-  --neutral-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
-    Roboto, Noto, "Helvetica Neue", Arial, sans-serif;
-  --humanist-sans: Seravek, Calibri, Roboto, Arial, sans-serif;
-  --monospace-fonts: "Andale Mono", Consolas, monospace;
-  --font-size: 125%;
-  --line-height: 1.5;
-  --border-radius: 4px;
-}
-
 /*
 Base 
 
