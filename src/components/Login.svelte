@@ -1,14 +1,11 @@
 <script>
   import {onMount} from 'svelte'
   import { stores } from '@sapper/app';
-  import {getToken} from '../api/get-cookie.js'
   const { session } = stores();
   let whoami
   onMount(async () => {
-    const token = getToken()
     const response = await window.fetch('/api/whoami', {
-      credentials: 'include',
-      'csrf-token': token
+      credentials: 'include'
     })
     $session = await response.json()
   });
