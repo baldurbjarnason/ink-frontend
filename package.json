@@ -32,6 +32,7 @@
     "dompurify": "^1.0.11",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
+    "file-drop-element": "^0.2.0",
     "got": "^9.6.0",
     "inert-polyfill": "^0.2.5",
     "jsdom": "^15.1.1",

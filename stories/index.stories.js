@@ -4,6 +4,7 @@ import { storiesOf } from "@storybook/svelte";
 import Modal from "./Modal.svelte";
 import LibraryItem from "./LibraryItem.svelte";
 import LibraryList from "./LibraryList.svelte";
+import Upload from "./Upload.svelte";
 
 const list = [
   {
@@ -110,3 +111,9 @@ storiesOf("LibraryList", module)
       layout: "list"
     }
   }));
+
+storiesOf("Upload", module)
+  .add("main", () => ({
+    Component: Upload,
+    props: {}
+  }))
