@@ -1,7 +1,4 @@
 <script>
-  // your script goes here
-  export let returnPath
-  export let segment
 </script>
 
 <style>
@@ -30,20 +27,23 @@
     color: #32a5a5;
     color: var(--rc-dark);
   }
-  .Toolbar-title {
+  .Toolbar-title, .Toolbar-title > :global(span) {
     text-transform: uppercase;
-    font-size: .65rem;
-    font-weight: 400;
+    font-size: .75rem;
+    font-weight: 700;
     color: #555;
     color: var(--medium);
+  }
+  .Toolbar-rightbutton {
+    min-width: 24px;
   }
 </style>
 
 <!-- markup (zero or more items) goes here -->
 <nav class="Toolbar">
-  <slot name="left-button"><a href="{returnPath}" class="Toolbar-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a></slot>
+  <slot name="left-button"><a href="/" class="Toolbar-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a></slot>
   <div class="Toolbar-title">
-    <slot></slot>
+    <slot name="toolbar-title"></slot>
   </div>
-  <div>{segment}</div>
+  <div class="Toolbar-rightbutton"><slot name="right-button"></slot></div>
 </nav>
