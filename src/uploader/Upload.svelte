@@ -1,5 +1,4 @@
 <script>
-  import 'file-drop-element/dist/filedrop.mjs'
   // your script goes here
   export let upload = (files) => console.log(files)
 </script>

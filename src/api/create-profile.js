@@ -18,7 +18,9 @@ export async function create(session) {
       response.headers.get("location"),
       session.profile.create
     );
-    const reader = await get(`/api/get?path=${url.pathname}`);
+    const reader = await get(
+      `/api/get?path=${encodeURIComponent(url.pathname)}`
+    );
     return reader;
   } catch (err) {
     err.httpMethod = "POST/Create Profile";

@@ -8,56 +8,56 @@ import Upload from "./Upload.svelte";
 
 const list = [
   {
-    name: 'Book Title 1',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 1",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 2',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 2",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 3',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 3",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 4',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 4",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 5',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 5",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 6',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 6",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 7',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 7",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 8',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 8",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 9',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 9",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   },
   {
-    name: 'Book Title 10',
-    id: 'https://example.com/id',
-    author: [{ name: 'Fancy Author' }]
+    name: "Book Title 10",
+    id: "https://example.com/id",
+    author: [{ name: "Fancy Author" }]
   }
-]
+];
 
 storiesOf("Modal", module).add("with text", () => ({
   Component: Modal,
@@ -112,8 +112,7 @@ storiesOf("LibraryList", module)
     }
   }));
 
-storiesOf("Upload", module)
-  .add("main", () => ({
-    Component: Upload,
-    props: {}
-  }))
+storiesOf("Upload", module).add("main", () => ({
+  Component: Upload,
+  props: {}
+}));

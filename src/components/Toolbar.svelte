@@ -37,6 +37,18 @@
   .Toolbar-rightbutton {
     min-width: 24px;
   }
+  :global(.Toolbar .Toolbar-link) {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  :global(.Toolbar-link svg) {
+    vertical-align: middle;
+  }
+  :global(.Toolbar-link .Label) {
+    vertical-align: middle;
+    font-size: 0.65rem;
+  }
 </style>
 
 <!-- markup (zero or more items) goes here -->
