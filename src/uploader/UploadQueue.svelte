@@ -5,8 +5,6 @@
 
 <style>
   /* your styles go here */
-  .UploadQueue {
-  }
   .UploadQueue summary {
     transition: box-shadow 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22),
       transform 0.1s cubic-bezier(0.9, 0.03, 0.69, 0.22);

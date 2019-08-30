@@ -6,7 +6,6 @@
   onMount(() => {
     window._session = $session
   });
-  $: console.log($session)
 </script>
 
 <style>
