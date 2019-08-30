@@ -5,4 +5,7 @@ yarn-error.log
 /cypress/screenshots/
 /__sapper__/
 /static/js/
+<<<<<<< HEAD
 .env
+=======
+>>>>>>> 85d27363f4640bf2a715a690f49c8b843cb26c40
