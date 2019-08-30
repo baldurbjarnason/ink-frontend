@@ -6,6 +6,7 @@
   onMount(() => {
     window._session = $session
   });
+  $: console.log($session)
 </script>
 
 <style>
@@ -49,7 +50,7 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-{#if $session.profile.status === 404}
+{#if $session.profile && $session.profile.status === 404}
     <div class="TwoUp">
       <div class="Card">
         <h2 id="modal-1-title" class="Modal-title">

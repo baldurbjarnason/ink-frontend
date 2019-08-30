@@ -4,9 +4,11 @@ class HTTPError extends Error {
     if (Error.captureStackTrace) {
       Error.captureStackTrace(this, HTTPError);
     }
+    if (response) {
+      this.status = response.status;
+      this.response = response;
+    }
     this.httpMethod = type;
-    this.status = response.status;
-    this.response = response;
   }
 }
 export async function fetchWrap(...args) {

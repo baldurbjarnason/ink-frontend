@@ -69,14 +69,8 @@ export function setup(app) {
       res.redirect(req.query.returnTo || "/");
     }
   );
-  app.use(csurf());
-  app.use((req, res, next) => {
-    if (req.user && req.user.token) {
-      res.cookie("XSRF-TOKEN", req.csrfToken());
-    }
-    next();
-  });
   app.use("/logout", (req, res) => {
+    if (!req.user) return res.redirect("/")
     req.session = null;
     req.logout();
     let redirect;
@@ -86,5 +80,12 @@ export function setup(app) {
       redirect = "/";
     }
     res.redirect(redirect);
+  });
+  app.use(csurf());
+  app.use((req, res, next) => {
+    if (req.user && req.user.token) {
+      res.cookie("XSRF-TOKEN", req.csrfToken());
+    }
+    next();
   });
 }
