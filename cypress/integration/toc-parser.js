@@ -4,6 +4,7 @@
 describe("TOC parser", () => {
   beforeEach(() => {
     cy.visit("/");
+    cy.visit('/login', {auth: {username: 'testuserprofile', password: 'devpassword'}, method: 'POST'})
   });
 
   it("converts basic NCX TOC for EPUB 2.0", () => {

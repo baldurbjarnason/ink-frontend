@@ -1,44 +1,64 @@
 <script>
-	import Modal from '../../stories/Modal.svelte'
+  import Toolbar from '../components/Toolbar.svelte';
+	import Uploader from '../uploader/Upload.svelte'
+	import UploadQueue from '../uploader/UploadQueue.svelte'
+	import {uploadQueue} from '../uploader/upload-doc.js'
+	import Recent from '../uploader/Recent.svelte'
+	import {onMount} from 'svelte'
+	import {profile} from './_profile.js'
+	export let recent
+	function fileDrop (files) {
+		for (let file of files) {
+			uploadQueue.add(file)
+		}
+	}
+	$: if ($uploadQueue) {
+		fetch(`/recent.json`)
+			.then(response => response.json())
+			.then(json => {
+				recent = json
+			})
+	}
 </script>
+<script context="module">
+	export async function preload(page, session) {
+		let recent
+		if (session.profile) {
+			recent = await this.fetch(`/recent.json`, {credentials: 'include'})
+				.then(response => response.json())
+				.catch(err => this.error(err))
+		}
+		return { recent };
+	}
+</script>
+
 <style>
-	h1, figure, p {
-		text-align: center;
-		margin: 0 auto;
-	}
-
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
-
-	figure {
-		margin: 0 0 1em 0;
-	}
-
-	p {
-		margin: 1em auto;
+	.Front {
+		padding: var(--reader-left-margin);
 	}
 
 	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
 	}
 </style>
 
 <svelte:head>
-	<title>Sapper project template</title>
+	<title>Uploads – Rebus Ink</title>
 </svelte:head>
-
-<h1>Great success!</h1>
-
-<figure>
-	<figcaption>Does this work?</figcaption>
-</figure>
-
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
-
-<Modal />
+<!-- Menubar -->
+<Toolbar>
+<a slot="left-button" href="/" class="Toolbar-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg> 
+<!-- <span class="Label">Collections</span> -->
+</a>
+<span slot="toolbar-title">Uploads</span>
+</Toolbar>
+<div class="Front">
+	<!-- Uploader -->
+	<Uploader upload={fileDrop} />
+	{#if uploadQueue}
+		<UploadQueue queue={uploadQueue} />
+	{/if}
+	<!-- Recent -->
+	{#if recent}
+		 <Recent recent={recent} />
+	{/if}
+</div>

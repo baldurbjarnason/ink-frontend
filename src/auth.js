@@ -22,9 +22,11 @@ function generateToken(user) {
 
 export function setup(app) {
   passport.serializeUser((user, done) => {
+    // console.log('serialise: ', user)
     done(null, user);
   });
   passport.deserializeUser((user, done) => {
+    // console.log('deserialise: ', user)
     if (!user.token) {
       user.token = generateToken(user);
       done(null, user);

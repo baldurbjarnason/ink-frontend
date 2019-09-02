@@ -9,7 +9,8 @@ export async function get(req, res, next) {
         },
         json: true
       });
-      data.profile = response.body;
+      const {id, outbox} = response.body
+      data.profile = {id, outbox, status: response.statusCode};
     } catch (err) {
       data.profile = {
         status: err.statusCode,

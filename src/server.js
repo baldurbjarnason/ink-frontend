@@ -27,7 +27,7 @@ app.use(
   cookieSession({
     name: "sod",
     keys: [process.env.COOKIE_KEY],
-    secure: true,
+    secure: !dev,
     signed: true,
     maxAge: 30 * 24 * 60 * 60 * 1000
   })

@@ -2,6 +2,7 @@
   import Toolbar from '../components/Toolbar.svelte';
   import Login from '../components/Login.svelte'
   import Profile from '../components/Profile.svelte'
+  import {profile} from '../routes/_profile.js'
 	export let segment;
 </script>
 
@@ -21,6 +22,10 @@
 
 <Login />
 <Profile />
+
+{#if !$profile.loading}
+	 <!-- content here -->
 <main>
 	<slot></slot>
 </main>
+{/if}

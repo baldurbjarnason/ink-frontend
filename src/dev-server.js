@@ -43,8 +43,9 @@ export function devServer(app, sapper) {
   );
 
   const server = https.createServer(options, app);
-  server.listen(PORT, function(err) {
-    if (err) console.log("error", err);
-    console.log("Express server listening on port " + server.address().port);
-  });
+  app.listen(PORT)
+  // server.listen(PORT, function(err) {
+  //   if (err) console.log("error", err);
+  //   console.log("Express server listening on port " + server.address().port);
+  // });
 }
