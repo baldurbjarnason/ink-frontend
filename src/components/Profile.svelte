@@ -2,10 +2,7 @@
   import {onMount} from 'svelte'
   import { stores } from '@sapper/app';
   import {create} from '../api/create-profile.js'
-  const { session } = stores();
-  onMount(() => {
-    window._session = $session
-  });
+  import {profile} from '../routes/_profile.js'
 </script>
 
 <style>
@@ -49,7 +46,7 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-{#if $session.profile && $session.profile.status === 404}
+{#if $profile && $profile.status === 404}
     <div class="TwoUp">
       <div class="Card">
         <h2 id="modal-1-title" class="Modal-title">
@@ -77,8 +74,8 @@
                   event => {
                     event.target.disable = 'true'
                     event.target.setAttribute('working', 'true')
-                    create($session).then(profile => {
-                      $session.profile = profile
+                    create($profile).then(profile => {
+                      profile.set({profile, user: $profile.user})
                     })
                   }
                 }

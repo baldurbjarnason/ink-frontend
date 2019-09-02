@@ -1,13 +1,12 @@
 <script>
-  import {onMount} from 'svelte'
-  import { stores } from '@sapper/app';
-  const { session } = stores();
-  let whoami
+  import {profile} from '../routes/_profile.js'
+	import {onMount} from 'svelte'
   onMount(async () => {
-    const response = await window.fetch('/api/whoami', {
+    const response = await fetch('/api/whoami', {
       credentials: 'include'
     })
-    $session = await response.json()
+    const profileData = await response.json()
+    profile.set(profileData)
   });
 </script>
 
@@ -63,8 +62,7 @@
 
 
 </style>
-
-{#if !$session.user}
+{#if $profile && !$profile.user && !$profile.loading}
 <!-- markup (zero or more items) goes here -->
    <div class="LoginModal">
    

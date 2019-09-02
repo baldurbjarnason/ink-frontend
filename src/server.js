@@ -34,7 +34,9 @@ app.use(
 );
 // Make sure the session doesn't expire as long as there is activity
 app.use(function(req, res, next) {
-  req.session.nowInMinutes = Math.floor(Date.now() / 60e3);
+  if (req.session) {
+    req.sessionOptions.maxAge = req.session.maxAge || req.sessionOptions.maxAge
+  }
   next();
 });
 

@@ -2,7 +2,6 @@
   import Toolbar from '../components/Toolbar.svelte';
   import Login from '../components/Login.svelte'
   import Profile from '../components/Profile.svelte'
-
 	export let segment;
 </script>
 
