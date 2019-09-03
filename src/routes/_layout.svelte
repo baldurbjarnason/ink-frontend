@@ -1,7 +1,8 @@
 <script>
   import Toolbar from '../components/Toolbar.svelte';
   import Login from '../components/Login.svelte'
-  import Profile from '../components/Profile.svelte'
+	import Profile from '../components/Profile.svelte'
+	import Loading from '../components/Loading.svelte'
   import {profile} from '../routes/_profile.js'
 	export let segment;
 </script>
@@ -24,8 +25,9 @@
 <Profile />
 
 {#if !$profile.loading}
-	 <!-- content here -->
 <main>
 	<slot></slot>
 </main>
+{:else}
+	<Loading />
 {/if}
