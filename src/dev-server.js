@@ -26,6 +26,7 @@ export function devServer(app, sapper) {
     })
   );
   app.use(
+    sirv("dev-static", { dev }),
     sirv("static", { dev }),
 
     sapper.middleware({
