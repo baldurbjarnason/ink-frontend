@@ -17,9 +17,9 @@
   )
   let cover
   if (coverResource) {
-    cover = coverResource.url
+    cover = `/assets/${encodeURIComponent(coverResource.url)}`
   } else {
-    cover = '/static/placeholder-cover.jpg'
+    cover = '/placeholder-cover.jpg'
   }
 </script>
 
