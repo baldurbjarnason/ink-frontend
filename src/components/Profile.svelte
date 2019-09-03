@@ -3,7 +3,6 @@
   import { stores } from '@sapper/app';
   import {create} from '../api/create-profile.js'
   import {profile} from '../routes/_profile.js'
-  $: console.log($profile)
 </script>
 
 <style>

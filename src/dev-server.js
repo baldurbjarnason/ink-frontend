@@ -1,18 +1,18 @@
 import sirv from "sirv";
 import httpStrategies from "passport-http";
 import passport from "passport";
-import * as fs from "fs";
-import * as https from "https";
+// import * as fs from "fs";
+// import * as https from "https";
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
-const options = {
-  key: fs.readFileSync("./dev/localhost.key"),
-  cert: fs.readFileSync("./dev/localhost.cert"),
-  requestCert: false,
-  rejectUnauthorized: false
-};
+// const options = {
+//   key: fs.readFileSync("./dev/localhost.key"),
+//   cert: fs.readFileSync("./dev/localhost.cert"),
+//   requestCert: false,
+//   rejectUnauthorized: false
+// };
 
 export function devServer(app, sapper) {
   passport.use(
@@ -42,7 +42,7 @@ export function devServer(app, sapper) {
     })
   );
 
-  const server = https.createServer(options, app);
+  // const server = https.createServer(options, app);
   app.listen(PORT)
   // server.listen(PORT, function(err) {
   //   if (err) console.log("error", err);
