@@ -1,14 +1,36 @@
 import got from "got";
 import {normalise} from '../../api/normalise-publication.js'
+import querystring from 'querystring'
 export async function get(req, res, next) {
-  const {page = 1, collection} = req.query
+  const {page = 1, collection, reverse, orderBy} = req.query
   if (req.user && req.session.profile && req.session.profile.id) {
     try {
       let url
       if (collection === 'all') {
-        url = `${req.session.profile.id}/library?limit=100&page=${page}`
+        const query = {
+          page,
+          limit: 100
+        }
+        if (orderBy !== 'datePublished') {
+          query.orderBy = orderBy
+        }
+        if (reverse !== 'false') {
+          query.reverse = reverse
+        }
+        url = `${req.session.profile.id}/library?${querystring.encode(query)}`
       } else {
-        url = `${req.session.profile.id}/library?limit=100&stack=${encodeURIComponent(collection)}&page=${page}`
+        const query = {
+          page,
+          stack: collection,
+          limit: 100
+        }
+        if (orderBy !== 'datePublished') {
+          query.orderBy = orderBy
+        }
+        if (reverse !== 'false') {
+          query.reverse = reverse
+        }
+        url = `${req.session.profile.id}/library?${querystring.encode(query)}`
       }
       const response = await got(url, {
         headers: {
