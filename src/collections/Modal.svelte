@@ -6,6 +6,14 @@
   import {onMount} from 'svelte'
   import {collections} from './store.js'
   import {create} from '../api/create.js'
+	import { stores } from '@sapper/app';
+  const { page } = stores();
+  let current
+  if ($page.params && $page.params.collection) {
+    current = $page.params.collection
+  } else {
+    current = 'Uploads'
+  }
   let creating
   let name = ''
   function update () {
@@ -126,15 +134,20 @@
     padding: 0.25rem 1rem;
     border-radius: 0;
   }
-  /* ol li+li a {
-    border-top: 1px solid #f0f0f0;
-  } */
+  ol a.current {
+    background-color: #fefefe;
+    outline: 1px solid var(--rc-main);
+  }
+  .current span {
+    font-weight: bold;
+  }
   ol a:hover {
     background-color: var(--rc-dark);
     color: var(--light);
   }
   ol a:focus {
     background-color: var(--rc-lighter);
+    color: black;
   }
   ol li {
     list-style: none;
@@ -166,6 +179,7 @@
 .Tags {
   background-color: white;
   border-radius: 0.25rem;
+  border: 1px solid #f5f5f5;
 }
 </style>
 
@@ -191,19 +205,19 @@
       creating = true
     }} noClose={true}>Create Collection</Button></li>
   {/if}
-    <li><a class:item={true} href="/" data-close-modal><span class="label">Uploads</span></a></li>
-    <li><a class:item={true} href="/collections/all" data-close-modal><span class="label">All</span></a></li>
+    <li><a class:item={true} href="/" data-close-modal class:current={current === 'Uploads'}><span class="label">Uploads</span></a></li>
+    <li><a class:item={true} href="/collections/all" data-close-modal class:current={current === 'all'}><span class="label">All</span></a></li>
   </ol>
   {#if name}
   <ol class="Tags">
   {#each $collections.filter(tag => tag.name.startsWith(name)) as tag}
-    <li><a class:item={true} href="/collections/{encodeURIComponent(tag.name)}" data-close-modal><span class="label">{tag.name}</span></a></li>
+    <li><a class:item={true} href="/collections/{encodeURIComponent(tag.name)}" data-close-modal class:current={current === tag.name}><span class="label">{tag.name}</span></a></li>
   {/each}
   </ol>
   {:else}
   <ol class="Tags">
   {#each $collections as tag}
-    <li><a class:item={true} href="/collections/{encodeURIComponent(tag.name)}" data-close-modal><span class="label">{tag.name}</span></a></li>
+    <li><a class:item={true} href="/collections/{encodeURIComponent(tag.name)}" data-close-modal class:current={current === tag.name}><span class="label">{tag.name}</span></a></li>
   {/each}
   </ol>
   {/if}
