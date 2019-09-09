@@ -3,6 +3,8 @@
   export let primary = false
   export let disabled = null
   export let href = false
+  export let click = () => {}
+  export let noClose = null
 </script>
 
 <style>
@@ -85,12 +87,12 @@ StyleGuide 6.Button
   background-color: var(--link);
   background-image: none;
 }
-/* .Button--primary:focus {
+.Button:focus {
   border-color: var(--link);
   outline: none;
   background-color: var(--link);
   box-shadow: rgb(255, 255, 255) 0px 0px 0px 1px, 0px 0px 0px 3px var(--link);
-} */
+}
 
 .Button.primary:active {
   color: white;
@@ -145,7 +147,7 @@ StyleGuide 6.Button
 </style>
 
 {#if href}
-  <a class="Button" class:primary={primary} {disabled} href={href}><slot></slot></a>
+  <a class="Button" class:primary={primary} {disabled} href={href} on:click={click} data-no-close={noClose}><slot></slot></a>
 {:else}
-  <button class="Button" class:primary={primary} {disabled}><slot></slot></button>
+  <button class="Button" class:primary={primary} {disabled} on:click={click} data-no-close={noClose}><slot></slot></button>
 {/if}
