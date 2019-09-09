@@ -114,7 +114,9 @@ export function click(event) {
   if (activeModal) {
     if (event.target.closest('[data-close-modal]')) {
       closer();
-      event.preventDefault();
+      if (!event.target.closest('[role="dialog"]')) {
+        event.preventDefault();
+      }
     }
   }
 }
