@@ -194,11 +194,19 @@
     <li><a class:item={true} href="/" data-close-modal><span class="label">Uploads</span></a></li>
     <li><a class:item={true} href="/collections/all" data-close-modal><span class="label">All</span></a></li>
   </ol>
+  {#if name}
+  <ol class="Tags">
+  {#each $collections.filter(tag => tag.name.startsWith(name)) as tag}
+    <li><a class:item={true} href="/collections/{encodeURIComponent(tag.name)}" data-close-modal><span class="label">{tag.name}</span></a></li>
+  {/each}
+  </ol>
+  {:else}
   <ol class="Tags">
   {#each $collections as tag}
     <li><a class:item={true} href="/collections/{encodeURIComponent(tag.name)}" data-close-modal><span class="label">{tag.name}</span></a></li>
   {/each}
   </ol>
+  {/if}
 </div>
 {/if}
 </div>
