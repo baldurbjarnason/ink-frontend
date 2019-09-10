@@ -20,7 +20,7 @@ async function create(file) {
     case "application/epub+zip":
       return epub(file);
     default:
-      return Promise.reject(new Error('Unsupported format'))
+      return Promise.reject(new Error("Unsupported format"));
   }
 }
 async function upload(file) {
@@ -33,7 +33,7 @@ async function upload(file) {
     });
     return book;
   } else {
-    throw new Error('No book created')
+    throw new Error("No book created");
   }
 }
 function add(file) {
@@ -42,9 +42,9 @@ function add(file) {
     set.add(file);
     return [...set];
   });
-  importQueue.push(file, function (err) {
-    console.log(err)
-    set([])
+  importQueue.push(file, function(err) {
+    console.log(err);
+    set([]);
   });
 }
 

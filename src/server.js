@@ -21,13 +21,16 @@ app.disable("x-powered-by");
 app.set("trust proxy", true);
 
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json({
-  type: [
-    'application/json',
-    'application/activity+json',
-    'application/ld+json'
-  ],
-  limit: '100mb'}));
+app.use(
+  express.json({
+    type: [
+      "application/json",
+      "application/activity+json",
+      "application/ld+json"
+    ],
+    limit: "100mb"
+  })
+);
 app.use(compression({ threshold: 0 }));
 
 app.use(
@@ -42,7 +45,7 @@ app.use(
 // Make sure the session doesn't expire as long as there is activity
 app.use(function(req, res, next) {
   if (req.session) {
-    req.sessionOptions.maxAge = req.session.maxAge || req.sessionOptions.maxAge
+    req.sessionOptions.maxAge = req.session.maxAge || req.sessionOptions.maxAge;
   }
   next();
 });

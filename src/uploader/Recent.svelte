@@ -1,7 +1,7 @@
 <script>
-  import List from '../library/List.svelte'
-  import Button from '../components/Button.svelte'
-  export let recent = {items: []}
+  import List from "../library/List.svelte";
+  import Button from "../components/Button.svelte";
+  export let recent = { items: [] };
 </script>
 
 <style>
@@ -20,7 +20,7 @@
     cursor: pointer;
   }
   .Recent {
-    position: relative
+    position: relative;
   }
   .Recent > :global(.Button) {
     position: absolute;

@@ -20,17 +20,17 @@ export async function epub(file) {
   });
   const bookContext = { file, zip };
   const init = await initEpub(bookContext);
-  console.log('init')
+  console.log("init");
   const created = await addEpubToLibrary(init);
-  console.log('created')
+  console.log("created");
   const uploaded = await uploadMedia(created);
-  console.log('uploaded')
+  console.log("uploaded");
   return uploaded;
 }
 
 async function addEpubToLibrary(init) {
   const created = await create(init.book);
   init.book.id = created.object.id;
-  console.log(created.id)
+  console.log(created.id);
   return init;
 }

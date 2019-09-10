@@ -1,14 +1,13 @@
 import { fetchWrap, get } from "./fetch-wrap.js";
-import {getToken} from './get-cookie.js'
+import { getToken } from "./get-cookie.js";
 
 export async function create(payload) {
-
-  const response = await window.fetch('/api/whoami', {
-    credentials: 'include'
-  })
-  const {profile, user} = await response.json()
+  const response = await window.fetch("/api/whoami", {
+    credentials: "include"
+  });
+  const { profile, user } = await response.json();
   try {
-    const csrfToken = getToken()
+    const csrfToken = getToken();
     const response = await fetchWrap("/api/create", {
       method: "POST",
       body: JSON.stringify({
@@ -21,7 +20,7 @@ export async function create(payload) {
       }),
       headers: new window.Headers({
         "content-type": "application/ld+json",
-        'csrf-token': csrfToken
+        "csrf-token": csrfToken
       })
     });
     const url = new URL(response.headers.get("location"), profile.outbox);
@@ -31,7 +30,7 @@ export async function create(payload) {
     return reader;
   } catch (err) {
     err.httpMethod = "POST/Create Profile";
-    console.log('fetch error:', err)
+    console.log("fetch error:", err);
     throw err;
   }
 }

@@ -34,8 +34,12 @@ export function setup(node, options) {
   if (!window) return;
   if (!documentSetup) {
     document.body.addEventListener("click", event => {
-      if (activeModal && !activeModal.contains(event.target) && !event.target.dataset.noClose) {
-        console.log(event.target.dataset.noClose, event.target)
+      if (
+        activeModal &&
+        !activeModal.contains(event.target) &&
+        !event.target.dataset.noClose
+      ) {
+        console.log(event.target.dataset.noClose, event.target);
         closer();
       }
     });
@@ -112,7 +116,7 @@ export function scrollBehaviour(toggle) {
 
 export function click(event) {
   if (activeModal) {
-    if (event.target.closest('[data-close-modal]')) {
+    if (event.target.closest("[data-close-modal]")) {
       closer();
       if (!event.target.closest('[role="dialog"]')) {
         event.preventDefault();
@@ -123,7 +127,7 @@ export function click(event) {
 let activeElement;
 
 export async function opener(props) {
-  console.log('opener')
+  console.log("opener");
   const { id } = props;
   const node = document.getElementById(id);
   if (activeModal) {

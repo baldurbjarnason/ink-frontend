@@ -72,7 +72,7 @@ export function setup(app) {
     }
   );
   app.use("/logout", (req, res) => {
-    if (!req.user) return res.redirect("/")
+    if (!req.user) return res.redirect("/");
     req.session = null;
     req.logout();
     let redirect;

@@ -10,10 +10,10 @@ export async function post(req, res, next) {
         body: req.body,
         json: true
       });
-      res.location(response.headers.location)
+      res.location(response.headers.location);
       return res.sendStatus(200);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       return res.sendStatus(err.statusCode || 500);
     }
   }

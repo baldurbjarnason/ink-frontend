@@ -1,51 +1,51 @@
 <script>
-  import {modal, setup, open} from '../actions/modal.js'
-  import { fly, fade } from 'svelte/transition'
-  import Button from '../components/Button.svelte'
-  import TextButton from '../components/TextButton.svelte'
-  import {onMount} from 'svelte'
-  import {collections} from './store.js'
-  import {create} from '../api/create.js'
-	import { stores } from '@sapper/app';
+  import { modal, setup, open } from "../actions/modal.js";
+  import { fly, fade } from "svelte/transition";
+  import Button from "../components/Button.svelte";
+  import TextButton from "../components/TextButton.svelte";
+  import { onMount } from "svelte";
+  import { collections } from "./store.js";
+  import { create } from "../api/create.js";
+  import { stores } from "@sapper/app";
   const { page } = stores();
-  let current
+  let current;
   if ($page.params && $page.params.collection) {
-    current = $page.params.collection
+    current = $page.params.collection;
   } else {
-    current = 'Uploads'
+    current = "Uploads";
   }
-  let creating
-  let name = ''
-  function update () {
+  let creating;
+  let name = "";
+  function update() {
     fetch(`/recent.json`)
       .then(response => response.json())
       .then(json => {
-        collections.set(json.tags)
-      })
+        collections.set(json.tags);
+      });
   }
   onMount(async () => {
     if ($collections.length === 0) {
-      update()
+      update();
     }
   });
-  function submitForm (event) {
+  function submitForm(event) {
     event.preventDefault();
-    console.log(name)
+    console.log(name);
     const tag = {
-      type: 'reader:Tag',
-      tagType: 'reader:Stack',
+      type: "reader:Tag",
+      tagType: "reader:Stack",
       name
-    }
+    };
     create(tag).then(() => {
-      name = ''
-      creating = false
-      collections.update(list => [tag, ...list])
-      return update()
-    })
+      name = "";
+      creating = false;
+      collections.update(list => [tag, ...list]);
+      return update();
+    });
   }
-  let input
+  let input;
   $: if (input) {
-    input.focus()
+    input.focus();
   }
 </script>
 
@@ -54,10 +54,10 @@
     opacity: 0;
     transform: translateX(-100%);
   }
-  .Modal:not([hidden]) [role="document"]{
+  .Modal:not([hidden]) [role="document"] {
     background-color: rgba(255, 255, 255, 0.95);
     -webkit-backdrop-filter: blur(7px) saturate(50%);
-    backdrop-filter: blur(7px) saturate(50%);  
+    backdrop-filter: blur(7px) saturate(50%);
     width: 100vw;
     height: 100vh;
     box-sizing: border-box;
@@ -73,10 +73,10 @@
     overflow-y: auto;
   }
   @supports (backdrop-filter: blur(7px)) or (-webkit-backdrop-filter: blur(7px)) {
-    .Modal:not([hidden]) [role="document"]{
+    .Modal:not([hidden]) [role="document"] {
       background-color: rgba(255, 255, 255, 0.75);
       -webkit-backdrop-filter: blur(7px) saturate(50%);
-      backdrop-filter: blur(7px) saturate(50%);  
+      backdrop-filter: blur(7px) saturate(50%);
     }
   }
   .Modal [role="document"] {
@@ -122,7 +122,8 @@
     color: var(--medium);
     font-weight: 600;
   }
-  ol, .Creating {
+  ol,
+  .Creating {
     margin: 1rem auto;
     min-width: 250px;
     max-width: 450px;
@@ -156,71 +157,132 @@
     padding: 0.5rem 0;
     text-align: right;
   }
-.Creating {
-  padding: 1rem;
-}
-.Creating input {
-  width: 100%;
+  .Creating {
+    padding: 1rem;
+  }
+  .Creating input {
+    width: 100%;
     margin: 0.5rem 0;
     border: 0.1em solid var(--rc-dark);
     padding: 0 0.25rem;
     font: inherit;
-  letter-spacing: inherit;
-  word-spacing: inherit;
-}
-.Creating input:focus {
-  background-color: var(--rc-lighter);
-}
+    letter-spacing: inherit;
+    word-spacing: inherit;
+  }
+  .Creating input:focus {
+    background-color: var(--rc-lighter);
+  }
 
-.FormRow {
-  display: flex;
-  justify-content: space-between;
-}
-.Tags {
-  background-color: white;
-  border-radius: 0.25rem;
-  border: 1px solid #f5f5f5;
-}
+  .FormRow {
+    display: flex;
+    justify-content: space-between;
+  }
+  .Tags {
+    background-color: white;
+    border-radius: 0.25rem;
+    border: 1px solid #f5f5f5;
+  }
 </style>
 
 <div class="Modal" use:setup id="collections-modal" hidden>
-{#if $modal && $modal.id === 'collections-modal'}
-  <div role="document" transition:fade={{ duration: 100 }}>
-    <button type="Button" data-close-modal class="Closer" on:click={event => console.log(event)}><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-<h1>Collections</h1>
-{#if creating}
-  <form class="Creating" on:submit={(event) => submitForm(event)}>
-  <input bind:value={name} bind:this={input}>
-  <div class="FormRow">
-  <TextButton noClose={true} click={event => {
-    creating = false
-    name = ''
-  }}>Cancel</TextButton>
-  <Button noClose={true}>Create Collection</Button></div>
-  </form>
-{/if}
-  <ol>
-  {#if !creating}
-    <li class="ButtonRow"><Button click={(event) => {
-      creating = true
-    }} noClose={true}>Create Collection</Button></li>
+  {#if $modal && $modal.id === 'collections-modal'}
+    <div role="document" transition:fade={{ duration: 100 }}>
+      <button
+        type="Button"
+        data-close-modal
+        class="Closer"
+        on:click={event => console.log(event)}>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="square"
+          stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
+      <h1>Collections</h1>
+      {#if creating}
+        <form class="Creating" on:submit={event => submitForm(event)}>
+          <input bind:value={name} bind:this={input} />
+          <div class="FormRow">
+            <TextButton
+              noClose={true}
+              click={event => {
+                creating = false;
+                name = '';
+              }}>
+              Cancel
+            </TextButton>
+            <Button noClose={true}>Create Collection</Button>
+          </div>
+        </form>
+      {/if}
+      <ol>
+        {#if !creating}
+          <li class="ButtonRow">
+            <Button
+              click={event => {
+                creating = true;
+              }}
+              noClose={true}>
+              Create Collection
+            </Button>
+          </li>
+        {/if}
+        <li>
+          <a
+            class:item={true}
+            href="/"
+            data-close-modal
+            class:current={current === 'Uploads'}>
+            <span class="label">Uploads</span>
+          </a>
+        </li>
+        <li>
+          <a
+            class:item={true}
+            href="/collections/all"
+            data-close-modal
+            class:current={current === 'all'}>
+            <span class="label">All</span>
+          </a>
+        </li>
+      </ol>
+      {#if name}
+        <ol class="Tags">
+          {#each $collections.filter(tag => tag.name.startsWith(name)) as tag}
+            <li>
+              <a
+                class:item={true}
+                href="/collections/{encodeURIComponent(tag.name)}"
+                data-close-modal
+                class:current={current === tag.name}>
+                <span class="label">{tag.name}</span>
+              </a>
+            </li>
+          {/each}
+        </ol>
+      {:else}
+        <ol class="Tags">
+          {#each $collections as tag}
+            <li>
+              <a
+                class:item={true}
+                href="/collections/{encodeURIComponent(tag.name)}"
+                data-close-modal
+                class:current={current === tag.name}>
+                <span class="label">{tag.name}</span>
+              </a>
+            </li>
+          {/each}
+        </ol>
+      {/if}
+    </div>
   {/if}
-    <li><a class:item={true} href="/" data-close-modal class:current={current === 'Uploads'}><span class="label">Uploads</span></a></li>
-    <li><a class:item={true} href="/collections/all" data-close-modal class:current={current === 'all'}><span class="label">All</span></a></li>
-  </ol>
-  {#if name}
-  <ol class="Tags">
-  {#each $collections.filter(tag => tag.name.startsWith(name)) as tag}
-    <li><a class:item={true} href="/collections/{encodeURIComponent(tag.name)}" data-close-modal class:current={current === tag.name}><span class="label">{tag.name}</span></a></li>
-  {/each}
-  </ol>
-  {:else}
-  <ol class="Tags">
-  {#each $collections as tag}
-    <li><a class:item={true} href="/collections/{encodeURIComponent(tag.name)}" data-close-modal class:current={current === tag.name}><span class="label">{tag.name}</span></a></li>
-  {/each}
-  </ol>
-  {/if}
-</div>
-{/if}
 </div>
