@@ -13,9 +13,10 @@
         ).then(response => response.json());
       }
       let hideLoadMore;
-      if (books.totalItems === books.items.length) {
+      if ((books.totalItems === books.items.length) || books.items.length === 0) {
         hideLoadMore = true;
       }
+      console.log(books.totalItems, books.items.length)
       return {
         items: books.items,
         collection,
@@ -41,6 +42,7 @@
   export let collection;
   export let selected;
   export let page;
+  export let hideLoadMore = false;
   const options = [
     {
       text: "Newest first",
@@ -96,7 +98,6 @@
       `/collections/${collection}${order.orderBy}${order.reverse}`
     );
   }
-  let hideLoadMore = false;
   async function loadMore() {
     try {
       const libraryAdditions = await window

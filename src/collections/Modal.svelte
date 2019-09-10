@@ -9,7 +9,7 @@
   import { stores } from "@sapper/app";
   const { page } = stores();
   let current;
-  if ($page.params && $page.params.collection) {
+  $: if ($page.params && $page.params.collection) {
     current = $page.params.collection;
   } else {
     current = "Uploads";
