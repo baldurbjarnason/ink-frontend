@@ -4,13 +4,15 @@
   import Button from "../components/Button.svelte";
   import TextButton from "../components/TextButton.svelte";
   import { item } from "./store.js";
-  let book = {};
+  let book = {navigation: { current: {}}};
   $: if ($item.id && $item.id !== book.id) {
     updateBook($item.id);
   }
   async function updateBook(id) {
+    book = {navigation: { current: {}}}
     const response = await fetch(`/api/book?url=${encodeURIComponent(id)}`);
     book = await response.json();
+    return book
   }
 </script>
 
@@ -119,8 +121,7 @@
       <button
         type="Button"
         data-close-modal
-        class="Closer"
-        on:click={event => console.log(event)}>
+        class="Closer">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -138,7 +139,7 @@
       <h1>{$item.name}</h1>
       <ol>
         <li>
-          <a class:item={true} href={$item.read} data-close-modal>
+          <a class:item={true} href={book.navigation.current.path} data-close-modal>
             {book.position ? 'Continue' : 'Read'}
           </a>
         </li>

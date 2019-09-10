@@ -15,7 +15,7 @@
   export let published;
   export let updated;
   export let readerId;
-  export let read;
+  export let navigation;
   export let layout = "covers";
 </script>
 
@@ -172,7 +172,7 @@
       href={url}
       class="icon-link"
       use:open={{ id: 'item-modal' }}
-      on:click={() => item.set({ name, id, url, cover, read })}>
+      on:click={() => item.set({ name, id, url, cover })}>
       <img class="BookCard-icon" alt={'Cover for ' + name} src={cover} />
     </a>
     {#if layout === 'square'}

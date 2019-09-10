@@ -1,4 +1,4 @@
-import queue from "async-es/queue";
+
 import { fetchWrap } from "../api/fetch-wrap.js";
 
 export async function uploadMedia(doc) {
@@ -8,7 +8,6 @@ export async function uploadMedia(doc) {
     credentials: "include"
   });
   const { user } = await response.json();
-  console.log(user.id);
   for (const item of media) {
     await uploader(item, user);
   }
@@ -25,7 +24,6 @@ export async function uploadMedia(doc) {
       );
     }
   }
-  console.log("awaiting upload queue complete");
   return book;
 }
 
@@ -55,7 +53,6 @@ function uploadData(doc) {
       data.append("documentPath", item.documentPath);
       data.append("mediaType", item.mediaType);
       data.append("json", JSON.stringify(item.json));
-      console.log("uploading file");
       return upload(data, `${book.id}/file-upload`, user);
     } catch (err) {
       console.error(err);

@@ -30,7 +30,6 @@
   });
   function submitForm(event) {
     event.preventDefault();
-    console.log(name);
     const tag = {
       type: "reader:Tag",
       tagType: "reader:Stack",

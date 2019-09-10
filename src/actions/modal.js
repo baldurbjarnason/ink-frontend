@@ -39,7 +39,6 @@ export function setup(node, options) {
         !activeModal.contains(event.target) &&
         !event.target.dataset.noClose
       ) {
-        console.log(event.target.dataset.noClose, event.target);
         closer();
       }
     });
@@ -64,7 +63,6 @@ function once(emitter, eventName) {
   if (!emitter) return;
   return new Promise(resolve => {
     function listener(event) {
-      console.log("animation done");
       resolve(event);
     }
     emitter.addEventListener(eventName, listener, { once: true });
@@ -127,7 +125,6 @@ export function click(event) {
 let activeElement;
 
 export async function opener(props) {
-  console.log("opener");
   const { id } = props;
   const node = document.getElementById(id);
   if (activeModal) {
@@ -186,7 +183,6 @@ export async function closer() {
   modal.set(null);
   // doc.classList.add("is-closing");
   await once(doc, "outroend");
-  console.log("after close");
   // doc.classList.remove("is-closing");
   node.setAttribute("aria-hidden", "true");
   node.setAttribute("hidden", "true");

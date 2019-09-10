@@ -13,5 +13,48 @@ export function normalise(pub) {
   }
   pub.readingOrder = readingOrder.map(fixURLs);
   pub.resources = resources.map(fixURLs);
+  pub.navigation = addNav(pub)
   return pub;
+}
+
+
+function addNav (book) {
+  const navigation = {}
+  let index
+  if (book.position && book.position.path) {
+    const pathURL = new URL(book.position.path, book.id);
+    navigation.current = {
+      path: `/doc${pathURL.pathname}#${book.position.location}`,
+      location: book.position.location
+    }
+    const currentURL = pathURL.href;
+    index = book.readingOrder
+      .map(item => item.url)
+      .indexOf(currentURL)
+  } else if (book.readingOrder.length !== 0) {
+    index = 0
+    const pathURL = new URL(book.readingOrder[0].url, book.id);
+    navigation.current = {
+      path: `/doc${pathURL.pathname}`,
+      location: ''
+    }
+  }
+  
+  if (book.readingOrder.length === 0) {
+    return navigation 
+  } else {
+    const nextItem = book.readingOrder[index + 1]
+    if (nextItem) {
+      navigation.next = {
+        path: nextItem.url
+      }
+    }
+    const prevItem = book.readingOrder[index - 1]
+    if (prevItem) {
+      navigation.previous = {
+        path: prevItem.url
+      }
+    }
+  }
+  return navigation
 }
