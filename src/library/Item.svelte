@@ -1,5 +1,6 @@
 <script>
-  // your script goes here
+  import { item } from "./store.js";
+  import { open } from "../actions/modal.js";
   export let author;
   export let resources;
   export let tags;
@@ -14,6 +15,7 @@
   export let published;
   export let updated;
   export let readerId;
+  export let read;
   export let layout = "covers";
 </script>
 
@@ -166,7 +168,11 @@
 <!-- markup (zero or more items) goes here -->
 <div class="LibraryItem">
   <div class={layout}>
-    <a href={url} class="icon-link">
+    <a
+      href={url}
+      class="icon-link"
+      use:open={{ id: 'item-modal' }}
+      on:click={() => item.set({ name, id, url, cover, read })}>
       <img class="BookCard-icon" alt={'Cover for ' + name} src={cover} />
     </a>
     {#if layout === 'square'}

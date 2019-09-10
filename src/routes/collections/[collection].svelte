@@ -13,10 +13,9 @@
         ).then(response => response.json());
       }
       let hideLoadMore;
-      if ((books.totalItems === books.items.length) || books.items.length === 0) {
+      if (books.totalItems === books.items.length || books.items.length === 0) {
         hideLoadMore = true;
       }
-      console.log(books.totalItems, books.items.length)
       return {
         items: books.items,
         collection,

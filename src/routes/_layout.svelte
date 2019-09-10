@@ -5,6 +5,7 @@
   import Loading from "../components/Loading.svelte";
   import { profile } from "../routes/_profile.js";
   import Modal from "../collections/Modal.svelte";
+  import ItemActions from "../library/ItemActions.svelte";
   export let segment;
 </script>
 
@@ -24,6 +25,7 @@
 <Login />
 <Profile />
 <Modal />
+<ItemActions />
 
 {#if !$profile.loading}
   <main>
