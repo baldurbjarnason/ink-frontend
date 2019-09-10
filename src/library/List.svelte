@@ -2,6 +2,26 @@
 import Item from './Item.svelte'
 export let list
 export let layout = 'covers'
+$: if (list) {
+  list = list.map(item => {
+    if (item.resources && item.resources.data) {
+      item.resources = item.resources.data
+    }
+    const coverResource = item.resources.find(resource =>
+      resource.rel.includes('cover')
+    )
+    if (coverResource) {
+      item.cover = `/assets/${encodeURIComponent(coverResource.url)}`
+    } else {
+      item.cover = '/placeholder-cover.jpg'
+    }
+    if (item.id) {
+      const pathname = new URL(item.id).pathname
+      item.url = `/info${pathname}`
+    }
+    return item
+  })
+}
 </script>
 
 <style>
@@ -29,6 +49,6 @@ export let layout = 'covers'
 
 <div class="List {layout}">
 {#each list as item}
-   <Item book={item} layout={layout} />
+   <Item layout={layout} {...item} />
 {/each}
 </div>

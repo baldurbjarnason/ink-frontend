@@ -1,26 +1,20 @@
 <script>
   // your script goes here
-  export let book = {}
+  export let author
+  export let resources
+  export let tags
+  export let id
+  export let url
+  export let cover
+  export let name
+  export let json
+  export let readingOrder
+  export let type
+  export let editor
+  export let published
+  export let updated
+  export let readerId
   export let layout = 'covers'
-  console.log(book)
-  let { resources = [], author = [] } = book
-  let url
-  if (book.id) {
-    const pathname = new URL(book.id).pathname
-    url = `/info${pathname}`
-  }
-  if (resources && resources.data) {
-    resources = resources.data
-  }
-  const coverResource = resources.find(resource =>
-    resource.rel.includes('cover')
-  )
-  let cover
-  if (coverResource) {
-    cover = `/assets/${encodeURIComponent(coverResource.url)}`
-  } else {
-    cover = '/placeholder-cover.jpg'
-  }
 </script>
 
 <style>
@@ -172,16 +166,15 @@ a:focus {
 <!-- markup (zero or more items) goes here -->
   <div class="LibraryItem">
       <div class={layout}><a href="{url}" class="icon-link">
-      <img class="BookCard-icon" alt="{book.description ||
-        ''}" src="{cover}"></a>
+      <img class="BookCard-icon" alt="{'Cover for ' + name}" src="{cover}"></a>
         {#if layout === 'square'}
         <a href="{url}" class="BookCard-overlay">{
-    book.name
+    name
   }</a>
         {/if}
       <div class="BookCard-group">
         <h4 class="BookCard-title"><a href="{url}" class="BookCard-link">{
-    book.name
+    name
   }</a></h4>
         <p class="BookCard-paragraph">
         {#each author as attribution}
