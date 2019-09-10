@@ -1,5 +1,6 @@
 <script>
   import {profile} from '../routes/_profile.js'
+  import {getToken} from '../api/get-cookie.js'
 	import {onMount} from 'svelte'
   onMount(async () => {
     const response = await fetch('/api/whoami', {
@@ -80,6 +81,7 @@
               method="POST"
               id="sign-up-form"
             >
+            <input type="hidden" name="_csrf" value={getToken()}>
               <button
                 class="Button"
                 on:click={() => document.getElementById('sign-up-form').submit()}
@@ -104,6 +106,7 @@
               method="POST"
               id="sign-in-form"
             >
+            <input type="hidden" name="_csrf" value={getToken()}>
               <button
                 class="Button"
                 on:click={() => document.getElementById('sign-in-form').submit()}

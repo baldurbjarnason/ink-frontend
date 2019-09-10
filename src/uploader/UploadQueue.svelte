@@ -36,7 +36,7 @@ Upload queue is empty
      <ol>
   {#each $queue as file}
      <!-- content here -->
-     <li>file.name</li>
+     <li>{file.name}</li>
   {/each}
      </ol>
 </details>

@@ -28,7 +28,7 @@ export let layout = 'covers'
 </style>
 
 <div class="List {layout}">
-{#each list as item, index}
-   <Item book={item} layout={layout} index={index} />
+{#each list as item}
+   <Item book={item} layout={layout} />
 {/each}
 </div>

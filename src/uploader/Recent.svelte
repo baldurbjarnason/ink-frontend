@@ -13,7 +13,7 @@
     border-radius: 2rem;
     font-size: 0.7rem;
     color: var(--medium);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.75rem;
   }
   .Recent summary:hover {
     color: var(--hover);

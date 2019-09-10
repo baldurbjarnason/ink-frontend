@@ -85,9 +85,7 @@ export function setup(app) {
   });
   app.use(csurf());
   app.use((req, res, next) => {
-    if (req.user && req.user.token) {
-      res.cookie("XSRF-TOKEN", req.csrfToken());
-    }
+    res.cookie("XSRF-TOKEN", req.csrfToken());
     next();
   });
 }

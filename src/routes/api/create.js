@@ -1,6 +1,5 @@
 import got from "got";
 export async function post(req, res, next) {
-  console.log(req.body)
   if (req.user && req.session.profile) {
     try {
       const response = await got.post(req.session.profile.outbox, {

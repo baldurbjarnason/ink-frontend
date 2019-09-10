@@ -7,7 +7,6 @@ export async function create(payload) {
     credentials: 'include'
   })
   const {profile, user} = await response.json()
-  console.log(profile, user)
   try {
     const csrfToken = getToken()
     const response = await fetchWrap("/api/create", {
@@ -26,7 +25,6 @@ export async function create(payload) {
       })
     });
     const url = new URL(response.headers.get("location"), profile.outbox);
-    console.log(url.pathname)
     const reader = await get(
       `/api/get?path=${encodeURIComponent(url.pathname)}`
     );

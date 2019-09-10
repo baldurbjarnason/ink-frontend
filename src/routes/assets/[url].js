@@ -16,12 +16,16 @@ export async function get(req, res, next) {
   res.set('Cache-Control', 'max-age=31536000, immutable')
   if (req.user) {
     try {
-      const response = await got.head(url, {
+      const redirect = await got.head(url, {
+        followRedirect: false,
         headers: {
           Authorization: `Bearer ${req.user.token}`
         }
       });
-      
+      let response
+      if (redirect.headers.location && redirect.statusCode === 302) {
+        response = await got.head(redirect.headers.location);
+      }
       if (response.headers['content-type'].includes('svg')) {
         const mainresponse = await got(url, {
           headers: {
@@ -41,11 +45,7 @@ export async function get(req, res, next) {
         res.type('svg')
         res.send(result)
       } else if (response.headers['content-type'].includes('image') || response.headers['content-type'].includes('video')) {
-        return got.stream(url, {
-          headers: {
-            Authorization: `Bearer ${req.user.token}`
-          }
-        }).pipe(res)
+        return got.stream(redirect.headers.location).pipe(res)
       } else {
         return res.sendStatus(404)
       }
