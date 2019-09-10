@@ -12,10 +12,16 @@
           }
         ).then(response => response.json());
       }
+      let hideLoadMore;
+      if (books.totalItems === books.items.length) {
+        hideLoadMore = true;
+      }
       return {
         items: books.items,
         collection,
-        selected: `${orderBy}${reverse === "false" ? "" : "-reversed"}`
+        page: books.page,
+        selected: `${orderBy}${reverse === "false" ? "" : "-reversed"}`,
+        hideLoadMore
       };
     } catch (err) {
       console.log(err);
@@ -26,6 +32,7 @@
 
 <script>
   import Toolbar from "../../components/Toolbar.svelte";
+  import Button from "../../components/Button.svelte";
   import List from "../../library/List.svelte";
   import * as sapper from "@sapper/app";
   import { profile } from "../_profile.js";
@@ -33,6 +40,7 @@
   export let items;
   export let collection;
   export let selected;
+  export let page;
   const options = [
     {
       text: "Newest first",
@@ -57,33 +65,78 @@
       selected: selected === "title-reversed"
     }
   ];
-
+  let order = {
+    orderBy: "",
+    reverse: "",
+    page: 1
+  };
   function onSelect(event) {
     const value = event.target.value.split("-");
-    let newOrder;
     if (value[0] === "datePublished") {
-      newOrder = {
+      order = {
         orderBy: "",
         reverse: "",
         page: 1
       };
       if (value[1]) {
-        newOrder.orderBy = "?orderBy=datePublished";
-        newOrder.reverse = "&reverse=true";
+        order.orderBy = "?orderBy=datePublished";
+        order.reverse = "&reverse=true";
       }
     } else {
-      newOrder = {
+      order = {
         orderBy: `?orderBy=${value[0]}`,
         reverse: "",
         page: 1
       };
       if (value[1]) {
-        newOrder.reverse = "&reverse=true";
+        newOorderrder.reverse = "&reverse=true";
       }
     }
     return sapper.goto(
-      `/collections/${collection}${newOrder.orderBy}${newOrder.reverse}`
+      `/collections/${collection}${order.orderBy}${order.reverse}`
     );
+  }
+  let hideLoadMore = false;
+  async function loadMore() {
+    try {
+      const libraryAdditions = await window
+        .fetch(
+          `/api/collections?collection=${collection}&page=${order.page +
+            1}${order.orderBy && order.orderBy.slice(1)}${order.reverse}`,
+          {
+            credentials: "include"
+          }
+        )
+        .then(response => response.json());
+      order.page = order.page + 1;
+      items = items.concat(libraryAdditions.items);
+      if (libraryAdditions.totalItems === items.length) {
+        hideLoadMore = true;
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  let collectionObserver;
+  if (!collectionObserver) {
+    collectionObserver = new window.IntersectionObserver(
+      () => {
+        if (!hideLoadMore) {
+          loadMore();
+        }
+      },
+      {
+        rootMargin: "0px 0px 50% 0px"
+      }
+    );
+  }
+  function observe(node) {
+    collectionObserver.observe(node);
+    return {
+      destroy() {
+        collectionObserver.unobserve(node);
+      }
+    };
   }
 </script>
 
@@ -207,4 +260,13 @@
   {#if items}
     <List list={items} />
   {/if}
+  <span class="buttonWrapper" use:observe>
+    <Button
+      click={async event => {
+        loadMore();
+      }}
+      hidden={hideLoadMore}>
+      Load More...
+    </Button>
+  </span>
 </div>

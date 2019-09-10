@@ -58,7 +58,7 @@
   .BookCard-icon {
     font-size: 0.75rem;
     text-align: center;
-    line-height: 7;
+    line-height: 1.25;
     text-transform: uppercase;
     color: #999;
     background-color: #f0f0f0;

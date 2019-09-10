@@ -85,10 +85,12 @@
     contain: content;
     padding: 0;
     display: grid;
-    grid-template-columns: minmax(var(--reader-left-margin), 0.25fr) minmax(
+    grid-template-columns:
+      minmax(var(--reader-left-margin), 0.25fr) minmax(
         var(--reader-min-column-width),
         var(--reader-max-column-width)
-      ) minmax(calc(2 * var(--reader-left-margin)), 1fr);
+      )
+      minmax(calc(2 * var(--reader-left-margin)), 1fr);
     grid-template-areas: "leftmargin maintext rightmargin";
     grid-row-gap: var(--reader-paragraph-spacing);
   }

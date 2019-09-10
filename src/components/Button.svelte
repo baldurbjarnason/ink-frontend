@@ -4,6 +4,7 @@
   export let disabled = null;
   export let href = false;
   export let click = () => {};
+  export let hidden = false;
   export let noClose = null;
 </script>
 
@@ -151,6 +152,7 @@ StyleGuide 6.Button
   <a
     class="Button"
     class:primary
+    {hidden}
     {disabled}
     {href}
     on:click={click}
@@ -161,6 +163,7 @@ StyleGuide 6.Button
   <button
     class="Button"
     class:primary
+    {hidden}
     {disabled}
     on:click={click}
     data-no-close={noClose}>
