@@ -13,7 +13,23 @@ export function normalise(pub) {
   }
   pub.readingOrder = readingOrder.map(fixURLs);
   pub.resources = resources.map(fixURLs);
-  pub.navigation = addNav(pub)
+  pub.navigation = addNav(pub);
+  const coverResource = pub.resources.find(resource =>
+    resource.rel.includes("cover")
+  );
+  if (coverResource) {
+    pub.cover = `/assets/${encodeURIComponent(coverResource.url)}`;
+  } else {
+    pub.cover = "/placeholder-cover.jpg";
+  }
+  if (pub.id) {
+    const pathname = new URL(pub.id).pathname;
+    pub.url = `/info${pathname}`;
+  }
+  pub.translator = pub.translator || []
+  pub.editor = pub.editor || []
+  pub.illustrator = pub.illustrator || []
+  pub.contributor = pub.contributor || []
   return pub;
 }
 

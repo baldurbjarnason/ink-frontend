@@ -153,8 +153,8 @@
     border-radius: 0;
   }
   ol a.current {
-    background-color: #fefefe;
-    outline: 1px solid var(--rc-main);
+    background-color: #f3f3f3;
+    outline: 0.5px solid var(--rc-main);
   }
   .current span {
     font-weight: bold;

@@ -1,19 +1,7 @@
 <script>
   import { modal, setup, open } from "../actions/modal.js";
   import { fly, fade } from "svelte/transition";
-  import Button from "../components/Button.svelte";
-  import TextButton from "../components/TextButton.svelte";
-  import { item } from "./store.js";
-  let book = {navigation: { current: {}}};
-  $: if ($item.id && $item.id !== book.id) {
-    updateBook($item.id);
-  }
-  async function updateBook(id) {
-    book = {navigation: { current: {}}}
-    const response = await fetch(`/api/book?url=${encodeURIComponent(id)}`);
-    book = await response.json();
-    return book
-  }
+  import InfoActions from "../components/InfoActions.svelte";
 </script>
 
 <style>
@@ -82,44 +70,6 @@
     background-color: #f5f5f5;
     box-shadow: 0 0 1px 1px var(--rc-light), inset 0 0 1px 1px var(--rc-light);
   }
-  h1 {
-    text-align: center;
-    font-size: 3rem;
-    margin-top: 3rem;
-    color: var(--medium);
-    font-weight: 600;
-  }
-  ol {
-    margin: 1rem auto;
-    min-width: 250px;
-    max-width: 450px;
-    width: 100%;
-  }
-  ol a {
-    text-decoration: none;
-    display: block;
-    padding: 0.25rem 1rem;
-    border-radius: 0;
-  }
-  ol a:hover {
-    background-color: var(--hover);
-    color: var(--light);
-  }
-  ol a:focus {
-    background-color: var(--rc-lighter);
-    color: black;
-  }
-  ol li {
-    list-style: none;
-  }
-  .read {
-    background-color: var(--rc-dark);
-    color: var(--light);
-  }
-  .read:hover {
-    background-color: var(--hover);
-    color: var(--light);
-  }
 </style>
 
 <div class="Modal" use:setup id="item-modal" hidden>
@@ -144,23 +94,7 @@
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
-      <h1>{$item.name}</h1>
-      <ol>
-        <li>
-          <a class:item={true} class:read={true} href={book.navigation.current.path} data-close-modal>
-            {book.position ? 'Continue' : 'Read'}
-          </a>
-        </li>
-        <li>
-          <a href="{$item.url}metadata">Metadata</a>
-        </li>
-        <li>
-          <a href="{$item.url}contents">Contents</a>
-        </li>
-        <li>
-          <a href="{$item.url}annotations">Annotations</a>
-        </li>
-      </ol>
+      <InfoActions modal={true} />
     </div>
   {/if}
 </div>

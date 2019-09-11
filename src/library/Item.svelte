@@ -1,5 +1,5 @@
 <script>
-  import { item } from "./store.js";
+  import { book as item, current } from "../stores/book.js";
   import { open } from "../actions/modal.js";
   export let author;
   export let resources;
@@ -172,7 +172,10 @@
       href={url}
       class="icon-link"
       use:open={{ id: 'item-modal' }}
-      on:click={() => item.set({ name, id, url, cover })}>
+      on:click={() => {
+        item.set({ name, id, url, cover });
+        current.set('')
+      }}>
       <img class="BookCard-icon" alt={'Cover for ' + name} src={cover} />
     </a>
     {#if layout === 'square'}
