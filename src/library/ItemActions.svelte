@@ -102,7 +102,7 @@
     border-radius: 0;
   }
   ol a:hover {
-    background-color: var(--rc-dark);
+    background-color: var(--hover);
     color: var(--light);
   }
   ol a:focus {
@@ -111,6 +111,14 @@
   }
   ol li {
     list-style: none;
+  }
+  .read {
+    background-color: var(--rc-dark);
+    color: var(--light);
+  }
+  .read:hover {
+    background-color: var(--hover);
+    color: var(--light);
   }
 </style>
 
@@ -139,7 +147,7 @@
       <h1>{$item.name}</h1>
       <ol>
         <li>
-          <a class:item={true} href={book.navigation.current.path} data-close-modal>
+          <a class:item={true} class:read={true} href={book.navigation.current.path} data-close-modal>
             {book.position ? 'Continue' : 'Read'}
           </a>
         </li>

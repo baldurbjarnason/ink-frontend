@@ -6,6 +6,7 @@
   export let click = () => {};
   export let hidden = false;
   export let noClose = null;
+  export let close = null;
 </script>
 
 <style>
@@ -156,7 +157,8 @@ StyleGuide 6.Button
     {disabled}
     {href}
     on:click={click}
-    data-no-close={noClose}>
+    data-no-close={noClose}
+    data-close-modal={close}>
     <slot />
   </a>
 {:else}
@@ -166,7 +168,8 @@ StyleGuide 6.Button
     {hidden}
     {disabled}
     on:click={click}
-    data-no-close={noClose}>
+    data-no-close={noClose}
+    data-close-modal={close}>
     <slot />
   </button>
 {/if}
