@@ -6,7 +6,8 @@
   import { onMount } from "svelte";
   import { collections } from "./store.js";
   import { create } from "../api/create.js";
-  import { stores } from "@sapper/app";
+  import { removeMany } from "../api/remove.js";
+  import { stores, goto } from "@sapper/app";
   const { page } = stores();
   let current;
   $: if ($page.params && $page.params.collection) {
@@ -15,6 +16,7 @@
     current = "Uploads";
   }
   let creating;
+  let deleting;
   let name = "";
   function update() {
     fetch(`/recent.json`)
@@ -41,6 +43,22 @@
       collections.update(list => [tag, ...list]);
       return update();
     });
+  }
+  function submitDelete(event) {
+    event.preventDefault();
+    const form = event.target
+    const tags = Array.from(form.querySelectorAll('input:checked')).map(node => node.value)
+    const deleted = $collections.filter(item => tags.includes(item.name))
+    if (window.confirm(`Are you sure you want to permanently delete the selected collections? This action cannot be undone.`)) {
+      removeMany(deleted).then(() => {
+        deleting = false;
+        collections.update(list => list.filter(item => !tags.includes(item.name)));
+        if (tags.includes(current)) {
+          goto('/collections/all')
+        }
+        return update();
+      });
+    }
   }
   let input;
   $: if (input) {
@@ -128,7 +146,7 @@
     max-width: 450px;
     width: 100%;
   }
-  ol a {
+  ol a, label {
     text-decoration: none;
     display: block;
     padding: 0.25rem 1rem;
@@ -153,8 +171,9 @@
     list-style: none;
   }
   .ButtonRow {
-    padding: 0.5rem 0;
-    text-align: right;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: space-between;
   }
   .Creating {
     padding: 1rem;
@@ -173,6 +192,7 @@
   }
 
   .FormRow {
+    padding: 0.5rem;
     display: flex;
     justify-content: space-between;
   }
@@ -206,81 +226,108 @@
         </svg>
       </button>
       <h1>Collections</h1>
-      {#if creating}
-        <form class="Creating" on:submit={event => submitForm(event)}>
-          <input bind:value={name} bind:this={input} />
-          <div class="FormRow">
-            <TextButton
-              noClose={true}
-              click={event => {
-                creating = false;
-                name = '';
-              }}>
-              Cancel
-            </TextButton>
-            <Button noClose={true}>Create Collection</Button>
-          </div>
-        </form>
-      {/if}
-      <ol>
-        {#if !creating}
-          <li class="ButtonRow">
-            <Button
-              click={event => {
-                creating = true;
-              }}
-              noClose={true}>
-              Create Collection
-            </Button>
-          </li>
-        {/if}
-        <li>
-          <a
-            class:item={true}
-            href="/"
-            data-close-modal
-            class:current={current === 'Uploads'}>
-            <span class="label">Uploads</span>
-          </a>
-        </li>
-        <li>
-          <a
-            class:item={true}
-            href="/collections/all"
-            data-close-modal
-            class:current={current === 'all'}>
-            <span class="label">All</span>
-          </a>
-        </li>
-      </ol>
-      {#if name}
-        <ol class="Tags">
-          {#each $collections.filter(tag => tag.name.startsWith(name)) as tag}
-            <li>
-              <a
-                class:item={true}
-                href="/collections/{encodeURIComponent(tag.name)}"
-                data-close-modal
-                class:current={current === tag.name}>
-                <span class="label">{tag.name}</span>
-              </a>
-            </li>
-          {/each}
-        </ol>
+      {#if deleting}
+      <form class="Deleting" on:submit={event => submitDelete(event)}>
+            <div class="FormRow">
+              <TextButton
+                noClose={true}
+                click={event => {
+                  deleting = false;
+                }}>
+                Cancel
+              </TextButton>
+              <Button noClose={true} warning>Delete</Button>
+            </div>
+
+          <ol class="Tags">
+            {#each $collections as tag}
+              <li><label 
+                  class:item={true} for="{tag.name}"><input type="checkbox" id="{tag.name}" value="{tag.name}" name="tag"> {tag.name}</label>
+              </li>
+            {/each}
+          </ol>
+          </form>
       {:else}
-        <ol class="Tags">
-          {#each $collections as tag}
-            <li>
-              <a
-                class:item={true}
-                href="/collections/{encodeURIComponent(tag.name)}"
-                data-close-modal
-                class:current={current === tag.name}>
-                <span class="label">{tag.name}</span>
-              </a>
+        {#if creating}
+          <form class="Creating" on:submit={event => submitForm(event)}>
+            <input bind:value={name} bind:this={input} />
+            <div class="FormRow">
+              <TextButton
+                noClose={true}
+                click={event => {
+                  creating = false;
+                  name = '';
+                }}>
+                Cancel
+              </TextButton>
+              <Button noClose={true}>Create Collection</Button>
+            </div>
+          </form>
+        {/if}
+        <ol>
+          {#if !creating}
+            <li class="ButtonRow">
+              <TextButton warning={true} click={() => {
+                deleting = true
+              }}
+                noClose={true}>Delete</TextButton>
+              <Button
+                click={event => {
+                  creating = true;
+                }}
+                noClose={true}>
+                Create Collection
+              </Button>
             </li>
-          {/each}
+          {/if}
+          <li>
+            <a
+              class:item={true}
+              href="/"
+              data-close-modal
+              class:current={current === 'Uploads'}>
+              <span class="label">Uploads</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class:item={true}
+              href="/collections/all"
+              data-close-modal
+              class:current={current === 'all'}>
+              <span class="label">All</span>
+            </a>
+          </li>
         </ol>
+        {#if name}
+          <ol class="Tags">
+            {#each $collections.filter(tag => tag.name.startsWith(name)) as tag}
+              <li>
+                <a
+                  class:item={true}
+                  href="/collections/{encodeURIComponent(tag.name)}"
+                  data-close-modal
+                  class:current={current === tag.name}>
+                  <span class="label">{tag.name}</span>
+                </a>
+              </li>
+            {/each}
+          </ol>
+        {:else}
+          <ol class="Tags">
+            {#each $collections as tag}
+              <li>
+                <a
+                  class:item={true}
+                  href="/collections/{encodeURIComponent(tag.name)}"
+                  data-close-modal
+                  class:current={current === tag.name}>
+                  <span class="label">{tag.name}</span>
+                </a>
+              </li>
+            {/each}
+          </ol>
+        {/if}
       {/if}
     </div>
   {/if}

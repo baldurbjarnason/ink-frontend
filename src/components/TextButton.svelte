@@ -5,6 +5,7 @@
   export let href = false;
   export let click = () => {};
   export let noClose = null;
+  export let warning = false;
 </script>
 
 <style>
@@ -89,12 +90,16 @@ StyleGuide 6.TextButton
   .TextButton:focus {
     outline: solid transparent;
   }
+  .TextButton.warning {
+    color: var(--error);
+  }
 </style>
 
 {#if href}
   <a
     class="TextButton"
     class:primary
+    class:warning={warning}
     {disabled}
     {href}
     on:click={click}
@@ -105,6 +110,7 @@ StyleGuide 6.TextButton
   <button
     class="TextButton"
     class:primary
+    class:warning={warning}
     {disabled}
     on:click={click}
     data-no-close={noClose}
