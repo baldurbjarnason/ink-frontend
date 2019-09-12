@@ -1,0 +1,31 @@
+<script>
+  import ContentsItem from './ContentsItem.svelte'
+  export let contents
+</script>
+
+<style>
+  .Contents {
+    counter-reset: contents;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid var(--rc-main);
+  }
+  .Contents > :global(li > ol) {
+    counter-reset: contents;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  /* .Contents > :global(li > ol > li > a:before), .Contents > :global(li > ol > li > span:before) {
+    content: counter(subcontents) ". ";
+    color: var(--dark);
+  } */
+</style>
+<h1>{contents.heading}</h1>
+<ol class="Contents">
+{#each contents.children as item}
+  <ContentsItem item={item} />
+   <!-- content here -->
+{/each}
+</ol>

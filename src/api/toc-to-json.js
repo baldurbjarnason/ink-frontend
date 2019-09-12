@@ -49,10 +49,10 @@ function parseListItem(i, element, toc, $) {
   const child = {
     children: []
   };
-  if (item.find("> a")) {
+  if (item.find("> a").length !== 0) {
     child.label = item.find("> a").text();
     child.url = item.find("> a").attr("href");
-  } else if (item.find("> span")) {
+  } else if (item.find("> span").length !== 0) {
     child.label = item.find("> span").text();
   }
   const children = item.find("> ol > li");

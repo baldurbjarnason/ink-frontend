@@ -54,7 +54,7 @@
 @media (min-width: 1024px) {
   .Info.sidebar {
     display: grid;
-    grid-template-columns: 0.3fr 0.7fr;
+    grid-template-columns: min-content 1fr;
     grid-template-areas: "sidebar body"
     "sidebar body";
   }
@@ -168,7 +168,7 @@
   </button>
   {/if}
     </span>
-  <span slot="toolbar-title">Metadata</span>
+  <span slot="toolbar-title">{book.name}</span>
 </Toolbar>
 <div class="InfoBody">
 

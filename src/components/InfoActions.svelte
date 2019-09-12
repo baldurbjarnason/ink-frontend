@@ -25,7 +25,7 @@
   }
   ol, .return {
     margin: 1rem auto;
-    min-width: 250px;
+    min-width: 120px;
     max-width: 450px;
     width: 100%;
   }
