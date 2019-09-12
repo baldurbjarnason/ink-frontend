@@ -174,7 +174,7 @@
       use:open={{ id: 'item-modal' }}
       on:click={() => {
         item.set({ name, id, url, cover });
-        current.set('')
+        current.set('');
       }}>
       <img class="BookCard-icon" alt={'Cover for ' + name} src={cover} />
     </a>

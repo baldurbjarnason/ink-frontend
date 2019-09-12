@@ -2,8 +2,8 @@ import { fetchWrap, get } from "./fetch-wrap.js";
 import { getToken } from "./get-cookie.js";
 
 export async function removeMany(payloads) {
-  const results = payloads.map(payload => remove(payload))
-  return Promise.all(results)
+  const results = payloads.map(payload => remove(payload));
+  return Promise.all(results);
 }
 
 export async function remove(payload) {

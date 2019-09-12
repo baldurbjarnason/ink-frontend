@@ -1,6 +1,6 @@
 <script>
-  export let item
-  export let indent = 0
+  export let item;
+  export let indent = 0;
 </script>
 
 <style>
@@ -10,7 +10,8 @@
     padding: 0;
     margin: 0;
   }
-  li > a:before, li > span:before {
+  li > a:before,
+  li > span:before {
     content: counters(contents, ".") ". ";
   }
   li > ol {
@@ -19,16 +20,20 @@
     padding: 0;
     margin: 0;
   }
-  [data-indent="1"] a, [data-indent="1"] span {
+  [data-indent="1"] a,
+  [data-indent="1"] span {
     padding-left: 1rem;
   }
-  [data-indent="2"] a, [data-indent="2"] span {
+  [data-indent="2"] a,
+  [data-indent="2"] span {
     padding-left: 2rem;
   }
-  [data-indent="3"] a, [data-indent="3"] span {
+  [data-indent="3"] a,
+  [data-indent="3"] span {
     padding-left: 3rem;
   }
-  [data-indent="4"] a, [data-indent="4"] span {
+  [data-indent="4"] a,
+  [data-indent="4"] span {
     padding-left: 4rem;
   }
   a {
@@ -50,15 +55,15 @@
 
 <li data-indent={indent}>
   {#if item.url}
-  <a href="{item.url}">{item.label}</a>
+    <a href={item.url}>{item.label}</a>
   {:else}
-  <span>{item.label}</span>
+    <span>{item.label}</span>
   {/if}
   {#if item.children}
     <ol>
-     {#each item.children as child}
+      {#each item.children as child}
         <svelte:self item={child} indent={indent + 1} />
-     {/each}
+      {/each}
     </ol>
   {/if}
 </li>

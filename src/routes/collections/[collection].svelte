@@ -6,7 +6,9 @@
       let books = { items: [] };
       if (session.profile) {
         books = await this.fetch(
-          `/api/collections?collection=${encodeURIComponent(collection)}&page=1&orderBy=${orderBy}&reverse=${reverse}`,
+          `/api/collections?collection=${encodeURIComponent(
+            collection
+          )}&page=1&orderBy=${orderBy}&reverse=${reverse}`,
           {
             credentials: "include"
           }

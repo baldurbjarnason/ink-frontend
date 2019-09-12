@@ -1,4 +1,4 @@
-import * as fs from "fs";
+// import * as fs from "fs";
 import { parseToC } from "../../api/toc-to-json.js";
 import got from "got";
 
@@ -13,7 +13,7 @@ export async function get(req, res, next) {
         Authorization: `Bearer ${req.user.token}`
       }
     });
-    let body
+    let body;
     if (redirect.headers.location && redirect.statusCode === 302) {
       const response = await got.get(redirect.headers.location, {
         headers: {
@@ -23,21 +23,21 @@ export async function get(req, res, next) {
       });
       body = await response.body;
     } else {
-      res.sendStatus(404)
+      res.sendStatus(404);
     }
     try {
       const toc = parseToC(
         body,
         url.hostname === "example.com" ? url.pathname : file
       );
-      await fs.promises.writeFile(
-        "childrens-literature.json",
-        JSON.stringify(toc, null, 2)
-      );
-      await fs.promises.writeFile(
-        "childrens-literature.html",
-        body
-      );
+      // await fs.promises.writeFile(
+      //   "childrens-literature.json",
+      //   JSON.stringify(toc, null, 2)
+      // );
+      // await fs.promises.writeFile(
+      //   "childrens-literature.html",
+      //   body
+      // );
       return res.json(toc);
     } catch (err) {
       next(err);

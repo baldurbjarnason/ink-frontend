@@ -41,7 +41,7 @@ export async function get(req, res, next) {
       });
       response.body.items = response.body.items.map(normalise);
       if (response.body.items.length === 0) {
-        response.body.done = true
+        response.body.done = true;
       }
       return res.json(response.body);
     } catch (err) {

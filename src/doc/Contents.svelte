@@ -1,6 +1,6 @@
 <script>
-  import ContentsItem from './ContentsItem.svelte'
-  export let contents
+  import ContentsItem from "./ContentsItem.svelte";
+  export let contents;
 </script>
 
 <style>
@@ -22,10 +22,11 @@
     color: var(--dark);
   } */
 </style>
+
 <h1>{contents.heading}</h1>
 <ol class="Contents">
-{#each contents.children as item}
-  <ContentsItem item={item} />
-   <!-- content here -->
-{/each}
+  {#each contents.children as item}
+    <ContentsItem {item} />
+    <!-- content here -->
+  {/each}
 </ol>
