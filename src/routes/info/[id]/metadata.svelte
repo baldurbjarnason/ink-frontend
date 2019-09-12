@@ -49,6 +49,9 @@
     height: 12.75rem;
     border-radius: var(--border-radius);
     margin: 1rem auto;
+    border: 1px solid #f0f0f0;
+    position: sticky;
+    top: 32px;
   }
 @media (min-width: 1024px) {
   .Info.sidebar {
@@ -68,6 +71,7 @@
     position: sticky;
     top: 0px;
     grid-area: sidebar;
+    padding: 0 0.25rem;
   }
   .InfoBody {
     display: grid;
@@ -84,14 +88,14 @@
   }
 }
   .InfoMetadata {
-    margin: 1rem auto;
+    margin: 0 auto;
     min-width: 250px;
     max-width: 650px;
     width: 100%;
   }
   h1 {
     font-size: 3rem;
-    margin-top: 2rem;
+    margin-top: 0;
     color: var(--medium);
     font-weight: 600;
   }

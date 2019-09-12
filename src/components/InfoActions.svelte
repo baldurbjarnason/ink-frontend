@@ -23,22 +23,21 @@
     color: var(--medium);
     font-weight: 600;
   }
-  .current {
-    background-color: #f3f3f3;
-    border-top: 0.5px solid var(--rc-main);
-    border-bottom: 0.5px solid var(--rc-main);
-  }
   ol, .return {
     margin: 1rem auto;
     min-width: 250px;
     max-width: 450px;
     width: 100%;
   }
+  ol {
+    border-left: 1px solid var(--rc-main);
+  }
   ol a {
     text-decoration: none;
     display: block;
     padding: 0.25rem 1rem;
     border-radius: 0;
+    margin-left: -1px;
   }
   ol a:hover {
     background-color: var(--hover);
@@ -58,7 +57,7 @@
     align-items: center;
     padding: 0.5rem calc(1rem - 16px);
     text-transform: uppercase;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     border-radius: 0;
     margin-top: 0;
   }
@@ -69,7 +68,10 @@
   .return svg {
     height: 14px;
     width: 16px;
-    transform: translateY(1px);
+  }
+  ol a.current {
+    border-left: 5px  solid var(--rc-darker);
+    padding-left: calc(1rem - 6px);
   }
 </style>
 
