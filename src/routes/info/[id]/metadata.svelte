@@ -50,8 +50,6 @@
     border-radius: var(--border-radius);
     margin: 1rem auto;
     border: 1px solid #f0f0f0;
-    position: sticky;
-    top: 32px;
   }
 @media (min-width: 1024px) {
   .Info.sidebar {
@@ -85,6 +83,8 @@
     grid-area: cover;
     height: auto;
     width: auto;
+    position: sticky;
+    top: 32px;
   }
 }
   .InfoMetadata {

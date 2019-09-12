@@ -72,6 +72,7 @@
   ol a.current {
     border-left: 5px  solid var(--rc-darker);
     padding-left: calc(1rem - 6px);
+    font-weight: 600;
   }
 </style>
 
