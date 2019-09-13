@@ -35,6 +35,7 @@
   import { open } from "../../../actions/modal.js";
   import Chapter from "../../../doc/Chapter.svelte";
   import Navbar from "../../../doc/Navbar.svelte";
+  import Progress from "../../../doc/Progress.svelte";
   import Toolbar from "../../../components/Toolbar.svelte";
   import InfoActions from "../../../components/InfoActions.svelte";
   import {
@@ -48,12 +49,14 @@
     chapterTitle
   } from "../../../doc/stores.js";
   function handleCurrent({ detail }) {
+    console.log(detail)
     currentLocation.set({
       location: detail.highest.dataset.location
     });
   }
   let loadedLocations = [];
   function handleAppearing({ detail }) {
+    console.log(detail)
     loadedLocations = loadedLocations.concat(detail.nodes);
   }
   let bookBody;
@@ -181,5 +184,6 @@
     {:else}
       <Navbar />
     {/if}
+    <Progress chapters={book.readingOrder} current={chapter.index} />
   </div>
 {/if}

@@ -7,22 +7,30 @@
 </script>
 
 <style>
-  /* your styles go here */
+  svg {
+    width: 12px;
+    height: 12px;
+    fill: #999;
+  }
+  .Progress {
+    position: fixed;
+    top: 40px;
+    left: 4px;
+    width: 12px;
+    display: flex;
+    flex-direction: column;
+  }
 </style>
 
-<svelte:window bind:scrollY={scroll} bind:innerHeight={height} />
+<div class="Progress">
 {#if chapters}
-  {#each chapters as chapter}
+  {#each chapters as chapter, i}
     <!-- content here -->
-    {#if chapter.url === current}
-      <!-- content here -->
-      <div class="Current" data-scroll={scroll} data-height={height}>
-        &nbsp;
-      </div>
+    {#if i === current}
+      <svg><circle cx="6" cy="6" r="3" fill="#333" /></svg>
     {:else}
-      <svg height="8" width="8">
-        <circle cx="4" cy="4" r="4" stroke-width="0" fill="grey" />
-      </svg>
+      <svg><circle cx="6" cy="6" r="2"/></svg>
     {/if}
   {/each}
 {/if}
+</div>

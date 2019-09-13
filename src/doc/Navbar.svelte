@@ -1,7 +1,6 @@
 <script>
   // your script goes here
   export let navigation = {};
-  $: console.log(navigation)
 </script>
 
 <style>
