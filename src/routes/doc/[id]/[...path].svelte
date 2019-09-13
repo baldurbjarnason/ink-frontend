@@ -1,26 +1,32 @@
 <script context="module">
   // your script goes here
   export async function preload({ params, query }) {
-    const { id, path } = params;
-    const response = await this.fetch(
-      `/api/id-to-opf?id=%2F${encodeURIComponent(id)}`
-    );
-    const bookData = await response.json();
-    const chapterResource = bookData.resources.find(item =>
-      item.url.endsWith(path.join("/"))
-    );
-    chapterResource.index = bookData.readingOrder
-      .map(item => item.url)
-      .indexOf(chapterResource.url);
-    const chapterResponse = await this.fetch(
-      `/api/parse-chapter?chapter=${encodeURIComponent(
-        chapterResource.url
-      )}&index=${chapterResource.index}`
-    );
-    let chapterData = await chapterResponse.json();
-    chapterData = { ...chapterData, ...chapterResource };
-    bookData.id = id;
-    return { bookData, chapterData };
+    try {
+      const { id, path } = params;
+      const response = await this.fetch(
+        `/api/id-to-opf?id=%2F${encodeURIComponent(id)}`, {
+          credentials: "include"
+        }
+      );
+      const bookData = await response.json();
+      const chapterResource = bookData.resources.find(item =>
+        item.url.endsWith(path.join("/"))
+      );
+      chapterResource.index = bookData.readingOrder
+        .map(item => item.url)
+        .indexOf(chapterResource.url);
+      const chapterResponse = await this.fetch(
+        `/api/parse-chapter?chapter=${encodeURIComponent(
+          chapterResource.url
+        )}&index=${chapterResource.index}`
+      , {credentials: "include"});
+      let chapterData = await chapterResponse.json();
+      chapterData = { ...chapterData, ...chapterResource };
+      bookData.id = id;
+      return { bookData, chapterData };
+    } catch (err) {
+      return this.error(err)
+    }
   }
 </script>
 
@@ -37,14 +43,14 @@
   /* your styles go here */
 </style>
 
-<!-- markup (zero or more items) goes here
 <pre>
+{JSON.stringify($book, 2, null)}
 {$book.name}
 {$chapter.url}
 {$chapter.encodingFormat}
-{$navigation.prev}{$navigation.next}{$navigation.current}
+{$book.navigation.previous}{$book.navigation.next}{$book.navigation.current}
 {$contents.children}
 </pre>
 {@html $chapter.html}
- -->
-<Book />
+
+<!-- <Book /> -->

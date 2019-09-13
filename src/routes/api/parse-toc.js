@@ -16,9 +16,6 @@ export async function get(req, res, next) {
     let body;
     if (redirect.headers.location && redirect.statusCode === 302) {
       const response = await got.get(redirect.headers.location, {
-        headers: {
-          Authorization: `Bearer ${req.user.token}`
-        },
         json: false
       });
       body = await response.body;
