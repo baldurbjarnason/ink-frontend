@@ -1,5 +1,6 @@
 
 import got from "got";
+import * as fs from "fs";
 import { chapterToJSON } from "../../api/chapter-to-json";
 
 export async function get(req, res, next) {
@@ -21,6 +22,10 @@ export async function get(req, res, next) {
           json: false
         });
         body = await response.body;
+        await fs.promises.writeFile(
+          "s04.xhtml",
+          body
+        );
         contentType = response.headers["content-type"]
       } else {
         res.sendStatus(404);

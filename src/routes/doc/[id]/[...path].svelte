@@ -8,11 +8,11 @@
           credentials: "include"
         }
       );
-      const bookData = await response.json();
-      const chapterResource = bookData.resources.find(item =>
+      const book = await response.json();
+      const chapterResource = book.resources.find(item =>
         item.url.endsWith(path.join("/"))
       );
-      chapterResource.index = bookData.readingOrder
+      chapterResource.index = book.readingOrder
         .map(item => item.url)
         .indexOf(chapterResource.url);
       const chapterResponse = await this.fetch(
@@ -20,10 +20,10 @@
           chapterResource.url
         )}&index=${chapterResource.index}`
       , {credentials: "include"});
-      let chapterData = await chapterResponse.json();
-      chapterData = { ...chapterData, ...chapterResource };
-      bookData.id = id;
-      return { bookData, chapterData };
+      let chapter = await chapterResponse.json();
+      chapter = { ...chapter, ...chapterResource };
+      book.id = id;
+      return { book, chapter };
     } catch (err) {
       return this.error(err)
     }
@@ -31,26 +31,155 @@
 </script>
 
 <script>
-  import { book, chapter, contents, navigation } from "../../../doc/stores.js";
-  import Book from "../../../doc/Book.svelte";
-  export let bookData;
-  export let chapterData;
-  book.set(bookData);
-  chapter.set(chapterData);
+  import { slide } from "svelte/transition";
+  import { open } from "../../../actions/modal.js";
+  import Chapter from "../../../doc/Chapter.svelte";
+  import Navbar from "../../../doc/Navbar.svelte";
+  import Toolbar from "../../../components/Toolbar.svelte";
+  import InfoActions from "../../../components/InfoActions.svelte";
+  import {
+    book as bookStore,
+    chapter as chapterStore,
+    navigation,
+    contents,
+    currentLocation,
+    theme,
+    fontSize,
+    chapterTitle
+  } from "../../../doc/stores.js";
+  function handleCurrent({ detail }) {
+    currentLocation.set({
+      location: detail.highest.dataset.location
+    });
+  }
+  let loadedLocations = [];
+  function handleAppearing({ detail }) {
+    loadedLocations = loadedLocations.concat(detail.nodes);
+  }
+  let bookBody;
+  if (bookBody) {
+    bookBody.style.setProperty("--reader-font-size", $fontSize);
+  }
+  export let book
+  export let chapter
+  $: if (book) {
+    bookStore.set(book)
+  }
+  $: if (chapter) {
+    chapterStore.set(chapter)
+  }
+  let width = 0;
+  let sidebar = true;
+  let sidebargrid = true;
 </script>
 
 <style>
-  /* your styles go here */
+  .Sidebar {
+    display: none;
+  }
+  @media (min-width: 1024px) {
+    .BookBody.sidebar {
+      display: grid;
+      grid-template-columns: min-content 1fr;
+      grid-template-areas:
+        "sidebar body"
+        "sidebar body"
+        "sidebar body";
+    }
+    .BookBody.sidebar :global(.Chapter) {
+      grid-column: 2 / -1;
+    }
+    .Sidebar {
+      display: block;
+      background-color: white;
+      height: 100vh;
+      position: sticky;
+      top: 0px;
+      grid-area: sidebar;
+      padding: 0 0.25rem;
+    }
+  }
 </style>
+<!-- 
+{@html chapter.html} -->
+<svelte:head>
+  {#if chapter.stylesheets.length !== 0}
+    {#each chapter.stylesheets as sheet}
+      <link rel="stylesheet" href={`/api/clean-css?css=${encodeURIComponent(sheet)}`} />
+    {/each}
+  {/if}
+  <title>{book.name} - {$chapterTitle} - Rebus Ink</title>
+</svelte:head>
 
-<pre>
-{JSON.stringify($book, 2, null)}
-{$book.name}
-{$chapter.url}
-{$chapter.encodingFormat}
-{$book.navigation.previous}{$book.navigation.next}{$book.navigation.current}
-{$contents.children}
-</pre>
-{@html $chapter.html}
+{#if book}
+  <div class="BookBody" bind:this={bookBody} class:sidebar={sidebargrid}>
+  {#if sidebar}
+    <div
+      class="Sidebar"
+      transition:slide={{ delay: 250, duration: 300 }}
+      on:introstart={() => (sidebargrid = true)}
+      on:outroend={() => (sidebargrid = false)}>
+      <InfoActions modal={false} />
+    </div>
+  {/if}
+  <!-- Menubar -->
+  <Toolbar>
+    <span slot="left-button">
+      {#if width <= 1024}
+        <a use:open={{ id: 'item-modal' }} href="/" class="Toolbar-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="square"
+            stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </a>
+      {:else}
+        <button
+          on:click={() => {
+            sidebar = !sidebar;
+          }}
+          href="/"
+          class="Toolbar-link">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="square"
+            stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      {/if}
+    </span>
+    <span slot="toolbar-title">{book.name}</span>
+  </Toolbar>
+    <!-- Should have all chapters appear, they should get values from stores and only use props for chapter assignments. Only when props match store is the chapter rendered -->
+    {#each book.readingOrder as chapter, index}
+      <Chapter
+        on:current={handleCurrent}
+        on:appearing={handleAppearing}
+        chapterIndex={index} />
+    {/each}
 
-<!-- <Book /> -->
+    {#if $navigation}
+      <Navbar navigation={$navigation} />
+    {:else}
+      <Navbar />
+    {/if}
+  </div>
+{/if}

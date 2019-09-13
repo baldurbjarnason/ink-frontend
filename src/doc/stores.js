@@ -26,10 +26,10 @@ export const navigation = derived([book, chapter], ([$book, $chapter]) => {
   let previous;
   let next;
   let current;
-  if ($book.resources && $chapter.index) {
-    previous = $book.resources[$chapter.index - 1];
-    next = $book.resources[$chapter.index + 1];
-    current = $book.resources[$chapter.index];
+  if ($book.readingOrder && $chapter.html) {
+    previous = $book.readingOrder[$chapter.index - 1];
+    next = $book.readingOrder[$chapter.index + 1];
+    current = $book.readingOrder[$chapter.index];
   }
   return { previous, current, next };
 });
@@ -47,7 +47,7 @@ export const chapterTitle = derived(
         return currentTitle;
       }
     }
-    if ($chapter && $contents) {
+    if ($chapter && $contents && $contents.children) {
       return $contents.children.reduce(findTitle, "");
     } else {
       return "";

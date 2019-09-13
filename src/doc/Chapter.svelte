@@ -9,7 +9,7 @@
     theme,
     fontSize
   } from "./stores.js";
-  import { fade, fly } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import ChapterBody from "./ChapterBody.svelte";
   const dispatch = createEventDispatcher();
   let { url, index } = $chapter;
@@ -86,13 +86,14 @@
     padding: 0;
     display: grid;
     grid-template-columns:
-      minmax(var(--reader-left-margin), 0.25fr) minmax(
+      minmax(var(--reader-left-margin), 1fr) minmax(
         var(--reader-min-column-width),
         var(--reader-max-column-width)
       )
-      minmax(calc(2 * var(--reader-left-margin)), 1fr);
+      minmax(var(--reader-left-margin), 1fr);
     grid-template-areas: "leftmargin maintext rightmargin";
     grid-row-gap: var(--reader-paragraph-spacing);
+    min-height: 100vh;
   }
   .ChapterNotes {
     grid-area: rightmargin;
@@ -262,8 +263,7 @@
 {#if $book && $chapter && $chapter.index === chapterIndex}
   <div
     class="Chapter"
-    in:fly={{ x: 0, y: 200, duration: 250 }}
-    out:fly={{ x: 0, y: -200, duration: 250 }}
+    transition:fade={{ duration: 250 }}
     bind:this={chapterElement}
     on:introend={handleIntroEnd}>
     <ChapterBody html={$chapter.html} />

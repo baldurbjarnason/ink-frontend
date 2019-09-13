@@ -39,13 +39,22 @@ export async function chapterToJSON(
   contentType = "text/html",
   index
 ) {
+  console.log("processing: ", contentType, chapter.length)
   let locations = 0;
   let h1 = 0;
   let h2 = 0;
   const order = parseInt(index, 10) + 1;
-  const dom = new JSDOM(chapter, {
-    contentType
-  });
+  let dom
+  try {
+    dom = new JSDOM(chapter, {
+      contentType
+    });
+  } catch (err) {
+    console.log(err)
+    dom = new JSDOM(chapter, {
+      contentType: "text/html"
+    });
+  }
   const window = dom.window;
   const stylesheets = Array.from(
     window.document.querySelectorAll('link[rel="stylesheet"]')

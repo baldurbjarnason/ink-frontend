@@ -51,11 +51,9 @@ Includes normalize.css
 StyleGuide: 3.1
 */
 
+/* Need to change this because we shouldn't be affecting generic content. */
 * {
   box-sizing: border-box;
-  font-weight: 400;
-  margin: 0;
-  padding: 0;
 }
 
 .js-loading body {

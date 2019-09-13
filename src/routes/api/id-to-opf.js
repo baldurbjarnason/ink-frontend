@@ -35,7 +35,7 @@ export async function get(req, res, next) {
         });
         body = await response.body;
       } else {
-        res.sendStatus(404);
+        return res.sendStatus(404);
       }
       const metadata = parseOPF(
         body,

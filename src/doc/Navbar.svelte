@@ -1,6 +1,7 @@
 <script>
   // your script goes here
   export let navigation = {};
+  $: console.log(navigation)
 </script>
 
 <style>
@@ -14,10 +15,11 @@
     background-color: white;
     z-index: 2;
     line-height: 1;
-    padding: 0.25rem var(--reader-left-margin);
+    padding: 0.25rem 0.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 32px;
   }
   .Navbar-link {
     font-size: 1.25rem;
@@ -46,7 +48,7 @@
 <div class="Navbar">
   {#if navigation.previous}
     <a
-      href="/reader{navigation.previous}"
+      href="/doc{new window.URL(navigation.previous.url).pathname}"
       class="Navbar-link"
       aria-label="Previous">
       <svg
@@ -69,7 +71,7 @@
     <slot />
   </div>
   {#if navigation.next}
-    <a href="/reader{navigation.next}" class="Navbar-link" aria-label="Next">
+    <a href="/doc{new window.URL(navigation.next.url).pathname}" class="Navbar-link" aria-label="Next">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"

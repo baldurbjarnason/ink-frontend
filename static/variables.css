@@ -30,10 +30,10 @@
 :root {
   --reader-font-size: 1.1rem;
   --reader-paragraph-spacing: 1rem;
-  --reader-left-margin: 2rem;
+  --reader-left-margin: 2.5rem;
   --reader-text-color: #444;
   --reader-min-column-width: 12rem;
-  --reader-max-column-width: 31rem;
+  --reader-max-column-width: 36rem;
   --reader-background-color: white;
   --reader-border-color: #fafaef;
   --reader-line-height: 1.45;
@@ -43,14 +43,14 @@
   :root {
     --reader-font-size: 1rem;
     --reader-paragraph-spacing: 1rem;
-    --reader-left-margin: 1.5rem;
+    --reader-left-margin: 2rem;
   }
 }
 @media (max-width: 550px) {
   :root {
     --reader-font-size: 0.7rem;
     --reader-paragraph-spacing: 0.85rem;
-    --reader-left-margin: 1rem;
+    --reader-left-margin: 2rem;
   }
 }
 
