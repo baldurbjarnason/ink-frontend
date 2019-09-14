@@ -49,7 +49,7 @@
     <a
       href="/doc{new window.URL(navigation.previous.url).pathname}"
       class="Navbar-link"
-      aria-label="Previous">
+      aria-label="Previous" rel=prefetch>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
@@ -70,7 +70,7 @@
     <slot />
   </div>
   {#if navigation.next}
-    <a href="/doc{new window.URL(navigation.next.url).pathname}" class="Navbar-link" aria-label="Next">
+    <a href="/doc{new window.URL(navigation.next.url).pathname}" class="Navbar-link" aria-label="Next" rel=prefetch>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="24"
