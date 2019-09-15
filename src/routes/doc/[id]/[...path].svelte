@@ -32,10 +32,10 @@
 
 <script>
   import { slide } from "svelte/transition";
-  import { open } from "../../../actions/modal.js";
   import Chapter from "../../../doc/Chapter.svelte";
   import Navbar from "../../../doc/Navbar.svelte";
   import Progress from "../../../doc/Progress.svelte";
+  import BookContents from "../../../doc/BookContents.svelte";
   import Toolbar from "../../../components/Toolbar.svelte";
   import InfoActions from "../../../components/InfoActions.svelte";
   import {
@@ -72,6 +72,7 @@
     chapterStore.set(chapter)
   }
   let width = 0;
+  $: console.log(width);
   let sidebar = true;
   let sidebargrid = true;
   let sidebarWidth
@@ -89,7 +90,7 @@
   @media (min-width: 1024px) {
     .BookBody.sidebar {
       display: grid;
-      grid-template-columns: min-content 1fr;
+      grid-template-columns: minmax(300px, 0.4fr) 1fr;
       grid-template-areas:
         "sidebar body"
         "sidebar body"
@@ -108,9 +109,12 @@
       padding: 0 0.25rem;
     }
   }
+  .LeftButton {
+    align-self: flex-start;
+  }
 </style>
-<!-- 
-{@html chapter.html} -->
+
+<svelte:window bind:innerWidth={width} />
 <svelte:head>
   {#if chapter.stylesheets.length !== 0}
     {#each chapter.stylesheets as sheet}
@@ -129,52 +133,16 @@
       transition:slide={{ delay: 250, duration: 300 }}
       on:introstart={() => (sidebargrid = true)}
       on:outroend={() => (sidebargrid = false)}>
-      <InfoActions modal={false} />
+      <BookContents modal={false} />
     </div>
   {/if}
   <!-- Menubar -->
   <Toolbar>
-    <span slot="left-button">
-      {#if width <= 1024}
-        <a use:open={{ id: 'item-modal' }} href="/" class="Toolbar-link">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="square"
-            stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-        </a>
-      {:else}
-        <button
-          on:click={() => {
-            sidebar = !sidebar;
-          }}
-          href="/"
-          class="Toolbar-link">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="square"
-            stroke-linejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
-        </button>
-      {/if}
+    <span slot="left-button" class="LeftButton">
+
+    <Progress chapters={book.readingOrder} current={chapter.index} width={width} on:toggle-sidebar={() => {
+      sidebar = !sidebar
+    }}/>
     </span>
     <span slot="toolbar-title">{book.name}</span>
   </Toolbar>
@@ -191,6 +159,5 @@
     {:else}
       <Navbar />
     {/if}
-    <Progress chapters={book.readingOrder} current={chapter.index} />
   </div>
 {/if}

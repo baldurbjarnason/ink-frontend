@@ -30,6 +30,7 @@
 <style>
   .Sidebar {
     display: none;
+    background-color: var(--sidebar-background-color);
   }
   .InfoCover {
     font-size: 0.75rem;
@@ -62,7 +63,6 @@
     }
     .Sidebar {
       display: block;
-      background-color: white;
       height: 100vh;
       position: sticky;
       top: 0px;

@@ -51,6 +51,7 @@
 <style>
   .Sidebar {
     display: none;
+    background-color: var(--sidebar-background-color);
   }
   @media (min-width: 1024px) {
     .Info.sidebar {

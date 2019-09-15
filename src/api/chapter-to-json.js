@@ -39,7 +39,6 @@ export async function chapterToJSON(
   contentType = "text/html",
   index
 ) {
-  console.log("processing: ", contentType, chapter.length)
   let locations = 0;
   let h1 = 0;
   let h2 = 0;

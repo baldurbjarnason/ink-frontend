@@ -12,7 +12,7 @@
     left: 0;
     width: 100%;
     background-color: white;
-    z-index: 2;
+    z-index: 3;
     line-height: 1;
     padding: 0.25rem 0.5rem;
     display: flex;

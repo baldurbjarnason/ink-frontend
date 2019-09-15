@@ -7,7 +7,7 @@ export const chapter = writable({});
 export const contents = derived(book, ($book, set) => {
   if ($book.resources) {
     const toc = $book.resources.find(
-      item => item.rel.includes("ncx") || item.rel.includes("contents")
+      item => item.rel.includes("contents") || item.rel.includes("ncx")
     );
     try {
       window
@@ -15,6 +15,7 @@ export const contents = derived(book, ($book, set) => {
         .then(response => response.json())
         .then(tocData => set(tocData));
     } catch (err) {
+      set({});
       console.error(err);
     }
   } else {

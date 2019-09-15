@@ -1,6 +1,7 @@
 <script>
   import ContentsItem from "./ContentsItem.svelte";
   export let contents;
+  export let book;
 </script>
 
 <style>
@@ -9,7 +10,6 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    border-left: 1px solid var(--rc-main);
   }
   .Contents > :global(li > ol) {
     counter-reset: contents;

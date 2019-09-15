@@ -26,12 +26,10 @@
   ol,
   .return {
     margin: 1rem auto;
-    min-width: 120px;
+    min-width: 250px;
     max-width: 450px;
     width: 100%;
-  }
-  ol {
-    border-left: 1px solid var(--rc-main);
+    padding: 0;
   }
   ol a {
     text-decoration: none;
@@ -70,6 +68,9 @@
     height: 14px;
     width: 16px;
   }
+  .return.modal {
+    margin-top: 32px;
+  }
   ol a.current {
     border-left: 5px solid var(--rc-darker);
     padding-left: calc(1rem - 6px);
@@ -78,7 +79,7 @@
 </style>
 
 {#if $current}
-  <a href="/collections/all" class="return" data-close-modal>
+  <a href="/collections/all" class="return" data-close-modal class:modal={modal}>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
