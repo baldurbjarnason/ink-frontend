@@ -263,7 +263,6 @@
 {#if $book && $chapter && $chapter.index === chapterIndex}
   <div
     class="Chapter"
-    transition:fade={{ duration: 250 }}
     bind:this={chapterElement}
     on:introend={handleIntroEnd}>
     <ChapterBody html={$chapter.html} />

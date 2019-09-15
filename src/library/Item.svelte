@@ -17,6 +17,9 @@
   export let readerId;
   export let navigation;
   export let layout = "covers";
+  export let translator
+  export let illustrator
+  export let contributor
 </script>
 
 <style>

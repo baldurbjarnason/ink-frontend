@@ -93,6 +93,11 @@
       }
     }
     return () => {
+      const url = $bookStore.url
+      const location = $currentLocation.location
+      const chapter = $chapterStore.url
+      
+      read(url, location, chapter)
       window.lifecycle.removeEventListener('statechange', handleLifeCycle)
     }
   });
