@@ -77,7 +77,7 @@
 
   {#if $modal && $modal.id === 'contents-modal'}
     <div role="document" transition:fade={{ duration: 100 }}>
-      <button type="Button" data-close-modal class="Closer">
+      <button type="Button" data-close-modal class="Closer" data-autofocus>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

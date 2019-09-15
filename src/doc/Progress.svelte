@@ -36,7 +36,7 @@
   }
 </style>
 {#if width <= 1024}
-<a use:open={{ id: 'contents-modal' }} href="/" class="Toolbar-link Progress">
+<button type="Button" use:open={{ id: 'contents-modal' }} class="Toolbar-link Progress">
 {#if chapters}
   {#each chapters as chapter, i}
     <!-- content here -->
@@ -47,7 +47,7 @@
     {/if}
   {/each}
 {/if}
-</a>
+</button>
       {:else}
 <button
   on:click={() => dispatch('toggle-sidebar')}

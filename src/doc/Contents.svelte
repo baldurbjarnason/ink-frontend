@@ -2,6 +2,10 @@
   import ContentsItem from "./ContentsItem.svelte";
   export let contents;
   export let book;
+  let current
+  $: if (book && book.position && book.position.path) {
+    current = book.position.path
+  }
 </script>
 
 <style>
@@ -26,7 +30,7 @@
 <h1>{contents.heading}</h1>
 <ol class="Contents">
   {#each contents.children as item}
-    <ContentsItem {item} />
+    <ContentsItem {item} {current} />
     <!-- content here -->
   {/each}
 </ol>

@@ -33,6 +33,8 @@
   if (chapter) {
     chapterStore.set(chapter)
   }
+  let scrollY
+  $: console.log(scrollY)
 </script>
 
 <style>
@@ -42,6 +44,7 @@
   }
 </style>
 
+<svelte:window bind:scrollY={scrollY} />
 <svelte:head>
   {#if chapter.stylesheets.length !== 0}
     {#each chapter.stylesheets as sheet}

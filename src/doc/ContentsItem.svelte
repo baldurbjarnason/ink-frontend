@@ -1,6 +1,11 @@
 <script>
   export let item;
+  export let current = false
   export let indent = 0;
+  let isCurrent = false
+  $: if (current &&  item.url.includes(new URL(current).pathname)) {
+    isCurrent = true
+  }
 </script>
 
 <style>
@@ -51,11 +56,14 @@
     background-color: var(--rc-lighter);
     color: black;
   }
+  .current {
+    background-color: #f0f0f0;
+  }
 </style>
 
 <li data-indent={indent}>
   {#if item.url}
-    <a href={item.url}>{item.label}</a>
+    <a href={item.url} class:current={isCurrent}>{item.label}</a>
   {:else}
     <span>{item.label}</span>
   {/if}
