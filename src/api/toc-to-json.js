@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 
-const PREFIX = 'doc'
+const PREFIX = '/doc'
 
 const options = {
   withDomLvl1: true,
@@ -96,5 +96,5 @@ function getPath(path, opfPath) {
   const opf = new URL(opfPath, "http://example.com/");
   // If host is example.com, then this is a local request
   const url = new URL(path, opf);
-  return '/doc' + url.pathname + url.hash;
+  return PREFIX + url.pathname + url.hash;
 }

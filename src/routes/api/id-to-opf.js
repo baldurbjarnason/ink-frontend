@@ -47,6 +47,9 @@ export async function get(req, res, next) {
       //     JSON.stringify(metadata, null, 2)
       //   );
       // }
+      if (book.position) {
+        metadata.position = book.position
+      }
       return res.json(metadata);
     }
   } catch (err) {

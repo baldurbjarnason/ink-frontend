@@ -22,6 +22,7 @@
       , {credentials: "include"});
       let chapter = await chapterResponse.json();
       chapter = { ...chapter, ...chapterResource };
+      book.url = book.id;
       book.id = id;
       return { book, chapter };
     } catch (err) {
@@ -31,6 +32,7 @@
 </script>
 
 <script>
+  import { onMount, tick } from 'svelte';
   import { slide } from "svelte/transition";
   import Chapter from "../../../doc/Chapter.svelte";
   import Navbar from "../../../doc/Navbar.svelte";
@@ -38,6 +40,7 @@
   import BookContents from "../../../doc/BookContents.svelte";
   import Toolbar from "../../../components/Toolbar.svelte";
   import InfoActions from "../../../components/InfoActions.svelte";
+  import {read} from '../../../api/read.js'
   import {
     book as bookStore,
     chapter as chapterStore,
@@ -49,14 +52,12 @@
     chapterTitle
   } from "../../../doc/stores.js";
   function handleCurrent({ detail }) {
-    console.log(detail)
     currentLocation.set({
       location: detail.highest.dataset.location
     });
   }
   let loadedLocations = [];
   function handleAppearing({ detail }) {
-    console.log(detail)
     loadedLocations = loadedLocations.concat(detail.nodes);
   }
   let bookBody;
@@ -72,15 +73,38 @@
     chapterStore.set(chapter)
   }
   let width = 0;
-  $: console.log(width);
+  $: console.log($bookStore.position);
   let sidebar = true;
   let sidebargrid = true;
   let sidebarWidth
   $: if (sidebarWidth !== getComputedStyle(document.documentElement)
-    .getPropertyValue('--reader-sidebar-width') + 'px') {
-      document.documentElement.style
-    .setProperty('--reader-sidebar-width', sidebarWidth + 'px');
+  .getPropertyValue('--reader-sidebar-width') + 'px') {
+    document.documentElement.style
+  .setProperty('--reader-sidebar-width', sidebarWidth + 'px');
+  }
+
+  onMount(async () => {
+    window.lifecycle.addEventListener('statechange', handleLifeCycle)
+    await tick()
+    if ($bookStore.position && $bookStore.position.path === $chapterStore.url) {
+      const location = document.querySelector(`[data-location="${$bookStore.position.location}"]`)
+      if (location) {
+        location.scrollIntoView({behavior: 'smooth'})
+      }
     }
+    return () => {
+      window.lifecycle.removeEventListener('statechange', handleLifeCycle)
+    }
+  });
+  function handleLifeCycle (event) {
+      if (
+        window.lifecycle.state === 'passive' &&
+        event.oldState === 'active' &&
+        $currentLocation
+      ) {
+        read($bookStore.url, $currentLocation.location, $chapterStore.url)
+      }
+  }
 </script>
 
 <style>
@@ -125,7 +149,7 @@
 </svelte:head>
 
 {#if book}
-  <div class="BookBody" bind:this={bookBody} class:sidebar={sidebargrid}>
+  <div class="BookBody" bind:this={bookBody} class:sidebar={sidebargrid} data-current={$currentLocation.location}>
   {#if sidebar}
     <div
       bind:clientWidth={sidebarWidth}

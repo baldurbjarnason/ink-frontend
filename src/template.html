@@ -32,8 +32,9 @@
 	     and anything else it needs to hydrate the app and
 	     initialise the router -->
 	%sapper.scripts%
-	<script src="/inert-polyfill.min.js"></script>
-  <script src="/js/vendor/document-register-element.js" nomodule></script>
-  <script src="/js/filedrop.umd.js"></script>
+	<script defer src="/inert-polyfill.min.js"></script>
+	<script defer src="/js/vendor/document-register-element.js" nomodule></script>
+	<script defer src="/lifecycle.es5.js"></script>
+  <script defer src="/js/filedrop.umd.js"></script>
 </body>
 </html>

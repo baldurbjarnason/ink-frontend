@@ -54,6 +54,7 @@
     "jszip": "^3.2.2",
     "ms": "^2.1.2",
     "node-fetch": "^2.6.0",
+    "page-lifecycle": "^0.1.2",
     "passport": "^0.4.0",
     "passport-auth0": "^1.2.1",
     "pdfjs-dist": "^2.1.266",

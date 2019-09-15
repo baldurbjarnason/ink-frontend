@@ -1,6 +1,7 @@
 import got from "got";
 export async function post(req, res, next) {
   if (req.user && req.session.profile) {
+    console.log(`Bearer ${req.user.token}`)
     try {
       const response = await got.post(req.session.profile.outbox, {
         headers: {
