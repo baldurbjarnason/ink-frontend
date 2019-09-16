@@ -80,6 +80,7 @@
     Roboto, Noto, "Helvetica Neue", Arial, sans-serif;
   --humanist-sans-fonts: Seravek, Calibri, Roboto, Arial, sans-serif;
   --monospace-fonts: "Andale Mono", Consolas, monospace;
+  --duo-accessible-fonts: Duo, sans-serif;
   --font-size: 125%;
   --line-height: 1.5;
   --border-radius: 4px;

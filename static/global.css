@@ -1,3 +1,40 @@
+@font-face {
+  font-family: "Duo";
+  font-weight: normal;
+  font-style: normal;
+  src: url("/iAWriterDuo/iAWriterDuoS-Regular.eot") format("embedded-opentype"),
+    url("/iAWriterDuo/iAWriterDuoS-Regular.woff2") format("woff2"),
+    url("/iAWriterDuo/iAWriterDuoS-Regular.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Duo";
+  font-weight: normal;
+  font-style: italic;
+  src: url("/iAWriterDuo/iAWriterDuoS-Italic.eot") format("embedded-opentype"),
+    url("/iAWriterDuo/iAWriterDuoS-Italic.woff2") format("woff2"),
+    url("/iAWriterDuo/iAWriterDuoS-Italic.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Duo";
+  font-weight: bold;
+  font-style: normal;
+  src: url("/iAWriterDuo/iAWriterDuoS-Bold.eot") format("embedded-opentype"),
+    url("/iAWriterDuo/iAWriterDuoS-Bold.woff2") format("woff2"),
+    url("/iAWriterDuo/iAWriterDuoS-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "Duo";
+  font-weight: bold;
+  font-style: italic;
+  src: url("/iAWriterDuo/iAWriterDuoS-BoldItalic.eot") format("embedded-opentype"),
+    url("/iAWriterDuo/iAWriterDuoS-BoldItalic.woff2") format("woff2"),
+    url("/iAWriterDuo/iAWriterDuoS-BoldItalic.woff") format("woff");
+}
+
+
 body {
   margin: 0;
   font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
