@@ -1,4 +1,5 @@
 import { writable, derived } from "svelte/store";
+import { get, set } from 'idb-keyval';
 
 export const book = writable({});
 
@@ -61,9 +62,31 @@ export const chapterTitle = derived(
 // From this we can derive a chapter title (down to the sub chapter level and how many annotations each location has)
 // And we can render an abstract minimap
 
-export const fontSize = writable("0.9rem");
+function save (value) {
+  return set(this.name, value)
+    .then(() => this.set(value))
+}
 
-export const theme = writable("Publisher");
+export const fontSize = writable("regular");
+fontSize.name = 'fontSize'
+fontSize.save = save
+
+export const theme = writable("old-style");
+theme.name = 'theme'
+theme.save = save
+
+if (process.browser) {
+  get(fontSize.name)
+    .then(value => {
+      if (value) fontSize.set(value)
+    })
+  get(theme.name)
+    .then(value => {
+      if (value) theme.set(value)
+    })
+}
+
+export const configuringReader = writable(false)
 
 export const currentLocation = writable({
   path: null,

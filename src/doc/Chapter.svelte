@@ -63,10 +63,12 @@
   });
   function handleIntroEnd() {
     window.requestAnimationFrame(() => {
-      chapterElement.querySelectorAll("[data-location]").forEach(element => {
-        positionObserver.observe(element);
-        locationObserver.observe(element);
-      });
+    });
+  }
+  $: if (chapterElement) {
+    chapterElement.querySelectorAll("[data-location]").forEach(element => {
+      positionObserver.observe(element);
+      locationObserver.observe(element);
     });
   }
 </script>

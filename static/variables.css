@@ -54,6 +54,17 @@
   }
 }
 
+:root {
+  --xx-small: 0.6rem;
+  --x-small: 0.7rem;
+  --small: 0.85rem;
+  --regular: 1rem;
+  --bigger: 1.1rem;
+  --large: 1.25rem;
+  --x-large: 1.5rem;
+  --xx-large: 1.75rem;
+}
+
 
 :root {
   --sans-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -67,7 +78,7 @@
   --modern-serif-fonts: Athelas, Constantia, Georgia, serif;
   --neutral-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
     Roboto, Noto, "Helvetica Neue", Arial, sans-serif;
-  --humanist-sans: Seravek, Calibri, Roboto, Arial, sans-serif;
+  --humanist-sans-fonts: Seravek, Calibri, Roboto, Arial, sans-serif;
   --monospace-fonts: "Andale Mono", Consolas, monospace;
   --font-size: 125%;
   --line-height: 1.5;
