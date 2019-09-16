@@ -2,16 +2,28 @@
   import Button from "./Button.svelte";
   import TextButton from "./TextButton.svelte";
   import { book as item, current } from "../stores/book.js";
+  import { collections } from "../collections/store.js";
+  import {collection} from '../api/collection.js'
   export let modal;
   let book = { navigation: { current: {} } };
   $: if ($item.id && $item.id !== book.id) {
     updateBook($item.id);
+  }
+  let bookTags = []
+  $: if (book.tags) {
+    bookTags = book.tags.map(tag => tag.id)
+    console.log(bookTags)
   }
   async function updateBook(id) {
     book = { navigation: { current: {} } };
     const response = await fetch(`/api/book?url=${encodeURIComponent(id)}`);
     book = await response.json();
     return book;
+  }
+  let checkboxes = {};
+
+  function handleCollection (tag, input) {
+    collection(tag, $item, input.checked)
   }
 </script>
 
@@ -76,10 +88,67 @@
     padding-left: calc(1rem - 6px);
     font-weight: 600;
   }
+  .Collections {
+    font-size: 1rem;
+    text-transform: uppercase;
+    margin-top: 1rem;
+    margin-bottom: 0;
+    text-align: left;
+    padding: 0 1rem;
+  }
+  .CollectionsList {
+  }
+  .CollectionsList label {
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.25rem 1rem;
+  }
+  .CollectionsList label.checked {
+    background-color: var(--link);
+    color: white;
+  }
+  .CollectionsList label:hover {
+    background-color: var(--hover);
+    color: var(--light);
+    cursor: pointer;
+  }
+
+  @supports (-webkit-appearance: none) {
+    input[type="checkbox"] {
+      -webkit-appearance: none;
+      width: 1.6rem;
+      height: 1.6rem;
+      border: 1px solid #808080;
+      border-radius: 0.25rem;
+      margin-right: 0.5rem;
+    }
+    input[type="checkbox"]:focus {
+      border: 1px solid var(--rc-darker, #ccc);
+    }
+    input[type="checkbox"]:checked {
+      position: relative;
+      background: none;
+      border-color: white;
+    }
+    input[type="checkbox"]:checked::after {
+      position: absolute;
+      top: 0.36rem;
+      left: 0.12rem;
+      content: "";
+      width: 1rem;
+      height: 0.3rem;
+      border: 2px solid white;
+      border-right: none;
+      border-top: none;
+      transform: rotate(-45deg);
+    }
+  }
 </style>
 
 {#if $current}
-  <a href="/collections/all" class="return" data-close-modal class:modal={modal}>
+  <a href="/collections/all" class="return" data-close-modal class:modal>
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="16"
@@ -133,3 +202,23 @@
     </a>
   </li>
 </ol>
+
+{#if $collections}
+  <h2 class="Collections">Collections</h2>
+  <ol class="CollectionsList">
+    {#each $collections as tag, i}
+      <li>
+        <label class:checked={checkboxes[i] || bookTags.includes(tag.id)}>
+          <input
+            type="checkbox"
+            value={tag.name}
+            bind:checked={checkboxes[i]}
+            checked={bookTags.includes(tag.id)}
+            id={tag.name}
+            on:change={event => handleCollection(tag, event.target)} />
+          {tag.name}
+        </label>
+      </li>
+    {/each}
+  </ol>
+{/if}
