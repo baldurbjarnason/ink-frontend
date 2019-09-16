@@ -3,7 +3,7 @@
   export let current = false
   export let indent = 0;
   let isCurrent = false
-  $: if (current &&  item.url.includes(new URL(current).pathname)) {
+  $: if (current && item.url && item.url.includes(new URL(current).pathname)) {
     isCurrent = true
   }
 </script>
@@ -57,7 +57,10 @@
     color: black;
   }
   .current {
-    background-color: #f0f0f0;
+    background-color:white;
+  }
+  :global(.BookContents.modal) .current {
+    background-color:#f7f7f7;
   }
 </style>
 
@@ -70,7 +73,7 @@
   {#if item.children}
     <ol>
       {#each item.children as child}
-        <svelte:self item={child} indent={indent + 1} />
+        <svelte:self item={child} {current} indent={indent + 1} />
       {/each}
     </ol>
   {/if}
