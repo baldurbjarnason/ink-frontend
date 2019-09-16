@@ -21,10 +21,7 @@ export async function get(req, res, next) {
       } else {
         return res.sendStatus(404);
       }
-      const style = await cleanCSS(
-        body,
-        url.href
-      );
+      const style = await cleanCSS(body, url.href);
       res.set("Content-Type", "text/css");
       // fs.writeFileSync('epub.css', style, 'utf8')
       return res.send(style);

@@ -1,8 +1,8 @@
 <script>
   // your script goes here
   import { open } from "../actions/modal.js";
-  import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
   export let current;
   export let chapters;
   export let width;
@@ -19,7 +19,8 @@
   .current {
     fill: var(--rc-darker);
   }
-  a.Toolbar-link.Progress, button.Toolbar-link.Progress {
+  a.Toolbar-link.Progress,
+  button.Toolbar-link.Progress {
     /* position: fixed;
     top: 40px;
     left: 13px; */
@@ -35,33 +36,45 @@
     }
   }
 </style>
+
 {#if width <= 1024}
-<button type="Button" use:open={{ id: 'contents-modal' }} class="Toolbar-link Progress">
-{#if chapters}
-  {#each chapters as chapter, i}
-    <!-- content here -->
-    {#if i === current}
-      <svg class="current"><circle cx="6" cy="6" r="3" /></svg>
-    {:else}
-      <svg><circle cx="6" cy="6" r="2"/></svg>
+  <button
+    type="Button"
+    use:open={{ id: 'contents-modal' }}
+    class="Toolbar-link Progress">
+    {#if chapters}
+      {#each chapters as chapter, i}
+        <!-- content here -->
+        {#if i === current}
+          <svg class="current">
+            <circle cx="6" cy="6" r="3" />
+          </svg>
+        {:else}
+          <svg>
+            <circle cx="6" cy="6" r="2" />
+          </svg>
+        {/if}
+      {/each}
     {/if}
-  {/each}
+  </button>
+{:else}
+  <button
+    on:click={() => dispatch('toggle-sidebar')}
+    href="/"
+    class="Toolbar-link Progress">
+    {#if chapters}
+      {#each chapters as chapter, i}
+        <!-- content here -->
+        {#if i === current}
+          <svg class="current">
+            <circle cx="6" cy="6" r="3" />
+          </svg>
+        {:else}
+          <svg>
+            <circle cx="6" cy="6" r="2" />
+          </svg>
+        {/if}
+      {/each}
+    {/if}
+  </button>
 {/if}
-</button>
-      {:else}
-<button
-  on:click={() => dispatch('toggle-sidebar')}
-  href="/"
-  class="Toolbar-link Progress">
-  {#if chapters}
-    {#each chapters as chapter, i}
-      <!-- content here -->
-      {#if i === current}
-        <svg class="current"><circle cx="6" cy="6" r="3" /></svg>
-      {:else}
-        <svg><circle cx="6" cy="6" r="2"/></svg>
-      {/if}
-    {/each}
-  {/if}
-</button>
-      {/if}

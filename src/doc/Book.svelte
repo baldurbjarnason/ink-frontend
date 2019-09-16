@@ -25,16 +25,16 @@
   if (bookBody) {
     bookBody.style.setProperty("--reader-font-size", $fontSize);
   }
-  export let book
-  export let chapter
+  export let book;
+  export let chapter;
   if (book) {
-    bookStore.set(book)
+    bookStore.set(book);
   }
   if (chapter) {
-    chapterStore.set(chapter)
+    chapterStore.set(chapter);
   }
-  let scrollY
-  $: console.log(scrollY)
+  let scrollY;
+  $: console.log(scrollY);
 </script>
 
 <style>
@@ -44,11 +44,13 @@
   }
 </style>
 
-<svelte:window bind:scrollY={scrollY} />
+<svelte:window bind:scrollY />
 <svelte:head>
   {#if chapter.stylesheets.length !== 0}
     {#each chapter.stylesheets as sheet}
-      <link rel="stylesheet" href={`/api/clean-css?css=${encodeURIComponent(sheet)}`} />
+      <link
+        rel="stylesheet"
+        href={`/api/clean-css?css=${encodeURIComponent(sheet)}`} />
     {/each}
   {/if}
   <title>{book.name} - {$chapterTitle} - Rebus Ink</title>

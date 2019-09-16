@@ -1,4 +1,3 @@
-
 import got from "got";
 // import * as fs from "fs";
 import { chapterToJSON } from "../../api/chapter-to-json";
@@ -26,16 +25,11 @@ export async function get(req, res, next) {
         //   "s04.xhtml",
         //   body
         // );
-        contentType = response.headers["content-type"]
+        contentType = response.headers["content-type"];
       } else {
         res.sendStatus(404);
       }
-      const chapter = await chapterToJSON(
-        body,
-        url.href,
-        contentType,
-        index
-      );
+      const chapter = await chapterToJSON(body, url.href, contentType, index);
       return res.json(chapter);
     } catch (err) {
       console.error(err);

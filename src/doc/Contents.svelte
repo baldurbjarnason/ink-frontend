@@ -2,9 +2,9 @@
   import ContentsItem from "./ContentsItem.svelte";
   export let contents;
   export let book;
-  let current
+  let current;
   $: if (book && book.position && book.position.path) {
-    current = book.position.path
+    current = book.position.path;
   }
 </script>
 

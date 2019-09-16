@@ -62,8 +62,7 @@
     if (locationObserver) locationObserver.disconnect();
   });
   function handleIntroEnd() {
-    window.requestAnimationFrame(() => {
-    });
+    window.requestAnimationFrame(() => {});
   }
   $: if (chapterElement) {
     chapterElement.querySelectorAll("[data-location]").forEach(element => {
@@ -263,10 +262,7 @@
 </style>
 
 {#if $book && $chapter && $chapter.index === chapterIndex}
-  <div
-    class="Chapter"
-    bind:this={chapterElement}
-    on:introend={handleIntroEnd}>
+  <div class="Chapter" bind:this={chapterElement} on:introend={handleIntroEnd}>
     <ChapterBody html={$chapter.html} />
     <div class="ChapterNotes" />
   </div>

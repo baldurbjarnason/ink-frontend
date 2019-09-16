@@ -6,7 +6,7 @@ let activeModal;
 modal.subscribe(value => {
   activeModal = value;
 });
-let scroll
+let scroll;
 
 // Actions
 export function open(node, options) {
@@ -175,7 +175,7 @@ export async function opener(props) {
   } else {
     focusTarget = node;
   }
-  scroll = {top: window.scrollY, left: window.scrollX}
+  scroll = { top: window.scrollY, left: window.scrollX };
   window.requestAnimationFrame(() => {
     focusTarget.focus();
   });
@@ -219,7 +219,7 @@ export async function closer() {
   window.requestAnimationFrame(() => {
     if (activeElement) {
       activeElement.focus();
-      window.scrollTo(scroll)
+      window.scrollTo(scroll);
       activeElement = null;
     }
   });

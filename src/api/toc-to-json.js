@@ -1,6 +1,6 @@
 const cheerio = require("cheerio");
 
-const PREFIX = '/doc'
+const PREFIX = "/doc";
 
 const options = {
   withDomLvl1: true,

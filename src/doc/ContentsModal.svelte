@@ -1,11 +1,10 @@
 <script>
   import { modal, setup, open } from "../actions/modal.js";
   import { fly, fade } from "svelte/transition";
-  import BookContents from './BookContents.svelte'
+  import BookContents from "./BookContents.svelte";
 </script>
 
 <style>
-
   .Modal[hidden] [role="document"] {
     opacity: 0;
     transform: translateX(-100%);

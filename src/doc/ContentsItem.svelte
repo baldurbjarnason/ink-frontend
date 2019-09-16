@@ -1,10 +1,10 @@
 <script>
   export let item;
-  export let current = false
+  export let current = false;
   export let indent = 0;
-  let isCurrent = false
+  let isCurrent = false;
   $: if (current && item.url && item.url.includes(new URL(current).pathname)) {
-    isCurrent = true
+    isCurrent = true;
   }
 </script>
 
@@ -57,10 +57,10 @@
     color: black;
   }
   .current {
-    background-color:white;
+    background-color: white;
   }
   :global(.BookContents.modal) .current {
-    background-color:#f7f7f7;
+    background-color: #f7f7f7;
   }
 </style>
 

@@ -43,13 +43,13 @@ export async function chapterToJSON(
   let h1 = 0;
   let h2 = 0;
   const order = parseInt(index, 10) + 1;
-  let dom
+  let dom;
   try {
     dom = new JSDOM(chapter, {
       contentType
     });
   } catch (err) {
-    console.log(err)
+    console.log(err);
     dom = new JSDOM(chapter, {
       contentType: "text/html"
     });
@@ -182,7 +182,10 @@ export async function chapterToJSON(
       }
     }
     if (node.hasAttribute("src")) {
-      node.setAttribute("src", assetPath(node.getAttribute("src"), chapterPath));
+      node.setAttribute(
+        "src",
+        assetPath(node.getAttribute("src"), chapterPath)
+      );
     }
     if (node.hasAttribute("href")) {
       node.setAttribute(
@@ -219,12 +222,12 @@ function getPath(path, base) {
   return new URL(path, base).href;
 }
 
-function assetPath (path, base) {
-  const url = new URL(path, base).href
-  return `/assets/${encodeURIComponent(url)}`
+function assetPath(path, base) {
+  const url = new URL(path, base).href;
+  return `/assets/${encodeURIComponent(url)}`;
 }
 
-function linkPath (path, base) {
-  const url = new URL(path, base)
-  return `/doc/${url.pathname}${url.hash}`
+function linkPath(path, base) {
+  const url = new URL(path, base);
+  return `/doc/${url.pathname}${url.hash}`;
 }

@@ -17,8 +17,8 @@ export async function read(context, location, path) {
         ],
         type: "Read",
         context,
-        'oa:hasSelector': {
-          type: 'reader:Location',
+        "oa:hasSelector": {
+          type: "reader:Location",
           location,
           path
         }

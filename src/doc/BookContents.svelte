@@ -1,9 +1,9 @@
 <script>
-  import {contents, book} from './stores.js'
-  import Contents from './Contents.svelte'
-  import TextButton from '../components/TextButton.svelte'
-  import {configuringReader} from './stores.js'
-  export let modal = false
+  import { contents, book } from "./stores.js";
+  import Contents from "./Contents.svelte";
+  import TextButton from "../components/TextButton.svelte";
+  import { configuringReader } from "./stores.js";
+  export let modal = false;
 </script>
 
 <style>
@@ -18,7 +18,8 @@
     background-color: white;
     padding-top: 32px;
   }
-  .return, .TextButton {
+  .return,
+  .TextButton {
     display: inline-block;
 
     cursor: pointer;
@@ -52,7 +53,8 @@
     text-align: right;
     display: inline-block;
   }
-  .return:hover, .TextButton:hover {
+  .return:hover,
+  .TextButton:hover {
     background-color: var(--hover);
     color: var(--light);
   }
@@ -67,32 +69,33 @@
   }
 </style>
 
-<div class="BookContents" class:modal={modal}>
-<div class="TopButtons">
-  <a href="/collections/all" class="return" data-close-modal>
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="square"
-      stroke-linejoin="round">
-      <path d="M15 18l-6-6 6-6" />
-    </svg>
-    Library
-  </a>
-  <button data-close-modal class="TextButton" on:click={event => {
-    configuringReader.update(state => !state)
-  }}>{#if $configuringReader}
-     Done 
-  {:else}
-     Reader Settings
-  {/if}</button>
+<div class="BookContents" class:modal>
+  <div class="TopButtons">
+    <a href="/collections/all" class="return" data-close-modal>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="square"
+        stroke-linejoin="round">
+        <path d="M15 18l-6-6 6-6" />
+      </svg>
+      Library
+    </a>
+    <button
+      data-close-modal
+      class="TextButton"
+      on:click={event => {
+        configuringReader.update(state => !state);
+      }}>
+      {#if $configuringReader}Done{:else}Reader Settings{/if}
+    </button>
   </div>
   {#if $contents.children && $book}
-    <Contents contents={$contents} book={$book}  />
+    <Contents contents={$contents} book={$book} />
   {/if}
 </div>
