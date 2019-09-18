@@ -402,7 +402,6 @@
               </option>
             </select>
           </label>
-
         {:else}{book.name}{/if}
       </span>
       <span slot="right-button">

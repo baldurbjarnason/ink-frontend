@@ -429,8 +429,8 @@ const cssProps = [
 
 export function testProp(prop, value) {
   // Browser-justified text is the spawn of evil
-  if (prop === 'text-align' && value === 'justify') {
-    return false
+  if (prop === "text-align" && value === "justify") {
+    return false;
   }
   if (prop.startsWith("--")) return true;
   if (cssProps.indexOf(prop) > -1) return true;

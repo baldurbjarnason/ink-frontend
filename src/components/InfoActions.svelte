@@ -3,16 +3,16 @@
   import TextButton from "./TextButton.svelte";
   import { book as item, current } from "../stores/book.js";
   import { collections } from "../collections/store.js";
-  import {collection} from '../api/collection.js'
+  import { collection } from "../api/collection.js";
   export let modal;
   let book = { navigation: { current: {} } };
   $: if ($item.id && $item.id !== book.id) {
     updateBook($item.id);
   }
-  let bookTags = []
+  let bookTags = [];
   $: if (book.tags) {
-    bookTags = book.tags.map(tag => tag.id)
-    console.log(bookTags)
+    bookTags = book.tags.map(tag => tag.id);
+    console.log(bookTags);
   }
   async function updateBook(id) {
     book = { navigation: { current: {} } };
@@ -22,8 +22,8 @@
   }
   let checkboxes = {};
 
-  function handleCollection (tag, input) {
-    collection(tag, $item, input.checked)
+  function handleCollection(tag, input) {
+    collection(tag, $item, input.checked);
   }
 </script>
 
