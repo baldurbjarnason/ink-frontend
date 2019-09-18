@@ -1,11 +1,18 @@
 import sirv from "sirv";
 import httpStrategies from "passport-http";
 import passport from "passport";
+import dotenv from "dotenv";
 // import * as fs from "fs";
 // import * as https from "https";
 
 const { PORT, NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
+if (dev) {
+  const result = dotenv.config();
+  if (result.error) {
+    throw result.error;
+  }
+}
 process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 // const options = {
 //   key: fs.readFileSync("./dev/localhost.key"),

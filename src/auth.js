@@ -2,14 +2,9 @@
 import passport from "passport";
 import jwt from "jsonwebtoken";
 import csurf from "csurf";
-import dotenv from "dotenv";
 // import ms from 'ms'
 import debugSetup from "debug";
 const debug = debugSetup("vonnegut:auth");
-const result = dotenv.config();
-if (result.error) {
-  throw result.error;
-}
 function generateToken(user) {
   const expiresIn = "30m";
   return jwt.sign({ sub: user.id }, process.env.SECRETORKEY, {

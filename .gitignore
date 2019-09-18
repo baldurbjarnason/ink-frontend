@@ -4,6 +4,7 @@
 yarn-error.log
 /cypress/screenshots/
 /__sapper__/
+/functions/__sapper__/
 /static/js/
 <<<<<<< HEAD
 .env
