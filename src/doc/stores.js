@@ -25,10 +25,14 @@ export const contents = derived(book, ($book, set) => {
 });
 export const notes = derived(chapter, ($chapter, set) => {
   try {
-    window
-      .fetch(`/api/notes?path=${encodeURIComponent($chapter.url)}`)
-      .then(response => response.json())
-      .then(notesData => set(notesData));
+    if ($chapter.url) {
+      window
+        .fetch(`/api/notes?path=${encodeURIComponent($chapter.url)}`)
+        .then(response => response.json())
+        .then(notesData => set(notesData));
+    } else {
+      set({})
+    }
   } catch (err) {
     set({});
     console.error(err);

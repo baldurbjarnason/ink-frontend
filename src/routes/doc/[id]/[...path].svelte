@@ -5,8 +5,7 @@
 </script>
 
 <script>
-  import { onMount, tick } from "svelte";
-  import { slide } from "svelte/transition";
+  import { onMount, tick, onDestroy } from "svelte";
   import Chapter from "../../../doc/Chapter.svelte";
   import Navbar from "../../../doc/Navbar.svelte";
   import Progress from "../../../doc/Progress.svelte";
@@ -47,7 +46,7 @@
       `var(--${$theme}-fonts)`
     );
   }
-  $: if (bookBody && $notes) {
+  $: if (bookBody && $notes.items) {
     highlightNotes(bookBody, $notes)
   }
   export let book;
@@ -59,7 +58,6 @@
     chapterStore.set(chapter);
   }
   let width = 0;
-  $: console.log($bookStore.position);
   let sidebar = true;
   let sidebargrid = true;
   let sidebarWidth;
@@ -86,16 +84,16 @@
       if (location) {
         location.scrollIntoView({ behavior: "smooth" });
       }
-    }
-    return () => {
+    };
+  });
+  onDestroy(() => {
       const url = $bookStore.url;
       const location = $currentLocation.location;
       const chapter = $chapterStore.url;
 
       read(url, location, chapter);
       window.lifecycle.removeEventListener("statechange", handleLifeCycle);
-    };
-  });
+    })
   function handleLifeCycle(event) {
     if (
       window.lifecycle.state === "passive" &&
@@ -263,15 +261,11 @@
     class="BookBody"
     bind:this={bookBody}
     class:sidebar={sidebargrid}
-    data-current={$currentLocation.location}
-    on:selectionchange={event => console.log(event)}>
+    data-current={$currentLocation.location}>
     {#if sidebar}
       <div
         bind:clientWidth={sidebarWidth}
-        class="Sidebar"
-        transition:slide={{ delay: 250, duration: 300 }}
-        on:introstart={() => (sidebargrid = true)}
-        on:outroend={() => (sidebargrid = false)}>
+        class="Sidebar">
         <BookContents modal={false} />
       </div>
     {/if}
@@ -285,6 +279,7 @@
           {width}
           on:toggle-sidebar={() => {
             sidebar = !sidebar;
+            sidebargrid = !sidebargrid
           }} />
       </span>
       <span slot="toolbar-title">
@@ -416,7 +411,6 @@
       <Navbar navigation={$navigation}>
       {#if selectionRange}
          <Button click={() => {
-           console.log('clicky clicky')
            handleHighlight(selectionRange, bookBody, chapter)
          }}>Highlight</Button>
       {/if}
