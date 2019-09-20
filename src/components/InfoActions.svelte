@@ -106,8 +106,7 @@
     padding: 0.25rem 1rem;
   }
   .CollectionsList label.checked {
-    background-color: var(--link);
-    color: white;
+    font-weight: 600;
   }
   .CollectionsList label:hover {
     background-color: var(--hover);
@@ -131,6 +130,7 @@
       position: relative;
       background: none;
       border-color: white;
+      background: var(--rc-darker);
     }
     input[type="checkbox"]:checked::after {
       position: absolute;
