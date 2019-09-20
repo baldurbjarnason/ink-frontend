@@ -103,6 +103,34 @@
   }
   :global(.Chapter > *) {
     grid-column: 2 / 3;
+    margin: 0 auto;
+  }
+  :global(.Bookmarked) {
+    position: relative;
+  }
+  :global(.Bookmarked)::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    margin-left: -50vw;
+    display: block;
+    top: 0;
+    height: 2.5rem;
+    border-left: 0.75rem solid #b4312e;
+    border-bottom: 0.75rem solid transparent;
+  }
+  :global(.Highlight.Commented) {
+    position: relative;
+  }
+  :global(.Highlight.Commented)::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    margin-left: -50vw;
+    display: block;
+    top: 0;
+    height: 1.25rem;
+    border-left: 1.25rem solid #b4312e;
   }
 
   .Chapter :global(.Highlight) {

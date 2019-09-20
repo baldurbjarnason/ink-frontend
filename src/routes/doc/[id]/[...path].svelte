@@ -1,36 +1,7 @@
 <script context="module">
+  import {preload as _preload} from './_preload.js'
   // your script goes here
-  export async function preload({ params, query }) {
-    try {
-      const { id, path } = params;
-      const response = await this.fetch(
-        `/api/id-to-opf?id=%2F${encodeURIComponent(id)}`,
-        {
-          credentials: "include"
-        }
-      );
-      const book = await response.json();
-      const chapterResource = book.resources.find(item =>
-        item.url.endsWith(path.join("/"))
-      );
-      chapterResource.index = book.readingOrder
-        .map(item => item.url)
-        .indexOf(chapterResource.url);
-      const chapterResponse = await this.fetch(
-        `/api/parse-chapter?chapter=${encodeURIComponent(
-          chapterResource.url
-        )}&index=${chapterResource.index}`,
-        { credentials: "include" }
-      );
-      let chapter = await chapterResponse.json();
-      chapter = { ...chapter, ...chapterResource };
-      book.url = book.id;
-      book.id = id;
-      return { book, chapter };
-    } catch (err) {
-      return this.error(err);
-    }
-  }
+  export const preload = _preload
 </script>
 
 <script>
@@ -41,8 +12,10 @@
   import Progress from "../../../doc/Progress.svelte";
   import BookContents from "../../../doc/BookContents.svelte";
   import Toolbar from "../../../components/Toolbar.svelte";
+  import Button from "../../../components/Button.svelte";
   import InfoActions from "../../../components/InfoActions.svelte";
   import { read } from "../../../api/read.js";
+  import {handleHighlight, highlightNotes}  from "./_handleHighlight.js"
   import {
     book as bookStore,
     chapter as chapterStore,
@@ -52,7 +25,8 @@
     theme,
     fontSize,
     chapterTitle,
-    configuringReader
+    configuringReader,
+    notes
   } from "../../../doc/stores.js";
   function handleCurrent({ detail }) {
     currentLocation.set({
@@ -72,6 +46,9 @@
       "--reader-font-family",
       `var(--${$theme}-fonts)`
     );
+  }
+  $: if (bookBody && $notes) {
+    highlightNotes(bookBody, $notes)
   }
   export let book;
   export let chapter;
@@ -128,6 +105,15 @@
       read($bookStore.url, $currentLocation.location, $chapterStore.url);
     }
   }
+  let selectionRange = null
+  document.addEventListener('selectionchange', () => {
+    const selection = document.getSelection()
+    if (selection && !selection.isCollapsed) {
+      selectionRange = selection.getRangeAt(0)
+    } else {
+      selectionRange = null
+    }
+  });
 </script>
 
 <style>
@@ -277,7 +263,8 @@
     class="BookBody"
     bind:this={bookBody}
     class:sidebar={sidebargrid}
-    data-current={$currentLocation.location}>
+    data-current={$currentLocation.location}
+    on:selectionchange={event => console.log(event)}>
     {#if sidebar}
       <div
         bind:clientWidth={sidebarWidth}
@@ -426,7 +413,14 @@
     {/each}
 
     {#if $navigation}
-      <Navbar navigation={$navigation} />
+      <Navbar navigation={$navigation}>
+      {#if selectionRange}
+         <Button click={() => {
+           console.log('clicky clicky')
+           handleHighlight(selectionRange, bookBody, chapter)
+         }}>Highlight</Button>
+      {/if}
+      </Navbar>
     {:else}
       <Navbar />
     {/if}
