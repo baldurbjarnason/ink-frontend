@@ -43,7 +43,8 @@ export async function get(req, res, next) {
       } else if (
         response.headers["content-type"].includes("image") ||
         response.headers["content-type"].includes("video") ||
-        response.headers["content-type"].includes("application/epub+zip")
+        response.headers["content-type"].includes("application/epub+zip") ||
+        response.headers["content-type"].includes("application/pdf")
       ) {
         return got.stream(redirect.headers.location).pipe(res);
       } else {
