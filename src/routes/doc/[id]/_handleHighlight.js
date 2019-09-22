@@ -33,7 +33,7 @@ export function handleHighlight (range, root, chapter) {
       content
     }
     const tempId = 'temp-' + Math.floor(Math.random() * 10000000000000)
-    highlightNote(selector, root, tempId)
+    highlightNote(selector, root, tempId, note)
     console.log(`${startLocation}–${endLocation}`)
     document
       .getSelection()
@@ -47,7 +47,7 @@ export function handleHighlight (range, root, chapter) {
   }
 }
 
-function highlightNote (selector, root, id) {
+function highlightNote (selector, root, id, note) {
   const seeker = document.createNodeIterator(root, window.NodeFilter.SHOW_TEXT)
   function split (where) {
     const count = seek(seeker, where)
@@ -82,7 +82,14 @@ function highlightNote (selector, root, id) {
       highlight.dataset.noteId = id
       highlight.classList.add('Highlight')
       highlight.root = root
-
+      highlight.addEventListener('click', (event) => {
+        window.requestAnimationFrame(() => {
+          const customEvent = new window.CustomEvent('highlight-selected', {
+            detail: { id: note.id, note }
+          })
+          window.dispatchEvent(customEvent)
+        })
+      })
       // Wrap it around the text node
       node.parentNode.replaceChild(highlight, node)
       highlight.appendChild(node)
@@ -93,7 +100,7 @@ function highlightNote (selector, root, id) {
 export function highlightNotes (root, annotations) {
     for (const note of annotations.items) {
       if (note.selector) {
-        highlightNote(note.selector, root, note.id)
+        highlightNote(note.selector, root, note.id, note)
       }
   }
 }

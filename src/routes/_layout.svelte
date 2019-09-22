@@ -7,6 +7,7 @@
   import Modal from "../collections/Modal.svelte";
   import ItemActions from "../library/ItemActions.svelte";
   import ContentsModal from "../doc/ContentsModal.svelte";
+  import NoteModal from "../doc/NoteModal.svelte";
   export let segment;
 </script>
 
@@ -28,6 +29,7 @@
 <Modal />
 <ItemActions />
 <ContentsModal />
+<NoteModal />
 
 {#if !$profile.loading}
   <main>
