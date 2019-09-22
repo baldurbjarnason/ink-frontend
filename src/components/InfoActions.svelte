@@ -12,10 +12,9 @@
   let bookTags = [];
   $: if (book.tags) {
     bookTags = book.tags.map(tag => tag.id);
-    console.log(bookTags);
   }
   async function updateBook(id) {
-    book = { navigation: { current: {} } };
+    book = { navigation: { current: {} }, json: {}, readingOrder: [{}] };
     const response = await fetch(`/api/book?url=${encodeURIComponent(id)}`);
     book = await response.json();
     return book;
@@ -168,6 +167,7 @@
   <h1>{$item.name}</h1>
 {/if}
 <ol>
+{#if book.json.epubVersion}
   <li>
     <a
       class:item={true}
@@ -177,6 +177,20 @@
       {book.position ? 'Continue' : 'Read'}
     </a>
   </li>
+  <li>
+    <a
+      href="/assets/{encodeURIComponent(book.id + 'original.epub')}">
+      Download original
+    </a>
+  </li>
+  {:else}
+  <li>
+    <a
+      href="/assets/{encodeURIComponent(book.readingOrder[0].url)}">
+      Download original
+    </a>
+  </li>
+{/if}
   <li class="first-item">
     <a
       href="{$item.url}metadata"

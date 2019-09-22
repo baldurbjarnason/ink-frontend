@@ -42,7 +42,8 @@ export async function get(req, res, next) {
         res.send(result);
       } else if (
         response.headers["content-type"].includes("image") ||
-        response.headers["content-type"].includes("video")
+        response.headers["content-type"].includes("video") ||
+        response.headers["content-type"].includes("application/epub+zip")
       ) {
         return got.stream(redirect.headers.location).pipe(res);
       } else {
