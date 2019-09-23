@@ -43,8 +43,7 @@ function add(file) {
     return [...set];
   });
   importQueue.push(file, function(err) {
-    console.log(err);
-    set([]);
+    if (err) console.log(err);
   });
 }
 
