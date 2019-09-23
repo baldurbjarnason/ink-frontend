@@ -87,9 +87,9 @@
     };
   });
   onDestroy(() => {
-      const url = $bookStore.url;
       const location = $currentLocation.location;
       const chapter = $chapterStore.url;
+      const url = new URL(`/${$bookStore.id}/`, $chapterStore.url).href
 
       read(url, location, chapter);
       window.lifecycle.removeEventListener("statechange", handleLifeCycle);
@@ -100,7 +100,8 @@
       event.oldState === "active" &&
       $currentLocation
     ) {
-      read($bookStore.url, $currentLocation.location, $chapterStore.url);
+      const url = new URL(`/${$bookStore.id}/`, $chapterStore.url).href
+      read(url, $currentLocation.location, $chapterStore.url);
     }
   }
   let selectionRange = null

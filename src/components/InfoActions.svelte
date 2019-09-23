@@ -94,6 +94,9 @@
     margin-bottom: 0;
     text-align: left;
     padding: 0 1rem;
+    margin: 1rem auto;
+    min-width: 250px;
+    max-width: 450px;
   }
   .CollectionsList {
   }

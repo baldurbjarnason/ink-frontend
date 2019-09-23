@@ -9,7 +9,6 @@
   import ContentsModal from "../doc/ContentsModal.svelte";
   import NoteModal from "../doc/NoteModal.svelte";
   export let segment;
-  console.log($profile)
 </script>
 
 <style>
