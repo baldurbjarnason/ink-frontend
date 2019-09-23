@@ -9,6 +9,7 @@
   import ContentsModal from "../doc/ContentsModal.svelte";
   import NoteModal from "../doc/NoteModal.svelte";
   export let segment;
+  console.log($profile)
 </script>
 
 <style>
@@ -25,16 +26,16 @@
 </style>
 
 <Login />
-<Profile />
 <Modal />
 <ItemActions />
 <ContentsModal />
 <NoteModal />
-
-{#if !$profile.loading}
+{#if $profile.profile && $profile.profile.status !== 200 && !$profile.loading}
+  <Profile />
+{:else if $profile.loading}
+  <Loading />
+{:else}
   <main>
     <slot />
   </main>
-{:else}
-  <Loading />
 {/if}
