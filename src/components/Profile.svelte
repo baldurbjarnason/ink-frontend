@@ -7,7 +7,6 @@
   $: if ($profileStore.profile) {
     profile = $profileStore.profile
   }
-  $: console.log(profile)
 </script>
 
 <style>

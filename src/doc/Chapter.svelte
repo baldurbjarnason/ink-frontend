@@ -104,6 +104,7 @@
   :global(.Chapter > *) {
     grid-column: 2 / 3;
     margin: 0 auto;
+    max-width: 100%;
   }
   :global(.Bookmarked) {
     position: relative;
