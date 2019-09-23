@@ -121,6 +121,7 @@
 <svelte:window
     on:highlight-selected={(event => {
       note = event.detail.note
+      note.loading = true
       opener({id: 'note-modal'})
     })} />
 

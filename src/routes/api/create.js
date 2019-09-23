@@ -14,7 +14,8 @@ export async function post(req, res, next) {
       return res.sendStatus(200);
     } catch (err) {
       console.log(err);
-      return res.sendStatus(err.statusCode || 500);
+      res.status(500)
+      return res.json(err.body);
     }
   }
 }

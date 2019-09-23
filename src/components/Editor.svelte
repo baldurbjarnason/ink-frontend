@@ -1,5 +1,5 @@
 <script>
-  import {onMount} from 'svelte'
+  import {onMount, tick} from 'svelte'
   import DOMPurify from 'dompurify'
   import {update} from '../api/update.js'
   import {get} from '../api/fetch-wrap.js'
@@ -11,16 +11,22 @@
     FORBID_ATTR: ['style']
   }
   export let note
-  let dom = DOMPurify.sanitize(note.content, purifyConfig)
-  const blockquote = dom.querySelector('blockquote')
+  let blockquote
   let highlight
-  if (blockquote) {
-    highlight = blockquote.outerHTML
-    dom.removeChild(blockquote)
+  let dom
+  let innerHTML = ''
+  $: if (note && !note.loading) {
+    dom = DOMPurify.sanitize(note.content, purifyConfig)
+    blockquote = dom.querySelector('blockquote')
+    if (blockquote) {
+      highlight = blockquote.outerHTML
+      dom.removeChild(blockquote)
+    }
+    innerHTML = dom.innerHTML
   }
   function saver (id, content) {
-    note.content = content
-    update(note)
+    const payload = {...note, content}
+    update(payload)
   }
 
   function content () {
@@ -29,7 +35,6 @@
     }${container.querySelector('.ql-editor').innerHTML}
     `
   }
-  let innerHTML = dom.innerHTML
   let container
   let quill
   let hasFocus
@@ -38,6 +43,7 @@
       `/api/get?path=${encodeURIComponent(note.id)}`
     );
     const quillModule = await import('quill')
+    await tick()
     const Quill = quillModule.default
     if (container && process.browser) {
       quill = new Quill(container, {
