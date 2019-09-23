@@ -80,7 +80,6 @@
                 const newProfile = await create($profileStore)
                 profileStore.set({ profile: newProfile.profile, user: newProfile.user, loading: false });
                 profile = newProfile.profile
-                console.log(newProfile, $profileStore, profile)
               }}>
               Yes, create an account
             </button>

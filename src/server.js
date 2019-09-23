@@ -1,8 +1,6 @@
 import express from "express";
-import passport from "passport";
 import compression from "compression";
 import * as sapper from "@sapper/server";
-import Auth0Strategy from "passport-auth0";
 import cookieSession from "cookie-session";
 import { setup } from "./auth.js";
 import { devServer } from "./dev-server.js";
@@ -49,22 +47,6 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(csurf());
-
-if (process.env.PASSPORT_STRATEGY === "auth0") {
-  passport.use(
-    new Auth0Strategy(
-      {
-        domain: process.env.AUTH0_DOMAIN,
-        clientID: process.env.AUTH0_CLIENT_ID,
-        clientSecret: process.env.AUTH0_CLIENT_SECRET,
-        callbackURL: process.env.CALLBACK_URL
-      },
-      (accessToken, refreshToken, extraParams, profile, done) => {
-        return done(null, profile);
-      }
-    )
-  );
-}
 setup(app);
 if (dev) {
   devServer(app, sapper);

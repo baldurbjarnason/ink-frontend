@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import csurf from "csurf";
 // import ms from 'ms'
 import debugSetup from "debug";
+import Auth0Strategy from "passport-auth0";
 const debug = debugSetup("vonnegut:auth");
 function generateToken(user) {
   const expiresIn = "30m";
@@ -51,6 +52,19 @@ export function setup(app) {
   app.use(passport.initialize());
   app.use(passport.session());
   if (process.env.PASSPORT_STRATEGY === "auth0") {
+    passport.use(
+      new Auth0Strategy(
+        {
+          domain: process.env.AUTH0_DOMAIN,
+          clientID: process.env.AUTH0_CLIENT_ID,
+          clientSecret: process.env.AUTH0_CLIENT_SECRET,
+          callbackURL: process.env.CALLBACK_URL
+        },
+        (accessToken, refreshToken, extraParams, profile, done) => {
+          return done(null, {id: profile.id});
+        }
+      )
+    );
     app.get("/callback", passport.authenticate("auth0", {}), function(
       req,
       res,

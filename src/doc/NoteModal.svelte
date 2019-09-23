@@ -15,7 +15,6 @@
   let note
   let remove
   function removeHighlight () {
-    console.log('remove stuff here')
     document.querySelectorAll(`reader-highlight[data-note-id="${note.id}"]`)
           .forEach(highlight => highlight.replaceWith(...highlight.childNodes))
    // Need to actually delete
