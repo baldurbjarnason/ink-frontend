@@ -77,7 +77,7 @@
             <span />
             <form
               action="/login?returnTo=%2Flibrary"
-              method="POST"
+              method="GET"
               id="sign-up-form">
               <input type="hidden" name="_csrf" value={getToken()} />
               <button
@@ -99,7 +99,7 @@
           <p class="Modal-text">Sign in to use the platform.</p>
           <div class="Modal-row">
             <span />
-            <form action="/login" method="POST" id="sign-in-form">
+            <form action="/login" method="GET" id="sign-in-form">
               <input type="hidden" name="_csrf" value={getToken()} />
               <button
                 class="Button"

@@ -3,7 +3,7 @@
   "description": "The reflowable reading component of the ink-frontend",
   "version": "0.0.1",
   "scripts": {
-    "dev": "sapper dev",
+    "dev": "sapper dev --port 3000",
     "build": "sapper build --legacy && cp -R ./__sapper__/build ./functions/__sapper__",
     "prebuild": "rm -rf functions/__sapper__/build && mkdir -p functions/__sapper__/build",
     "build-vendor": "pika-web --clean --optimize --dest=static/js/vendor",

@@ -6,6 +6,7 @@ yarn-error.log
 /__sapper__/
 /functions/__sapper__/
 /static/js/
+/.firebase/
 <<<<<<< HEAD
 .env
 =======
