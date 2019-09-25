@@ -24,7 +24,7 @@ export async function read(context, location, path) {
         }
       }),
       headers: new window.Headers({
-        "content-type": "application/ld+json",
+        "content-type": "application/json",
         // "csrf-token": csrfToken
       })
     });

@@ -20,8 +20,6 @@ process.env.SIGNOUTURL = env.signout.url
 //  response.send("Hello from Firebase!");
 // });
 
-const express = require('express');
-
 // We have to import the built version of the server middleware.
 const { app } = require('./__sapper__/build/server/server');
 
