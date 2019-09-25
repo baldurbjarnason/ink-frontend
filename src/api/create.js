@@ -20,7 +20,7 @@ export async function create(payload) {
       }),
       headers: new window.Headers({
         "content-type": "application/ld+json",
-        "csrf-token": csrfToken
+        // "csrf-token": csrfToken
       })
     });
     const url = new URL(response.headers.get("location"), profile.outbox);

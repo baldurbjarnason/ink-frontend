@@ -25,7 +25,7 @@ export async function read(context, location, path) {
       }),
       headers: new window.Headers({
         "content-type": "application/ld+json",
-        "csrf-token": csrfToken
+        // "csrf-token": csrfToken
       })
     });
     return response.headers.get("location");

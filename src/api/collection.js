@@ -48,7 +48,7 @@ export async function collection(tag, book, checked) {
       body: JSON.stringify(payload),
       headers: new window.Headers({
         "content-type": "application/ld+json",
-        "csrf-token": csrfToken
+        // "csrf-token": csrfToken
       })
     });
     return response.headers.get("location");
