@@ -182,14 +182,21 @@
   </li>
   <li>
     <a
-      href="/assets/{encodeURIComponent(book.id + 'original.epub')}">
+      href="/assets{new window.URL(book.id + 'original.epub').pathname}">
+      Download original
+    </a>
+  </li>
+  {:else if  book.readingOrder[0] && book.readingOrder[0].url}
+  <li>
+    <a
+      href="/assets{new window.URL(book.readingOrder[0].url).pathname}">
       Download original
     </a>
   </li>
   {:else}
   <li>
     <a
-      href="/assets/{encodeURIComponent(book.readingOrder[0].url)}">
+      href="/">
       Download original
     </a>
   </li>

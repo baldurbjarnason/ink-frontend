@@ -11,6 +11,7 @@ process.env.CALLBACK_URL = env.callback.url
 process.env.ISSUER = env.token.issuer
 process.env.AUDIENCE = env.token.audience
 process.env.SECRETORKEY = env.token.secret
+process.env.SIGNOUTURL = env.signout.url
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions

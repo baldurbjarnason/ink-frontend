@@ -4,6 +4,7 @@ import * as sapper from "@sapper/server";
 import cookieSession from "cookie-session";
 import { setup } from "./auth.js";
 import { devServer } from "./dev-server.js";
+import cookieParser from 'cookie-parser'
 import csurf from "csurf";
 // import debugSetup from 'debug'
 // const debug = debugSetup('vonnegut:server')
@@ -29,13 +30,15 @@ app.use(
   })
 );
 app.use(compression({ threshold: 0 }));
+app.use(cookieParser())
 
 app.use(
   cookieSession({
-    name: "sod",
+    name: "__session",
     keys: [process.env.COOKIE_KEY],
     secure: !dev,
-    signed: true,
+    signed: false,
+    httpOnly: true,
     maxAge: 30 * 24 * 60 * 60 * 1000
   })
 );
@@ -46,13 +49,23 @@ app.use(function(req, res, next) {
   }
   next();
 });
-app.use(csurf());
 setup(app);
 if (dev) {
   devServer(app, sapper);
 } else {
   app.use(
     "/",
+    (req, res, next) => {
+      if (req.path === '/callback') {
+        return next()
+      } else {
+        return csurf()(req, res, next)
+      }
+    },
+    (req, res, next) => {
+      res.cookie("XSRF-TOKEN", req.csrfToken());
+      next();
+    },
     sapper.middleware({
       session: (req, res) => {
         let profile;

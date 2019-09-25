@@ -11,3 +11,4 @@ yarn-error.log
 .env
 =======
 >>>>>>> 85d27363f4640bf2a715a690f49c8b843cb26c40
+functions/.runtimeconfig.json

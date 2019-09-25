@@ -12,7 +12,8 @@ const purifyConfig = {
 };
 
 export async function get(req, res, next) {
-  const { url } = req.params;
+  const { path } = req.params;
+  const url = new URL(path.join("/"), process.env.API_SERVER).href
   res.set("Cache-Control", "max-age=31536000, immutable");
   if (req.user) {
     try {
