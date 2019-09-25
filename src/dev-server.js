@@ -36,17 +36,17 @@ export function devServer(app, sapper) {
   app.use(
     sirv("dev-static", { dev }),
     sirv("static", { dev }),
-    (req, res, next) => {
-      if (req.path === '/callback') {
-        return next()
-      } else {
-        return csurf()(req, res, next)
-      }
-    },
-    (req, res, next) => {
-      res.cookie("XSRF-TOKEN", req.csrfToken());
-      next();
-    },
+    // (req, res, next) => {
+    //   if (req.path === '/callback') {
+    //     return next()
+    //   } else {
+    //     return csurf()(req, res, next)
+    //   }
+    // },
+    // (req, res, next) => {
+    //   res.cookie("XSRF-TOKEN", req.csrfToken());
+    //   next();
+    // },
 
     sapper.middleware({
       session: (req, res) => {
