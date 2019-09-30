@@ -98,12 +98,12 @@
     color: var(--medium);
     font-weight: 600;
   }
-  .InfoAttribution {
+  /* .InfoAttribution {
     margin: 0;
     font-style: italic;
     color: var(--medium);
     font-size: 0.85rem;
-  }
+  } */
   .InfoBody {
     margin: 0 1rem;
   }

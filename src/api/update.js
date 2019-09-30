@@ -1,4 +1,4 @@
-import { fetchWrap, get } from "./fetch-wrap.js";
+import { fetchWrap } from "./fetch-wrap.js";
 import { getToken } from "./get-cookie.js";
 
 export async function update(payload) {
@@ -21,7 +21,7 @@ export async function update(payload) {
       }),
       headers: new window.Headers({
         "content-type": "application/json",
-        // "csrf-token": csrfToken
+        "csrf-token": csrfToken
       })
     });
     const url = new URL(response.headers.get("location"), profile.outbox);
