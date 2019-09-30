@@ -73,8 +73,7 @@ export function setup (sapper, options = {}) {
     },
     sapper.middleware({
       session: (req, res) => {
-        console.log(firebase)
-        return {...req.session, cookie: null}
+        return {...req.session, cookie: null, user: req.user}
       }
     })
   );
