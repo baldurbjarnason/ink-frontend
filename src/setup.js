@@ -6,7 +6,6 @@ import { setup as authSetup } from "./auth.js";
 import dotenv from "dotenv";
 import session from 'express-session';
 import levelStore  from 'level-session-store'
-const LevelStore = levelStore(session)
 
 const { NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
@@ -17,15 +16,18 @@ if (dev) {
   }
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 }
-
-const defaultSession = session({
-  store: new LevelStore(),
-  secret: process.env.COOKIE_KEY,
-  resave: false,
-  rolling: true,
-  saveUninitialized: false,
-  cookie: { maxAge: 30 * 24 * 60 * 60 * 1000, secure: !dev, name: "__session" }
-});
+let defaultSession
+if (dev) {
+  const LevelStore = levelStore(session)
+  defaultSession = session({
+    store: new LevelStore(),
+    secret: process.env.COOKIE_KEY,
+    resave: false,
+    rolling: true,
+    saveUninitialized: false,
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000, secure: !dev, name: "__session" }
+  });
+}
 
 export function setup (sapper, options = {}) {
   const {session = defaultSession, firebase} = options
@@ -55,11 +57,14 @@ export function setup (sapper, options = {}) {
     })
   }
   authSetup(app);
+  if (dev) {
+    app.use(
+      compression({ threshold: 0 }),
+      sirv("dev-static", { dev }),
+      sirv("static", { dev }))
+  }
   app.use(
     "/",
-    dev && compression({ threshold: 0 }),
-    dev && sirv("dev-static", { dev }),
-    dev && sirv("static", { dev }),
     (req, res, next) => {
       if (req.path === '/callback') {
         return next()
