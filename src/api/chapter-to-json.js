@@ -42,6 +42,7 @@ export async function chapterToJSON(
   let locations = 0;
   let h1 = 0;
   let h2 = 0;
+  const resourceURL = new URL(chapterPath)
   const order = parseInt(index, 10) + 1;
   let dom;
   try {
@@ -65,15 +66,15 @@ export async function chapterToJSON(
   }
   const DOMPurify = createDOMPurify(window);
   // Based on sample from https://github.com/cure53/DOMPurify/tree/master/demos, same license as DOMPurify
-  const regex = /(url\("?)(?!data:)/gim;
 
-  function replacer(match, p1) {
+  function processURL (prop) {
+    const href = /url\("?([^)|"]+)(?!data:)/gim.exec(prop)[1]
     try {
-      const url = new URL(p1, window.location);
-      if (url.host === window.location.host) {
-        return p1;
+      const url = new URL(href, resourceURL);
+      if (url.host === resourceURL.host && url.protocol === resourceURL.protocol) {
+        return `url("${href}")`;
       } else {
-        return "";
+        return null;
       }
     } catch (err) {
       console.error(err);
@@ -83,8 +84,9 @@ export async function chapterToJSON(
 
   function addStyles(output, styles) {
     for (var prop = styles.length - 1; prop >= 0; prop--) {
-      if (styles[styles[prop]]) {
-        var url = styles[styles[prop]].replace(regex, replacer);
+      const regex = /url\("?([^)|"]+)(?!data:)/gim;
+      if (styles[styles[prop]] && regex.test(styles[styles[prop]])) {
+        var url = processURL(styles[styles[prop]]);
         styles[styles[prop]] = url;
       }
       if (
@@ -168,11 +170,13 @@ export async function chapterToJSON(
       var output = [];
       for (var prop = styles.length - 1; prop >= 0; prop--) {
         // we re-write each property-value pair to remove invalid CSS
+        const regex = /url\("?([^)|"]+)(?!data:)/gim;
         if (node.style[styles[prop]] && regex.test(node.style[styles[prop]])) {
-          var url = node.style[styles[prop]].replace(regex, replacer);
-          node.style[styles[prop]] = url;
+          node.style[styles[prop]] = processURL(node.style[styles[prop]]);
         }
-        output.push(styles[prop] + ":" + node.style[styles[prop]] + ";");
+        if (node.style[styles[prop]]) {
+          output.push(styles[prop] + ":" + node.style[styles[prop]] + ";");
+        }
       }
       // re-add styles in case any are left
       if (output.length) {
