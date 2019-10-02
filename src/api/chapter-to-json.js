@@ -50,7 +50,7 @@ export async function chapterToJSON(
       contentType
     });
   } catch (err) {
-    console.log(err);
+    // console.log(err);
     dom = new JSDOM(chapter, {
       contentType: "text/html"
     });

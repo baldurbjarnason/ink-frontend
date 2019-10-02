@@ -28,3 +28,11 @@ Object {
   ],
 }
 `
+
+exports[`test/chapter-to-json.test.js TAP chapterToJSON > chapterToJSON 3`] = `
+Object {
+  "heading": undefined,
+  "html": "Yo!<br>Yo!",
+  "stylesheets": Array [],
+}
+`
