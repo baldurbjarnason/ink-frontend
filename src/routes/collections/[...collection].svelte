@@ -1,8 +1,9 @@
 <script context="module">
   export async function preload(page, session) {
     try {
-      const { collection } = page.params;
-      const { orderBy = "datePublished", reverse = "false" } = page.query;
+      const [collection, notes] = page.params.collection;
+      console.log(collection, notes)
+      const { orderBy = "datePublished", reverse = "false", layout = 'covers' } = page.query;
       let books = { items: [] };
       if (session.user) {
         books = await this.fetch(
@@ -27,7 +28,7 @@
       };
     } catch (err) {
       console.log(err);
-      return { items: [], collection };
+      return { items: [], collection, layout };
     }
   }
 </script>
@@ -44,6 +45,7 @@
   export let selected;
   export let page;
   export let hideLoadMore = false;
+  export let layout;
   const options = [
     {
       text: "Newest first",
@@ -261,7 +263,7 @@
   </div>
   <!-- Recent -->
   {#if items}
-    <List list={items} />
+    <List list={items} {layout} />
   {/if}
   <span class="buttonWrapper" use:observe>
     <Button

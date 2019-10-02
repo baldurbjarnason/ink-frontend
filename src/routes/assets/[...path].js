@@ -2,6 +2,7 @@ import got from "got";
 import createDOMPurify from "dompurify/dist/purify.es.js";
 import { JSDOM } from "jsdom";
 import * as xml from "xmlserializer";
+import sharp from "sharp";
 
 const purifyConfig = {
   KEEP_CONTENT: false,
@@ -41,6 +42,20 @@ export async function get(req, res, next) {
         const result = xml.serializeToString(clean);
         res.type("svg");
         res.send(result);
+      } else if (response.headers["content-type"].includes("image") && req.query.cover && response.statusCode !== 404) {
+        const resizer =
+          sharp()
+            .resize(300, 300, {fit: 'inside'})
+            .jpeg({quality: 70});
+        resizer.on('error', (err) => {
+          console.error(err)
+          res.sendStatus(404)
+        })
+        return got.stream(redirect.headers.location)
+          .pipe(resizer)
+          .pipe(res);
+      } else if (req.query.cover && (response.statusCode === 404 || !response)) {
+        res.redirect('/placeholder-cover.jpg')
       } else if (
         response.headers["content-type"].includes("image") ||
         response.headers["content-type"].includes("video") ||
@@ -52,7 +67,11 @@ export async function get(req, res, next) {
         return res.sendStatus(404);
       }
     } catch (err) {
-      return res.sendStatus(404);
+      if (req.query.cover) {
+        res.redirect('/placeholder-cover.jpg')
+      } else {
+        return res.sendStatus(404);
+      }
     }
   }
 }

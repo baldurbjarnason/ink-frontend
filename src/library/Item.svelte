@@ -52,8 +52,9 @@
   .list {
     display: grid;
     border-bottom: 1px solid #f0f0f0;
-    margin-bottom: 0.25rem;
-    padding-bottom: 0.5rem;
+    padding: 0.5rem;
+    grid-gap: 1rem;
+    grid-template-columns: 3rem 1fr;
   }
 
   .BookCard-group {
@@ -89,6 +90,7 @@
     font-style: italic;
     text-decoration: none;
     color: #666;
+    margin-right: 0.5rem;
   }
   .BookCard-attributionLabel {
     font-weight: 300;
@@ -143,11 +145,22 @@
     pointer-events: all;
   }
   .list .BookCard-icon {
-    display: none;
+    height: 3rem;
+    width: 3rem;
   }
   .list .BookCard-paragraph {
     padding: 0;
     margin: 0;
+  }
+  .list .BookCard-title {
+    margin: 0rem 0 0.25rem;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .list .BookCard-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   @keyframes outlinePop {
     0% {

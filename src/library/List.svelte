@@ -11,7 +11,7 @@
         resource.rel.includes("cover")
       );
       if (coverResource) {
-        item.cover = `/assets${new window.URL(coverResource.url).pathname}`;
+        item.cover = `/assets${new window.URL(coverResource.url).pathname}?cover=true`;
       } else {
         item.cover = "/placeholder-cover.jpg";
       }
@@ -42,7 +42,7 @@
   }
   .List.list {
     padding: 0;
-    grid-gap: 1px;
+    grid-gap: 0;
     grid-template-columns: 1fr;
   }
 </style>
