@@ -69,16 +69,11 @@ export async function chapterToJSON(
 
   function processURL (prop) {
     const href = /url\("?([^)|"]+)(?!data:)/gim.exec(prop)[1]
-    try {
-      const url = new URL(href, resourceURL);
-      if (url.host === resourceURL.host && url.protocol === resourceURL.protocol) {
-        return `url("${href}")`;
-      } else {
-        return null;
-      }
-    } catch (err) {
-      console.error(err);
-      return "";
+    const url = new URL(href, resourceURL);
+    if (url.host === resourceURL.host && url.protocol === resourceURL.protocol) {
+      return `url("${href}")`;
+    } else {
+      return null;
     }
   }
 
@@ -110,31 +105,6 @@ export async function chapterToJSON(
         }
         output.push("}");
         // check for @media rules
-      } else if (rule.type === rule.MEDIA_RULE) {
-        output.push("@media " + rule.media.mediaText + "{");
-        addCSSRules(output, rule.cssRules);
-        output.push("}");
-        // check for @font-face rules
-      } else if (rule.type === rule.FONT_FACE_RULE) {
-        output.push("@font-face {");
-        if (rule.style) {
-          addStyles(output, rule.style);
-        }
-        output.push("}");
-        // check for @keyframes rules
-      } else if (rule.type === rule.KEYFRAMES_RULE) {
-        output.push("@keyframes " + rule.name + "{");
-        for (var i = rule.cssRules.length - 1; i >= 0; i--) {
-          var frame = rule.cssRules[i];
-          if (frame.type === 8 && frame.keyText) {
-            output.push(frame.keyText + "{");
-            if (frame.style) {
-              addStyles(output, frame.style);
-            }
-            output.push("}");
-          }
-        }
-        output.push("}");
       }
     }
   }
