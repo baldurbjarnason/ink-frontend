@@ -17,7 +17,11 @@ export function parseOPF(text, opfPath) {
     json: {}
   };
   book.inLanguage = $("dc\\:language").text();
-  book.name = $("dc\\:title").text();
+  const titles = []
+  $("dc\\:title").each((index, el) => {
+    titles[index] = $(el).text();
+  })
+  book.name = titles.join('\n')
 
   const packageElement = $("package");
   const idforid = packageElement.attr("unique-identifier");
@@ -118,30 +122,35 @@ export function parseOPF(text, opfPath) {
     .filter(creator => !knownRoles.includes(creator.role))
     .map(creator => creator.name);
 
-  book.translator = contributors
+  book.translator = [].concat(contributors
     .filter(contributor => contributor.role === "trl")
-    .map(contributor => contributor.name);
-  book.illustrator = contributors
+    .map(contributor => contributor.name), creators
+    .filter(contributor => contributor.role === "trl")
+    .map(contributor => contributor.name));
+  book.illustrator = [].concat(contributors
     .filter(contributor => contributor.role === "ill")
-    .map(contributor => contributor.name);
-  book.editor = contributors
+    .map(contributor => contributor.name), creators
+    .filter(contributor => contributor.role === "ill")
+    .map(contributor => contributor.name));
+  book.editor = [].concat(contributors
     .filter(contributor => contributor.role === "edt")
-    .map(contributor => contributor.name);
-  book.colorist = contributors
+    .map(contributor => contributor.name), creators
+    .filter(contributor => contributor.role === "edt")
+    .map(contributor => contributor.name));
+  book.colorist = [].concat(contributors
     .filter(contributor => contributor.role === "clr")
-    .map(contributor => contributor.name);
-  book.contributor = contributors
+    .map(contributor => contributor.name), creators
+    .filter(contributor => contributor.role === "clr")
+    .map(contributor => contributor.name));
+  book.contributor = [].concat(contributors
     .filter(contributor => !knownRoles.includes(contributor.role))
-    .map(creator => creator.name);
+    .map(creator => creator.name), creators
+    .filter(contributor => !knownRoles.includes(contributor.role))
+    .map(creator => creator.name));
   return book;
 }
 
 function getPath(path, opfPath) {
-  const opf = new URL(opfPath, "http://example.com/");
-  // If host is example.com, then this is a local request.
-  if (opf.hostname === "example.com") {
-    return new URL(decodeURIComponent(path), opf).pathname;
-  } else {
-    return new URL(decodeURIComponent(path), opf).href;
-  }
+  const opf = new URL(opfPath, process.env.API_SERVER);
+  return new URL(decodeURIComponent(path), opf).href;
 }
