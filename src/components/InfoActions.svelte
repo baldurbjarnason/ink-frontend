@@ -5,6 +5,7 @@
   import { collections } from "../collections/store.js";
   import { collection } from "../api/collection.js";
   export let modal;
+  export let rightSidebar = false;
   let book = { navigation: { current: {} } };
   $: if ($item.id && $item.id !== book.id) {
     updateBook($item.id);
@@ -14,9 +15,11 @@
     bookTags = book.tags.map(tag => tag.id);
   }
   async function updateBook(id) {
+    console.log("updating book")
     book = { navigation: { current: {} }, json: {}, readingOrder: [{}] };
     const response = await fetch(`/api/book?url=${encodeURIComponent(id)}`);
     book = await response.json();
+    console.log(book.id)
     return book;
   }
   let checkboxes = {};
@@ -145,6 +148,25 @@
       transform: rotate(-45deg);
     }
   }
+  .CollectionBar {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background-color: var(--sidebar-background-color);
+    margin: 0 0 0.5rem;
+  }
+  h2 {
+    text-align: center;
+    font-size: 1rem;
+    margin: 0;
+    color: var(--medium);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+  }
 </style>
 
 {#if $current}
@@ -163,6 +185,13 @@
     </svg>
     Library
   </a>
+{/if}
+{#if rightSidebar}
+      <div class="CollectionBar">
+      <span></span>
+      <h2>{book.name}</h2>
+      <span></span>
+      </div>
 {/if}
 {#if modal}
   <h1>{$item.name}</h1>

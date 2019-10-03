@@ -22,7 +22,6 @@
   export let illustrator;
   export let contributor;
   function handleClick (event) {
-    event.preventDefault()
     item.set({ name, id, url, cover });
     current.set('');
   }

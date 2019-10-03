@@ -147,7 +147,7 @@
       }
     };
   }
-  let sidebar = new URLSearchParams(window.location.hash.slice(1, -1)).get('sidebar')
+  let sidebar = new URLSearchParams(window.location.hash.replace('#', '')).get('sidebar')
   $: if (sidebar) {
     item.set({ id: sidebar });
     current.set('');
@@ -263,9 +263,9 @@
       </Button>
     </span>
   </div>
-  <div slot="right-sidebar">
-    {#if sidebar}
-      <InfoActions modal={false} />
+  <div slot="right-sidebar" data-sidebar-value={new window.URLSearchParams(window.location.hash.replace('#', '')).get('sidebar')}>
+    {#if $item.id}
+      <InfoActions modal={false} rightSidebar={true} />
     {/if}
   </div>
 </WithSidebars>

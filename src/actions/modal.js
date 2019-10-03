@@ -39,7 +39,7 @@ export function sidebar(node, options) {
       event.stopPropagation();
       if (event.target.closest('[data-open-in-modal="true"]')) {
         const url = new URL(window.location)
-        url.hash = `#sidebar=${event.target.dataset.sidebar || 'true'}`
+        url.hash = `#sidebar=${encodeURIComponent(event.target.dataset.sidebar || 'true')}`
         goto(url.href)
       } else {
         opener(this.options);
