@@ -28,7 +28,7 @@ export async function get(req, res, next) {
       if (redirect.headers.location && redirect.statusCode === 302) {
         response = await got.head(redirect.headers.location);
       }
-      if (response.headers["content-type"].includes("svg")) {
+      if (response.headers["content-type"] === "image/svg+xml") {
         const mainresponse = await got(url);
         const dom = new JSDOM(mainresponse.body, {
           contentType: response.headers["content-type"]
@@ -56,12 +56,7 @@ export async function get(req, res, next) {
           .pipe(res);
       } else if (req.query.cover && (response.statusCode === 404 || !response)) {
         res.redirect('/placeholder-cover.jpg')
-      } else if (
-        response.headers["content-type"].includes("image") ||
-        response.headers["content-type"].includes("video") ||
-        response.headers["content-type"].includes("application/epub+zip") ||
-        response.headers["content-type"].includes("application/pdf")
-      ) {
+      } else if (testMediaTypes(response.headers["content-type"])) {
         return got.stream(redirect.headers.location).pipe(res);
       } else {
         return res.sendStatus(404);
@@ -74,4 +69,13 @@ export async function get(req, res, next) {
       }
     }
   }
+}
+
+const validTypes = ["application/x-font-ttf", "font/woff2", "font/woff", "font/ttf", "font/sfnt", "font/otf", "image/gif", "image/jpeg", "image/png", "application/font-sfnt", "application/font-woff", "audio/mpeg", "audio/mp4", "video/H264", "video/H265", "video/mp4"]
+
+function testMediaTypes (contentType) {
+  if (validTypes.includes(contentType)) {
+      return true
+    }
+
 }
