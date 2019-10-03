@@ -194,6 +194,11 @@
   {:else}
   <li>
     <a
+      href="/">&nbsp;
+    </a>
+  </li>
+  <li>
+    <a
       href="/">
       Download original
     </a>
