@@ -2,8 +2,7 @@
   export async function preload(page, session) {
     try {
       const [collection, notes] = page.params.collection;
-      console.log(collection, notes)
-      const { orderBy = "datePublished", reverse = "false", layout = 'covers' } = page.query;
+      const { orderBy = "datePublished", reverse = "false", layout = 'list' } = page.query;
       let books = { items: [] };
       if (session.user) {
         books = await this.fetch(
@@ -24,7 +23,8 @@
         collection,
         page: books.page,
         selected: `${orderBy}${reverse === "false" ? "" : "-reversed"}`,
-        hideLoadMore
+        hideLoadMore,
+        layout
       };
     } catch (err) {
       console.log(err);
@@ -35,11 +35,15 @@
 
 <script>
   import Toolbar from "../../components/Toolbar.svelte";
+  import WithSidebars from "../../components/WithSidebars.svelte";
+  import Collections from "../../collections/Collections.svelte";
   import Button from "../../components/Button.svelte";
   import List from "../../library/List.svelte";
+  import InfoActions from "../../components/InfoActions.svelte";
   import * as sapper from "@sapper/app";
   import { profile } from "../_profile.js";
   import { open } from "../../actions/modal.js";
+  import { book as item, current } from "../../stores/book.js";
   export let items;
   export let collection;
   export let selected;
@@ -143,6 +147,11 @@
       }
     };
   }
+  let sidebar = new URLSearchParams(window.location.hash.slice(1, -1)).get('sidebar')
+  $: if (sidebar) {
+    item.set({ id: sidebar });
+    current.set('');
+  }
 </script>
 
 <style>
@@ -221,57 +230,42 @@
 <svelte:head>
   <title>{collection === 'all' ? 'All' : collection} – Rebus Ink</title>
 </svelte:head>
-<!-- Menubar -->
-<Toolbar>
-  <a
-    use:open={{ id: 'collections-modal' }}
-    slot="left-button"
-    href="/"
-    class="Toolbar-link">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="square"
-      stroke-linejoin="round">
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
-  </a>
-  <span slot="toolbar-title">{collection}</span>
-</Toolbar>
-<div class="Front">
-  <div class="ViewConfig">
-    Ordered By
-    <label>
-      <select name="viewConfig" id="viewConfig" on:change={onSelect}>
-        {#each options as option}
-          <option
-            value={option.value}
-            selected={option.selected}
-            aria-label={option.label || option.text}>
-            {option.text}
-          </option>
-        {/each}
-      </select>
-    </label>
+
+<WithSidebars title={collection} leftModal={"collections-modal"}>
+  <div slot="left-sidebar"><Collections /></div>
+  <div class="Front">
+    <div class="ViewConfig">
+      Ordered By
+      <label>
+        <select name="viewConfig" id="viewConfig" on:change={onSelect}>
+          {#each options as option}
+            <option
+              value={option.value}
+              selected={option.selected}
+              aria-label={option.label || option.text}>
+              {option.text}
+            </option>
+          {/each}
+        </select>
+      </label>
+    </div>
+    <!-- Recent -->
+    {#if items}
+      <List list={items} {layout} />
+    {/if}
+    <span class="buttonWrapper" use:observe>
+      <Button
+        click={async event => {
+          loadMore();
+        }}
+        hidden={hideLoadMore}>
+        Load More...
+      </Button>
+    </span>
   </div>
-  <!-- Recent -->
-  {#if items}
-    <List list={items} {layout} />
-  {/if}
-  <span class="buttonWrapper" use:observe>
-    <Button
-      click={async event => {
-        loadMore();
-      }}
-      hidden={hideLoadMore}>
-      Load More...
-    </Button>
-  </span>
-</div>
+  <div slot="right-sidebar">
+    {#if sidebar}
+      <InfoActions modal={false} />
+    {/if}
+  </div>
+</WithSidebars>

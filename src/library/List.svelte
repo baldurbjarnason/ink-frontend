@@ -17,7 +17,7 @@
       }
       if (item.id) {
         const pathname = new URL(item.id).pathname;
-        item.url = `/info${pathname}`;
+        item.url = `/info${pathname}metadata`;
       }
       return item;
     });

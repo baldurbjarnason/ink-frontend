@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import { goto } from "@sapper/app";
 
 export const modal = writable();
 
@@ -17,6 +18,32 @@ export function open(node, options) {
       event.preventDefault();
       event.stopPropagation();
       opener(this.options);
+    }
+  };
+  node.addEventListener("click", eventHandler);
+  return {
+    update(props) {
+      eventHandler.options = props;
+    },
+    destroy() {
+      node.removeEventListener("click", eventHandler);
+    }
+  };
+}
+export function sidebar(node, options) {
+  const eventHandler = {
+    options,
+    handleEvent(event) {
+      if (activeModal) return;
+      event.preventDefault();
+      event.stopPropagation();
+      if (event.target.closest('[data-open-in-modal="true"]')) {
+        const url = new URL(window.location)
+        url.hash = `#sidebar=${event.target.dataset.sidebar || 'true'}`
+        goto(url.href)
+      } else {
+        opener(this.options);
+      }
     }
   };
   node.addEventListener("click", eventHandler);

@@ -1,6 +1,7 @@
 <script>
   import { book as item, current } from "../stores/book.js";
-  import { open } from "../actions/modal.js";
+  import { sidebar as open } from "../actions/modal.js";
+  import { goto } from "@sapper/app";
   export let author;
   export let resources;
   export let tags;
@@ -20,6 +21,11 @@
   export let translator;
   export let illustrator;
   export let contributor;
+  function handleClick (event) {
+    event.preventDefault()
+    item.set({ name, id, url, cover });
+    current.set('');
+  }
 </script>
 
 <style>
@@ -56,6 +62,10 @@
     grid-gap: 1rem;
     grid-template-columns: 3rem 1fr;
   }
+  .list:hover {
+    cursor: pointer;
+    background-color: #f9f9f9;
+  }
 
   .BookCard-group {
     margin-right: 0;
@@ -90,7 +100,7 @@
     font-style: italic;
     text-decoration: none;
     color: #666;
-    margin-right: 0.5rem;
+    margin-right: 0.25rem;
   }
   .BookCard-attributionLabel {
     font-weight: 300;
@@ -100,7 +110,20 @@
     text-decoration: none;
     font-weight: inherit;
     color: var(--dark);
-    display: inline-block;
+    display: block;
+    position: relative;
+  }
+  .BookCard-link::after {
+    content: "";
+    position: absolute;
+    left: -1rem;
+    top: -1rem;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 4rem;
+    box-sizing: border-box;
+    background-color: transparent;
+    /*Other styles*/
   }
   .BookCard-paragraph {
     line-height: 0.75rem;
@@ -185,13 +208,11 @@
 <div class="LibraryItem">
   <div class={layout}>
     <a
+      data-sidebar={id}
       href={url}
       class="icon-link"
       use:open={{ id: 'item-modal' }}
-      on:click={() => {
-        item.set({ name, id, url, cover });
-        current.set('');
-      }}>
+      on:click={handleClick}>
       <img class="BookCard-icon" alt={'Cover for ' + name} src={cover} />
     </a>
     {#if layout === 'square'}
@@ -199,7 +220,9 @@
     {/if}
     <div class="BookCard-group">
       <h4 class="BookCard-title">
-        <a href={url} class="BookCard-link">{name}</a>
+        <a href={url} class="BookCard-link" 
+      data-sidebar={id}
+      use:open={{ id: 'item-modal' }} on:click={handleClick}>{name}</a>
       </h4>
       <p class="BookCard-paragraph">
         {#each author as attribution}
