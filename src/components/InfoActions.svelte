@@ -15,11 +15,9 @@
     bookTags = book.tags.map(tag => tag.id);
   }
   async function updateBook(id) {
-    console.log("updating book")
     book = { navigation: { current: {} }, json: {}, readingOrder: [{}] };
     const response = await fetch(`/api/book?url=${encodeURIComponent(id)}`);
     book = await response.json();
-    console.log(book.id)
     return book;
   }
   let checkboxes = {};
@@ -167,6 +165,12 @@
     font-size: 0.75rem;
     text-transform: uppercase;
   }
+  .Cover {
+    text-align: center;
+  }
+  .Cover img {
+    height: 150px;
+  }
 </style>
 
 {#if $current}
@@ -192,6 +196,7 @@
       <h2>{book.name}</h2>
       <span></span>
       </div>
+      <div class="Cover"><img src={book.cover} alt="{book.name}"></div>
 {/if}
 {#if modal}
   <h1>{$item.name}</h1>
@@ -260,7 +265,7 @@
 </ol>
 
 {#if $collections}
-  <h2 class="Collections">Collections</h2>
+  <h2 class="Collections">Manage Collections</h2>
   <ol class="CollectionsList">
     {#each $collections as tag, i}
       <li>
