@@ -467,7 +467,6 @@ a:link:hover {
   color: var(--hover);
 }
 a {
-  border-radius: 2rem;
 }
 @keyframes outlinePop {
   0% {

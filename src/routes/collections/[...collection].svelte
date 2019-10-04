@@ -2,14 +2,14 @@
   import { decode, encode } from "universal-base64url";
   export async function preload(page, session) {
     try {
-      const [collection, type, sidebarEncoded] = page.params.collection;
+      const [collection, type = "library", sidebarEncoded] = page.params.collection;
       const { orderBy = "datePublished", reverse = "false", layout = 'list' } = page.query;
       let books = { items: [] };
       if (session.user) {
         books = await this.fetch(
           `/api/collections?collection=${encodeURIComponent(
             collection
-          )}&page=1&orderBy=${orderBy}&reverse=${reverse}`,
+          )}&page=1&orderBy=${orderBy}&reverse=${reverse}&type=${type}`,
           {
             credentials: "include"
           }
@@ -48,19 +48,32 @@
   import Collections from "../../collections/Collections.svelte";
   import Button from "../../components/Button.svelte";
   import List from "../../library/List.svelte";
+  import NotesList from "../../library/NotesList.svelte";
+  import CollectionTabs from "../../library/CollectionTabs.svelte";
   import InfoActions from "../../components/InfoActions.svelte";
   import * as sapper from "@sapper/app";
   import { profile } from "../_profile.js";
   import { open } from "../../actions/modal.js";
   import { book as item, current } from "../../stores/book.js";
+  import {writable} from 'svelte/store'
   export let items;
   export let collection;
   export let selected;
   export let page;
   export let hideLoadMore = false;
   export let layout;
-  export let type = 'doc';
+  export let type = 'library';
   export let sidebar;
+  let notes
+  let library
+  const search = writable(window.location.search)
+  $: if ($search) {
+    notes = `/collections/${collection}/notes${$search}`
+    library = `/collections/${collection}${$search}`
+  } else {
+    notes = `/collections/${collection}/notes`
+    library = `/collections/${collection}`
+  }
   const options = [
     {
       text: "Newest first",
@@ -109,9 +122,10 @@
         page: 1
       };
       if (value[1]) {
-        newOorderrder.reverse = "&reverse=true";
+        order.reverse = "&reverse=true";
       }
     }
+    search.set(`${order.orderBy}${order.reverse}`)
     const sidebarEncoded = sidebar ? encode(sidebar) : ''
     return sapper.goto(
       `/collections/${collection}/${type}/${sidebarEncoded}${order.orderBy}${order.reverse}`
@@ -122,7 +136,7 @@
       const libraryAdditions = await window
         .fetch(
           `/api/collections?collection=${collection}&page=${order.page +
-            1}${order.orderBy && order.orderBy.slice(1)}${order.reverse}`,
+            1}${order.orderBy && order.orderBy.slice(1)}${order.reverse}&type=${type}`,
           {
             credentials: "include"
           }
@@ -204,23 +218,6 @@
     border-color: var(--rc-main);
     cursor: pointer;
   }
-  @keyframes outlinePop {
-    0% {
-      box-shadow: 0 0 0 1px rgba(33, 33, 33, 0);
-    }
-    50% {
-      box-shadow: 0 0 0 8px var(--rc-darker);
-    }
-    100% {
-      box-shadow: 0 0 0 3px var(--rc-dark);
-    }
-  }
-  select:focus {
-    box-shadow: 0 0 0 3px var(--rc-dark);
-
-    outline: solid transparent;
-    animation: outlinePop 0.25s ease-in-out;
-  }
   select option {
     font-weight: normal;
     text-transform: none;
@@ -235,6 +232,9 @@
   .ViewConfig {
     margin: 0 auto 1rem;
     text-align: right;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 </style>
 
@@ -246,23 +246,32 @@
   <div slot="left-sidebar"><Collections /></div>
   <div class="Front">
     <div class="ViewConfig">
-      Ordered By
-      <label>
-        <select name="viewConfig" id="viewConfig" on:change={onSelect}>
-          {#each options as option}
-            <option
-              value={option.value}
-              selected={option.selected}
-              aria-label={option.label || option.text}>
-              {option.text}
-            </option>
-          {/each}
-        </select>
-      </label>
+    <CollectionTabs {collection} current={type} {notes} {library}/>
+    {#if type === "library"}
+      <div class="select">
+        Ordered By
+        <label>
+          <select name="viewConfig" id="viewConfig" on:change={onSelect}>
+            {#each options as option}
+              <option
+                value={option.value}
+                selected={option.selected}
+                aria-label={option.label || option.text}>
+                {option.text}
+              </option>
+            {/each}
+          </select>
+        </label>
+      </div>
+    {/if}
     </div>
     <!-- Recent -->
     {#if items}
-      <List list={items} {layout} withSidebar={true} {collection} current={sidebar} />
+      {#if type === "library"}
+        <List list={items} {layout} withSidebar={true} {collection} current={sidebar} />
+      {:else}
+        <NotesList notes={items} {collection} current={sidebar} />
+      {/if}
     {/if}
     <span class="buttonWrapper" use:observe>
       <Button

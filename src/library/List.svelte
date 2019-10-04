@@ -21,7 +21,7 @@
       }
       if (item.id && withSidebar) {
         // We base64url encode the url here because a lot of CDNs have problems with urls in urls, even when properly escaped as URL components.
-        item.url = `/collections/${collection}/doc/${encode(item.id)}`;
+        item.url = `/collections/${collection}/library/${encode(item.id)}${window.location.search}`;
       } else if (item.id) {
         const pathname = new URL(item.id).pathname;
         item.url = `/info${pathname}metadata`;
