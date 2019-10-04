@@ -270,7 +270,7 @@
       {#if type === "library"}
         <List list={items} {layout} withSidebar={true} {collection} current={sidebar} />
       {:else}
-        <NotesList notes={items} {collection} current={sidebar} />
+        <NotesList notes={items} {collection} current={sidebar} withSidebar={true}  />
       {/if}
     {/if}
     <span class="buttonWrapper" use:observe>
