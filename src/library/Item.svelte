@@ -1,5 +1,5 @@
 <script>
-  import { book as item, current } from "../stores/book.js";
+  import { book as item, current as currentBook } from "../stores/book.js";
   import { sidebar as open } from "../actions/modal.js";
   import { goto } from "@sapper/app";
   export let author;
@@ -21,9 +21,11 @@
   export let translator;
   export let illustrator;
   export let contributor;
+  export let inLanguage;
+  export let current;
   function handleClick (event) {
     item.set({ name, id, url, cover });
-    current.set('');
+    currentBook.set('');
   }
 </script>
 
@@ -35,24 +37,9 @@
   .LibraryItem > .covers {
     display: grid;
   }
-  @keyframes withinPop {
-    0% {
-      box-shadow: 0 0 0 5px rgb(228, 255, 254, 0.2);
-      background-color: rgb(228, 255, 254, 0.2);
-    }
-    50% {
-      background-color: rgb(228, 255, 254, 0.8);
-      box-shadow: 0 0 0 5px rgb(228, 255, 254, 0.8);
-    }
-    100% {
-      box-shadow: 0 0 0 5px var(--rc-lighter);
-      background-color: var(--rc-lighter);
-    }
-  }
   .LibraryItem > .covers:focus-within {
     background-color: var(--rc-lighter);
     box-shadow: 0 0 0 5px var(--rc-lighter);
-    animation: withinPop 0.25s ease-in-out;
   }
   .list {
     display: grid;
@@ -184,27 +171,14 @@
     flex-direction: column;
     justify-content: center;
   }
-  @keyframes outlinePop {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.2);
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  a:focus {
-    background-color: var(--rc-lighter);
-    box-shadow: 0 0 0 5px var(--rc-lighter);
-    outline: solid transparent;
-    animation: outlinePop 0.25s ease-in-out;
+
+  .LibraryItem.current {
+    background-color: var(--sidebar-background-color);
   }
 </style>
 
 <!-- markup (zero or more items) goes here -->
-<div class="LibraryItem">
+<div class="LibraryItem" class:current={current === id}>
   <div class={layout}>
     <a
       data-sidebar={id}

@@ -1,7 +1,11 @@
 <script>
   import Item from "./Item.svelte";
+  import { decode, encode } from "universal-base64url";
   export let list;
   export let layout = "covers";
+  export let withSidebar = false;
+  export let collection = 'all';
+  export let current;
   $: if (list) {
     list = list.map(item => {
       if (item.resources && item.resources.data) {
@@ -15,7 +19,10 @@
       } else {
         item.cover = "/placeholder-cover.jpg";
       }
-      if (item.id) {
+      if (item.id && withSidebar) {
+        // We base64url encode the url here because a lot of CDNs have problems with urls in urls, even when properly escaped as URL components.
+        item.url = `/collections/${collection}/doc/${encode(item.id)}`;
+      } else if (item.id) {
         const pathname = new URL(item.id).pathname;
         item.url = `/info${pathname}metadata`;
       }
@@ -50,7 +57,7 @@
 <div class="List {layout}">
 {#if list}
   {#each list as item}
-    <Item {layout} {...item} />
+    <Item {layout} {current} {...item} />
   {/each}
 {/if}
 </div>

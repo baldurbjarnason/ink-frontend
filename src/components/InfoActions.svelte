@@ -202,7 +202,7 @@
 {#if rightSidebar}
       <div class="CollectionBar">
       <span></span>
-      <h2>{book.name}</h2>
+      <h2>{book.name || ""}</h2>
       <span></span>
       </div>
       <div class="Cover"><img src={book.cover} alt="{book.name}"></div>
@@ -238,7 +238,7 @@
 {/if}
 {/if}
 {#if modal}
-  <h1>{$item.name}</h1>
+  <h1>{$item.name || ""}</h1>
 {/if}
 <ol>
 {#if book.json.epubVersion}

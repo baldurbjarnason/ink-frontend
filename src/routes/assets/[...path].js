@@ -52,12 +52,15 @@ export async function get(req, res, next) {
           res.sendStatus(404)
         })
         return got.stream(redirect.headers.location)
+          .on('error', (err) => console.error(err))
           .pipe(resizer)
           .pipe(res);
       } else if (req.query.cover && (response.statusCode === 404 || !response)) {
         res.redirect('/placeholder-cover.jpg')
       } else if (testMediaTypes(response.headers["content-type"])) {
-        return got.stream(redirect.headers.location).pipe(res);
+        return got.stream(redirect.headers.location)
+          .on('error', (err) => console.error(err))
+          .pipe(res);
       } else {
         return res.sendStatus(404);
       }

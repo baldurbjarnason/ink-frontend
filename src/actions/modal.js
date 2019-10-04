@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
-import { goto } from "@sapper/app";
+// import { goto } from "@sapper/app";
+// import { decode, encode } from "universal-base64url";
 
 export const modal = writable();
 
@@ -34,14 +35,15 @@ export function sidebar(node, options) {
   const eventHandler = {
     options,
     handleEvent(event) {
-      if (activeModal) return;
-      event.preventDefault();
-      event.stopPropagation();
-      if (event.target.closest('[data-open-in-modal="true"]')) {
-        const url = new URL(window.location)
-        url.hash = `#sidebar=${encodeURIComponent(event.target.dataset.sidebar || 'true')}`
-        goto(url.href)
-      } else {
+      // Based on https://github.com/visionmedia/page.js/blob/master/index.js
+      // MIT License
+      if ((event.which === null ? event.button : event.which) !== 1) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+      if (event.defaultPrevented) return;
+      if (!event.target.closest('[data-open-in-modal="true"]')) {
+        if (activeModal) return;
+        event.preventDefault();
+        event.stopPropagation();
         opener(this.options);
       }
     }

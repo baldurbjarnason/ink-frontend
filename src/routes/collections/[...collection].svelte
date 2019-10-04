@@ -1,7 +1,8 @@
 <script context="module">
+  import { decode, encode } from "universal-base64url";
   export async function preload(page, session) {
     try {
-      const [collection, notes] = page.params.collection;
+      const [collection, type, sidebarEncoded] = page.params.collection;
       const { orderBy = "datePublished", reverse = "false", layout = 'list' } = page.query;
       let books = { items: [] };
       if (session.user) {
@@ -18,13 +19,19 @@
       if (books.totalItems === books.items.length || books.items.length === 0) {
         hideLoadMore = true;
       }
+      let sidebar
+      if (sidebarEncoded) {
+        sidebar = decode(sidebarEncoded)
+      }
       return {
         items: books.items,
         collection,
         page: books.page,
         selected: `${orderBy}${reverse === "false" ? "" : "-reversed"}`,
         hideLoadMore,
-        layout
+        layout,
+        notes: type === "notes",
+        sidebar
       };
     } catch (err) {
       console.log(err);
@@ -50,6 +57,8 @@
   export let page;
   export let hideLoadMore = false;
   export let layout;
+  export let notes = false;
+  export let sidebar;
   const options = [
     {
       text: "Newest first",
@@ -147,7 +156,6 @@
       }
     };
   }
-  let sidebar = new URLSearchParams(window.location.hash.replace('#', '')).get('sidebar')
   $: if (sidebar) {
     item.set({ id: sidebar });
     current.set('');
@@ -251,7 +259,7 @@
     </div>
     <!-- Recent -->
     {#if items}
-      <List list={items} {layout} />
+      <List list={items} {layout} withSidebar={true} {collection} current={sidebar} />
     {/if}
     <span class="buttonWrapper" use:observe>
       <Button
@@ -263,7 +271,7 @@
       </Button>
     </span>
   </div>
-  <div slot="right-sidebar" data-sidebar-value={new window.URLSearchParams(window.location.hash.replace('#', '')).get('sidebar')}>
+  <div slot="right-sidebar" data-sidebar-value={sidebar}>
     {#if $item.id}
       <InfoActions modal={false} rightSidebar={true} />
     {/if}
