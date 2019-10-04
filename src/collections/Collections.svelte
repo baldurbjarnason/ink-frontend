@@ -176,13 +176,16 @@
     bottom: 0;
     right: 0;
   }
+  .spacer {
+    width: 24px
+  }
 </style>
 
   {#if modal}
       <h1>Collections</h1>
   {:else}
       <div class="CollectionBar">
-      <span></span>
+      <span class="spacer"></span>
       <h2>Collections</h2>
               <TextButton
                 click={event => {

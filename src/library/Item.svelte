@@ -21,7 +21,7 @@
   export let translator;
   export let illustrator;
   export let contributor;
-  export let inLanguage;
+  export let inLanguage = "en";
   export let current;
   function handleClick (event) {
     item.set({ name, id, url, cover });

@@ -22,6 +22,8 @@
       let sidebar
       if (sidebarEncoded) {
         sidebar = decode(sidebarEncoded)
+      } else {
+        sidebar = ""
       }
       return {
         items: books.items,
@@ -30,8 +32,8 @@
         selected: `${orderBy}${reverse === "false" ? "" : "-reversed"}`,
         hideLoadMore,
         layout,
-        notes: type === "notes",
-        sidebar
+        sidebar,
+        type
       };
     } catch (err) {
       console.log(err);
@@ -57,7 +59,7 @@
   export let page;
   export let hideLoadMore = false;
   export let layout;
-  export let notes = false;
+  export let type = 'doc';
   export let sidebar;
   const options = [
     {
@@ -110,8 +112,9 @@
         newOorderrder.reverse = "&reverse=true";
       }
     }
+    const sidebarEncoded = sidebar ? encode(sidebar) : ''
     return sapper.goto(
-      `/collections/${collection}${order.orderBy}${order.reverse}`
+      `/collections/${collection}/${type}/${sidebarEncoded}${order.orderBy}${order.reverse}`
     );
   }
   async function loadMore() {
