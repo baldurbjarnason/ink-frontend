@@ -171,6 +171,15 @@
   .Cover img {
     height: 150px;
   }
+  .Attributions {
+    padding: 0 1rem;
+  }
+  .InfoAttribution {
+    margin: 0;
+    font-style: italic;
+    color: var(--medium);
+    font-size: 0.85rem;
+  }
 </style>
 
 {#if $current}
@@ -197,6 +206,36 @@
       <span></span>
       </div>
       <div class="Cover"><img src={book.cover} alt="{book.name}"></div>
+{#if book.author}
+  
+      <div class="Attributions">
+        {#each book.author as attribution}
+          <p class="InfoAttribution">{attribution.name}</p>
+        {:else}
+          <p class="InfoAttribution">No author</p>
+        {/each}
+        {#each book.editor as attribution}
+          <p class="InfoAttribution">{attribution.name} (editor)</p>
+        {:else}
+          <p class="InfoAttribution">No editor</p>
+        {/each}
+        {#each book.translator as attribution}
+          <p class="InfoAttribution">{attribution.name} (translator)</p>
+        {:else}
+          <p class="InfoAttribution">No translator</p>
+        {/each}
+        {#each book.contributor as attribution}
+          <p class="InfoAttribution">{attribution.name} (contributor)</p>
+        {:else}
+          <p class="InfoAttribution">No contributor</p>
+        {/each}
+        {#each book.illustrator as attribution}
+          <p class="InfoAttribution">{attribution.name} (illustrator)</p>
+        {:else}
+          <p class="InfoAttribution">No illustrator</p>
+        {/each}
+      </div>
+{/if}
 {/if}
 {#if modal}
   <h1>{$item.name}</h1>
