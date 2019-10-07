@@ -24,7 +24,7 @@
         item.url = `/collections/${collection}/library/${encode(item.id)}${window.location.search}`;
       } else if (item.id) {
         const pathname = new URL(item.id).pathname;
-        item.url = `/info${pathname}metadata`;
+        item.url = `/info${pathname}`;
       }
       return item;
     });
