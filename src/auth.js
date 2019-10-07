@@ -39,15 +39,19 @@ async function deserialise (user) {
       }
     );
   }
-  if (!user.profile) {
-    const response = await got(`${process.env.API_SERVER}whoami`, {
-      headers: {
-        Authorization: `Bearer ${user.token}`
-      },
-      json: true
-    });
-    const { id, outbox } = response.body;
-    user.profile = { id, outbox };
+  if (!user.profile || user.profile.status === 404) {
+    try {
+      const response = await got(`${process.env.API_SERVER}whoami`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`
+        },
+        json: true
+      });
+      const { id, outbox } = response.body;
+      user.profile = { id, outbox };
+    } catch (err) {
+      user.profile = {status: err.statusCode}
+    }
 
   }
   return user
