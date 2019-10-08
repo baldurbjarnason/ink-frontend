@@ -83,7 +83,7 @@ export function setup(sapper, options = {}) {
     },
     sapper.middleware({
       session: (req, res) => {
-        return { ...req.session, cookie: null, user: req.user };
+        return { user: req.user };
       }
     })
   );

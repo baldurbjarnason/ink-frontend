@@ -17,8 +17,6 @@
   import { uploadQueue } from "../uploader/upload-doc.js";
   import Recent from "../uploader/Recent.svelte";
   import { onMount } from "svelte";
-  import { profile } from "./_profile.js";
-  import { open } from "../actions/modal.js";
   import { fly } from "svelte/transition";
   import { stores } from "../stores";
   const { recent, title } = stores();
@@ -60,10 +58,6 @@
   in:fly={{ y: 200, duration: 250, delay: 250 }}
   out:fly={{ y: 200, duration: 250 }}>
   <!-- Uploader -->
-  <Uploader upload={fileDrop} />
-  {#if uploadQueue}
-    <UploadQueue queue={uploadQueue} />
-  {/if}
   <!-- Recent -->
   {#if recent}
     <Recent {recent} />

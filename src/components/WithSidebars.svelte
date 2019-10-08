@@ -4,6 +4,7 @@
   export let title;
   export let leftModal;
   export let rightModal;
+  export let rightLabel;
   let width = 0;
   let sidebar = true;
   let sidebargrid = true;
@@ -138,19 +139,7 @@
       <span slot="right-button">
         {#if width <= 1200 && rightModal}
           <a use:open={{ id: rightModal }} href="/" class="Toolbar-link">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="square"
-              stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" />
-              <path d="M15 3v18" />
-            </svg>
+            {rightLabel}
           </a>
         {:else}
           <button

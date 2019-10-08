@@ -4,23 +4,30 @@
   import { stores as inkStores } from "../stores";
   import Collections from "../collections/Collections.svelte";
   import InfoActions from "../components/InfoActions.svelte";
+  import UploadSidebar from "../uploader/UploadSidebar.svelte";
+  import SidebarModal from './SidebarModal.svelte'
+  import {opener, closer, activeModal} from "../actions/modal.js"
   import { stores, goto } from "@sapper/app";
   const { page, session } = stores();
   const { title, infoBook, currentInfoBook } = inkStores();
   let query = {};
   let leftSidebar;
   let rightSidebar;
-  let params = [];
+  let params = {};
+  let collection = 'all'
   $: if ($page) {
     query = $page.query;
-    params = $page.query;
+    params = $page.params;
     if (params.infoBook) {
       leftSidebar = "item";
     } else {
       leftSidebar = "collections";
     }
-    if (query.book) {
-      infoBook.set({ id: decode(query.book) });
+    if (params.collection) {
+      collection = params.collection[0]
+    }
+    if (query.item) {
+      infoBook.set({ id: decode(query.item) });
       currentInfoBook.set("");
       rightSidebar = "item";
     } else if (query.upload) {
@@ -41,9 +48,15 @@
       rightSidebar = "upload";
     }
   }
+  $: if (width <= 1200 && rightSidebar && query[rightSidebar]) {
+    opener({id: rightSidebar + '-modal'})
+  } else {
+    closer()
+  }
   $: if ($session) {
     console.log($session);
   }
+  let width
 </script>
 
 <style>
@@ -56,11 +69,20 @@
   }
 </style>
 
+<svelte:window bind:innerWidth={width} />
+<SidebarModal id={rightSidebar + '-modal'}>
+  {#if rightSidebar === 'item'}
+    <InfoActions modal={true} sidebar={true} />
+  {:else if  rightSidebar === 'upload'}
+    <UploadSidebar {collection} modal={true} />
+  {/if}
+</SidebarModal>
 <main>
   <WithSidebars
     title={$title}
     leftModal={leftSidebar + '-modal'}
-    rightModal={rightSidebar + '-modal'}>
+    rightModal={rightSidebar + '-modal'}
+    rightLabel={rightSidebar}>
     <div slot="left-sidebar">
       {#if leftSidebar === 'item'}
         <InfoActions modal={false} sidebar={true} />
@@ -72,6 +94,8 @@
     <div slot="right-sidebar">
       {#if rightSidebar === 'item'}
         <InfoActions modal={false} sidebar={true} />
+      {:else if  rightSidebar === 'upload'}
+        <UploadSidebar {collection} />
       {/if}
     </div>
   </WithSidebars>

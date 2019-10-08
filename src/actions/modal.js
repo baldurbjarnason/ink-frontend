@@ -4,7 +4,7 @@ import { writable } from "svelte/store";
 
 export const modal = writable();
 
-let activeModal;
+export let activeModal;
 modal.subscribe(value => {
   activeModal = value;
 });
