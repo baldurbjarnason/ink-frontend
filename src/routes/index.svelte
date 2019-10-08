@@ -21,9 +21,8 @@
   import { open } from "../actions/modal.js";
   import { fly } from "svelte/transition";
   import { stores } from "../stores";
-  const { recent, title, leftSidebar } = stores();
-  title.set("Uploads");
-  leftSidebar.set("collections");
+  const { recent, title } = stores();
+  title.set("Recent");
   function fileDrop(files) {
     for (let file of files) {
       uploadQueue.add(file);

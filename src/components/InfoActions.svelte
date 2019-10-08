@@ -5,7 +5,7 @@
   import { stores } from "../stores";
   const { infoBook, currentInfoBook, collections } = stores();
   export let modal;
-  export let rightSidebar = false;
+  export let sidebar = false;
   let book = { navigation: { current: {} } };
   $: if ($infoBook.id && $infoBook.id !== book.id) {
     updateBook($infoBook.id);
@@ -199,7 +199,7 @@
     Library
   </a>
 {/if}
-{#if rightSidebar}
+{#if sidebar}
   <div class="CollectionBar">
     <span />
     <h2>{book.name || ''}</h2>

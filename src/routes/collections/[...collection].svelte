@@ -65,8 +65,7 @@
   import { stores } from "../../stores";
   import { writable } from "svelte/store";
   import { fly } from "svelte/transition";
-  // import {title, leftSidebar} from "../../stores/layout.js"
-  const { infoBook, currentInfoBook, title, leftSidebar } = stores();
+  const { infoBook, currentInfoBook, title } = stores();
   export let items;
   export let collection;
   export let selected;
@@ -76,7 +75,6 @@
   export let type = "library";
   export let sidebar;
   title.set(collection);
-  leftSidebar.set("collections");
   let notes;
   let library;
   const search = writable(window.location.search);

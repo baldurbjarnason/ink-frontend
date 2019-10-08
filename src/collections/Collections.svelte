@@ -13,7 +13,7 @@
   $: if ($page.params && $page.params.collection) {
     [current] = $page.params.collection;
   } else {
-    current = "Uploads";
+    current = "Recent";
   }
   let creating;
   let deleting;
@@ -208,7 +208,7 @@
       </svg>
     </TextButton>
   </div>
-  {#if current !== 'all' && current !== 'Uploads'}
+  {#if current !== 'all' && current !== 'Recent'}
     <span class="delete">
       <TextButton
         warning={true}
@@ -303,8 +303,8 @@
         class:item={true}
         href="/"
         data-close-modal
-        class:current={current === 'Uploads'}>
-        <span class="label">Uploads</span>
+        class:current={current === 'Recent'}>
+        <span class="label">Recent</span>
       </a>
     </li>
     <li>

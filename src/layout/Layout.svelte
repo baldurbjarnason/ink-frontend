@@ -6,21 +6,40 @@
   import InfoActions from "../components/InfoActions.svelte";
   import { stores, goto } from "@sapper/app";
   const { page, session } = stores();
-  const {
-    title,
-    leftSidebar,
-    rightSidebar,
-    infoBook,
-    currentInfoBook
-  } = inkStores();
+  const { title, infoBook, currentInfoBook } = inkStores();
   let query = {};
+  let leftSidebar;
+  let rightSidebar;
+  let params = [];
   $: if ($page) {
     query = $page.query;
-  }
-  $: if (query.book) {
-    infoBook.set();
-    infoBook.set({ id: decode(query.book) });
-    currentInfoBook.set("");
+    params = $page.query;
+    if (params.infoBook) {
+      leftSidebar = "item";
+    } else {
+      leftSidebar = "collections";
+    }
+    if (query.book) {
+      infoBook.set({ id: decode(query.book) });
+      currentInfoBook.set("");
+      rightSidebar = "item";
+    } else if (query.upload) {
+      rightSidebar = "upload";
+    } else if (query.comment) {
+      rightSidebar = "comment";
+    } else if (query.chapternotes) {
+      rightSidebar = "chapternotes";
+    } else if (query.booknote) {
+      rightSidebar = "booknote";
+    } else if (query.chapter) {
+      rightSidebar = "chapter";
+    } else if (query.webpage) {
+      rightSidebar = "webpage";
+    } else if (query.addbooks) {
+      rightSidebar = "addbooks";
+    } else if (params.collection) {
+      rightSidebar = "upload";
+    }
   }
   $: if ($session) {
     console.log($session);
@@ -36,22 +55,24 @@
     min-height: 100vh;
   }
 </style>
-<main>
-<WithSidebars
-  title={$title}
-  leftModal={$leftSidebar + '-modal'}
-  rightModal={$rightSidebar + '-modal'}>
-  <div slot="left-sidebar">
-    {#if $leftSidebar === 'collections'}
-      <Collections />
-    {/if}
-  </div>
-  <slot />
-  <div slot="right-sidebar">
 
-    {#if $infoBook.id}
-      <InfoActions modal={false} rightSidebar={true} />
-    {/if}
-  </div>
-</WithSidebars>
+<main>
+  <WithSidebars
+    title={$title}
+    leftModal={leftSidebar + '-modal'}
+    rightModal={rightSidebar + '-modal'}>
+    <div slot="left-sidebar">
+      {#if leftSidebar === 'item'}
+        <InfoActions modal={false} sidebar={true} />
+      {:else}
+        <Collections />
+      {/if}
+    </div>
+    <slot />
+    <div slot="right-sidebar">
+      {#if rightSidebar === 'item'}
+        <InfoActions modal={false} sidebar={true} />
+      {/if}
+    </div>
+  </WithSidebars>
 </main>
