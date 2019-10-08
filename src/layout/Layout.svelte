@@ -28,10 +28,15 @@
 </script>
 
 <style>
-  /* your styles go here */
+  main {
+    position: relative;
+    padding: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+    min-height: 100vh;
+  }
 </style>
-
-<!-- markup (zero or more items) goes here -->
+<main>
 <WithSidebars
   title={$title}
   leftModal={$leftSidebar + '-modal'}
@@ -49,3 +54,4 @@
     {/if}
   </div>
 </WithSidebars>
+</main>
