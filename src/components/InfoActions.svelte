@@ -3,7 +3,7 @@
   import TextButton from "./TextButton.svelte";
   import { collection } from "../api/collection.js";
   import { stores } from "../stores";
-  const {infoBook, currentInfoBook, collections} = stores()
+  const { infoBook, currentInfoBook, collections } = stores();
   export let modal;
   export let rightSidebar = false;
   let book = { navigation: { current: {} } };
@@ -200,83 +200,77 @@
   </a>
 {/if}
 {#if rightSidebar}
-      <div class="CollectionBar">
-      <span></span>
-      <h2>{book.name || ""}</h2>
-      <span></span>
-      </div>
-      <div class="Cover"><img src={book.cover} alt="{book.name}"></div>
-{#if book.author}
-  
-      <div class="Attributions">
-        {#each book.author as attribution}
-          <p class="InfoAttribution">{attribution.name}</p>
-        {:else}
-          <p class="InfoAttribution">No author</p>
-        {/each}
-        {#each book.editor as attribution}
-          <p class="InfoAttribution">{attribution.name} (editor)</p>
-        {:else}
-          <p class="InfoAttribution">No editor</p>
-        {/each}
-        {#each book.translator as attribution}
-          <p class="InfoAttribution">{attribution.name} (translator)</p>
-        {:else}
-          <p class="InfoAttribution">No translator</p>
-        {/each}
-        {#each book.contributor as attribution}
-          <p class="InfoAttribution">{attribution.name} (contributor)</p>
-        {:else}
-          <p class="InfoAttribution">No contributor</p>
-        {/each}
-        {#each book.illustrator as attribution}
-          <p class="InfoAttribution">{attribution.name} (illustrator)</p>
-        {:else}
-          <p class="InfoAttribution">No illustrator</p>
-        {/each}
-      </div>
-{/if}
+  <div class="CollectionBar">
+    <span />
+    <h2>{book.name || ''}</h2>
+    <span />
+  </div>
+  <div class="Cover">
+    <img src={book.cover} alt={book.name} />
+  </div>
+  {#if book.author}
+    <div class="Attributions">
+      {#each book.author as attribution}
+        <p class="InfoAttribution">{attribution.name}</p>
+      {:else}
+        <p class="InfoAttribution">No author</p>
+      {/each}
+      {#each book.editor as attribution}
+        <p class="InfoAttribution">{attribution.name} (editor)</p>
+      {:else}
+        <p class="InfoAttribution">No editor</p>
+      {/each}
+      {#each book.translator as attribution}
+        <p class="InfoAttribution">{attribution.name} (translator)</p>
+      {:else}
+        <p class="InfoAttribution">No translator</p>
+      {/each}
+      {#each book.contributor as attribution}
+        <p class="InfoAttribution">{attribution.name} (contributor)</p>
+      {:else}
+        <p class="InfoAttribution">No contributor</p>
+      {/each}
+      {#each book.illustrator as attribution}
+        <p class="InfoAttribution">{attribution.name} (illustrator)</p>
+      {:else}
+        <p class="InfoAttribution">No illustrator</p>
+      {/each}
+    </div>
+  {/if}
 {/if}
 {#if modal}
-  <h1>{$infoBook.name || ""}</h1>
+  <h1>{$infoBook.name || ''}</h1>
 {/if}
 <ol>
-{#if book.json.epubVersion}
-  <li>
-    <a
-      class:infoBook={true}
-      href={book.navigation.current.path}
-      data-close-modal
-      class:current={$currentInfoBook === 'read'}>
-      {book.position ? 'Continue' : 'Read'}
-    </a>
-  </li>
-  <li>
-    <a
-      href="/assets{new window.URL(book.id + 'original.epub').pathname}">
-      Download original
-    </a>
-  </li>
-  {:else if  book.readingOrder[0] && book.readingOrder[0].url}
-  <li>
-    <a
-      href="/assets{new window.URL(book.readingOrder[0].url).pathname}">
-      Download original
-    </a>
-  </li>
+  {#if book.json.epubVersion}
+    <li>
+      <a
+        class:infoBook={true}
+        href={book.navigation.current.path}
+        data-close-modal
+        class:current={$currentInfoBook === 'read'}>
+        {book.position ? 'Continue' : 'Read'}
+      </a>
+    </li>
+    <li>
+      <a href="/assets{new window.URL(book.id + 'original.epub').pathname}">
+        Download original
+      </a>
+    </li>
+  {:else if book.readingOrder[0] && book.readingOrder[0].url}
+    <li>
+      <a href="/assets{new window.URL(book.readingOrder[0].url).pathname}">
+        Download original
+      </a>
+    </li>
   {:else}
-  <li>
-    <a
-      href="/">&nbsp;
-    </a>
-  </li>
-  <li>
-    <a
-      href="/">
-      Download original
-    </a>
-  </li>
-{/if}
+    <li>
+      <a href="/">&nbsp;</a>
+    </li>
+    <li>
+      <a href="/">Download original</a>
+    </li>
+  {/if}
   <li class="first-item">
     <a
       href="{$infoBook.url}metadata"

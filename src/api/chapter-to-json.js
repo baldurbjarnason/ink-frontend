@@ -42,7 +42,7 @@ export async function chapterToJSON(
   let locations = 0;
   let h1 = 0;
   let h2 = 0;
-  const resourceURL = new URL(chapterPath)
+  const resourceURL = new URL(chapterPath);
   const order = parseInt(index, 10) + 1;
   let dom;
   try {
@@ -67,10 +67,13 @@ export async function chapterToJSON(
   const DOMPurify = createDOMPurify(window);
   // Based on sample from https://github.com/cure53/DOMPurify/tree/master/demos, same license as DOMPurify
 
-  function processURL (prop) {
-    const href = /url\("?([^)|"]+)(?!data:)/gim.exec(prop)[1]
+  function processURL(prop) {
+    const href = /url\("?([^)|"]+)(?!data:)/gim.exec(prop)[1];
     const url = new URL(href, resourceURL);
-    if (url.host === resourceURL.host && url.protocol === resourceURL.protocol) {
+    if (
+      url.host === resourceURL.host &&
+      url.protocol === resourceURL.protocol
+    ) {
       return `url("${href}")`;
     } else {
       return null;

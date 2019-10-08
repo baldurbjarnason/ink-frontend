@@ -2,7 +2,7 @@
   import Navbar from "./Navbar.svelte";
   import Chapter from "./Chapter.svelte";
   import ContentsButton from "./ContentsButton.svelte";
-  import {stores} from '../stores'
+  import { stores } from "../stores";
   const {
     docStore,
     chapterStore,
@@ -12,7 +12,7 @@
     theme,
     fontSize,
     chapterTitle
-  } = stores()
+  } = stores();
   function handleCurrent({ detail }) {
     currentLocation.set({
       location: detail.highest.dataset.location

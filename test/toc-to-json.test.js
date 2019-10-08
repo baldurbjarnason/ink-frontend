@@ -1,21 +1,40 @@
-import tap from 'tap'
-import {parseToC} from '../src/api/toc-to-json.js'
-import * as fs from 'fs'
-import * as path from 'path'
+import tap from "tap";
+import { parseToC } from "../src/api/toc-to-json.js";
+import * as fs from "fs";
+import * as path from "path";
 
-tap.test('parseToC - epub2', async (test) => {
-  const chapter = fs.readFileSync(path.join(__dirname, '../dev-static/demo-epub/pg55456-images/OEBPS/toc.ncx'), 'utf8')
-  const result = await parseToC(chapter, 'https://example.com/dev-static/demo-epub/pg55456-images/OEBPS/toc.ncx')
-  test.matchSnapshot(result, 'parseToC - epub2')
-})
-tap.test('parseToC - epub3', async (test) => {
-  const chapter = fs.readFileSync(path.join(__dirname, '../dev-static/demo-epub/childrens-literature/EPUB/nav.xhtml'), 'utf8')
-  const result = await parseToC(chapter, 'https://example.com/dev-static/demo-epub/childrens-literature/EPUB/nav.xhtml')
-  test.matchSnapshot(result, 'parseToC - epub3')
-})
+tap.test("parseToC - epub2", async test => {
+  const chapter = fs.readFileSync(
+    path.join(
+      __dirname,
+      "../dev-static/demo-epub/pg55456-images/OEBPS/toc.ncx"
+    ),
+    "utf8"
+  );
+  const result = await parseToC(
+    chapter,
+    "https://example.com/dev-static/demo-epub/pg55456-images/OEBPS/toc.ncx"
+  );
+  test.matchSnapshot(result, "parseToC - epub2");
+});
+tap.test("parseToC - epub3", async test => {
+  const chapter = fs.readFileSync(
+    path.join(
+      __dirname,
+      "../dev-static/demo-epub/childrens-literature/EPUB/nav.xhtml"
+    ),
+    "utf8"
+  );
+  const result = await parseToC(
+    chapter,
+    "https://example.com/dev-static/demo-epub/childrens-literature/EPUB/nav.xhtml"
+  );
+  test.matchSnapshot(result, "parseToC - epub3");
+});
 
-tap.test('parseToC - epub3 - 2', async (test) => {
-  const result = await parseToC(`<?xml version="1.0" encoding="utf-8"?>
+tap.test("parseToC - epub3 - 2", async test => {
+  const result = await parseToC(
+    `<?xml version="1.0" encoding="utf-8"?>
   <!DOCTYPE html>
   <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"
     lang="html-lang">
@@ -35,11 +54,14 @@ tap.test('parseToC - epub3 - 2', async (test) => {
       </nav>
     </body>
   </html>
-  `, 'https://example.com/dev-static/demo-epub/childrens-literature/EPUB/nav.xhtml')
-  test.matchSnapshot(result, 'parseToC - epub3 - 2')
-})
-tap.test('parseToC - epub3 - 3', async (test) => {
-  const result = await parseToC(`<?xml version="1.0" encoding="utf-8"?>
+  `,
+    "https://example.com/dev-static/demo-epub/childrens-literature/EPUB/nav.xhtml"
+  );
+  test.matchSnapshot(result, "parseToC - epub3 - 2");
+});
+tap.test("parseToC - epub3 - 3", async test => {
+  const result = await parseToC(
+    `<?xml version="1.0" encoding="utf-8"?>
   <!DOCTYPE html>
   <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops">
     <head>
@@ -58,6 +80,8 @@ tap.test('parseToC - epub3 - 3', async (test) => {
       </nav>
     </body>
   </html>
-  `, 'https://example.com/dev-static/demo-epub/childrens-literature/EPUB/nav.xhtml')
-  test.matchSnapshot(result, 'parseToC - epub3 - 3')
-})
+  `,
+    "https://example.com/dev-static/demo-epub/childrens-literature/EPUB/nav.xhtml"
+  );
+  test.matchSnapshot(result, "parseToC - epub3 - 3");
+});

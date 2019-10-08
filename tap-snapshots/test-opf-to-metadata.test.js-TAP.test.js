@@ -4,8 +4,10 @@
  * Re-generate by setting TAP_SNAPSHOT=1 and running tests.
  * Make sure to inspect the output below.  Do not ignore changes!
  */
-'use strict'
-exports[`test/opf-to-metadata.test.js TAP parseOPF - epub2 > parseOPF - epub2 1`] = `
+"use strict";
+exports[
+  `test/opf-to-metadata.test.js TAP parseOPF - epub2 > parseOPF - epub2 1`
+] = `
 Object {
   "author": Array [
     "Lewis Carroll",
@@ -398,9 +400,11 @@ Object {
   ],
   "type": "Publication",
 }
-`
+`;
 
-exports[`test/opf-to-metadata.test.js TAP parseOPF - epub3 > parseOPF - epub3 1`] = `
+exports[
+  `test/opf-to-metadata.test.js TAP parseOPF - epub3 > parseOPF - epub3 1`
+] = `
 Object {
   "author": Array [],
   "colorist": Array [
@@ -505,4 +509,4 @@ Object {
   ],
   "type": "Publication",
 }
-`
+`;

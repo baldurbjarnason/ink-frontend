@@ -1,4 +1,3 @@
-
 import { writable, derived } from "svelte/store";
 import { get, set } from "idb-keyval";
 
@@ -32,26 +31,28 @@ export const notes = derived(chapterStore, ($chapterStore, set) => {
         .then(response => response.json())
         .then(notesData => set(notesData));
     } else {
-      set({})
+      set({});
     }
   } catch (err) {
     set({});
     console.error(err);
   }
-  
-})
-
-export const navigation = derived([docStore, chapterStore], ([$docStore, $chapterStore]) => {
-  let previous;
-  let next;
-  let current;
-  if ($docStore.readingOrder && $chapterStore.html) {
-    previous = $docStore.readingOrder[$chapterStore.index - 1];
-    next = $docStore.readingOrder[$chapterStore.index + 1];
-    current = $docStore.readingOrder[$chapterStore.index];
-  }
-  return { previous, current, next };
 });
+
+export const navigation = derived(
+  [docStore, chapterStore],
+  ([$docStore, $chapterStore]) => {
+    let previous;
+    let next;
+    let current;
+    if ($docStore.readingOrder && $chapterStore.html) {
+      previous = $docStore.readingOrder[$chapterStore.index - 1];
+      next = $docStore.readingOrder[$chapterStore.index + 1];
+      current = $docStore.readingOrder[$chapterStore.index];
+    }
+    return { previous, current, next };
+  }
+);
 
 export const chapterTitle = derived(
   [chapterStore, contents],

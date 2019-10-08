@@ -1,12 +1,16 @@
+const tap = require("tap");
+const Toolbar = require("../src/components/Toolbar.svelte").default;
 
-const tap = require('tap')
-const Toolbar = require('../src/components/Toolbar.svelte').default;
-
-tap.test('Toolbar - no content', async (test) => {
-  test.matchSnapshot(Toolbar.render(), 'Toolbar - no content')
-})
-tap.test('Toolbar - full content', async (test) => {
-  test.matchSnapshot(Toolbar.render({}, {'left-button': () => 'Left', 'right-button': () => `<a href="/" class="Toolbar-link Right-button">
+tap.test("Toolbar - no content", async test => {
+  test.matchSnapshot(Toolbar.render(), "Toolbar - no content");
+});
+tap.test("Toolbar - full content", async test => {
+  test.matchSnapshot(
+    Toolbar.render(
+      {},
+      {
+        "left-button": () => "Left",
+        "right-button": () => `<a href="/" class="Toolbar-link Right-button">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width="24"
@@ -19,5 +23,10 @@ tap.test('Toolbar - full content', async (test) => {
     stroke-linejoin="round">
     <path d="M15 18l-6-6 6-6" />
   </svg>
-</a>`, 'toolbar-title': () => 'Title'}), 'Toolbar - with content')
-})
+</a>`,
+        "toolbar-title": () => "Title"
+      }
+    ),
+    "Toolbar - with content"
+  );
+});

@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from "svelte";
-  import {stores} from '../stores'
+  import { stores } from "../stores";
   import { fade } from "svelte/transition";
   import ChapterBody from "./ChapterBody.svelte";
   const {

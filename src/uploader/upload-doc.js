@@ -40,12 +40,12 @@ export const uploadQueue = {
   add
 };
 
-async function uploadFile (file) {
+async function uploadFile(file) {
   const response = await window.fetch("/api/whoami", {
     credentials: "include"
   });
   const { user } = await response.json();
-  const endpoint = `${user.profile.id}/file-upload-pub`
+  const endpoint = `${user.profile.id}/file-upload-pub`;
   const data = new window.FormData();
   data.append("file", file);
   try {
@@ -63,5 +63,4 @@ async function uploadFile (file) {
     err.httpMethod = "POST/Upload Media";
     throw err;
   }
-
 }

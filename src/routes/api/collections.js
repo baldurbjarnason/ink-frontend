@@ -3,7 +3,13 @@ import { normalise } from "../../api/normalise-publication.js";
 import querystring from "querystring";
 const LIMIT = 25;
 export async function get(req, res, next) {
-  const { page = 1, collection, reverse, orderBy, type = "library" } = req.query;
+  const {
+    page = 1,
+    collection,
+    reverse,
+    orderBy,
+    type = "library"
+  } = req.query;
   if (req.user && req.user.profile && req.user.profile.id) {
     try {
       let url;

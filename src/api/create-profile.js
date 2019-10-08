@@ -8,7 +8,7 @@ export async function create(session) {
   };
   try {
     const csrfToken = getToken();
-    await fetchWrap('/api/create-profile', {
+    await fetchWrap("/api/create-profile", {
       method: "POST",
       body: JSON.stringify(newReader),
       headers: new window.Headers({

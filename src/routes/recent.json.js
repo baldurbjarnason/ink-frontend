@@ -19,6 +19,6 @@ export async function get(req, res, next) {
     }
   } else {
     res.status(404);
-    res.send({status: 404})
+    res.send({ status: 404 });
   }
 }

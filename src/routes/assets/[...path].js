@@ -14,7 +14,7 @@ const purifyConfig = {
 
 export async function get(req, res, next) {
   const { path } = req.params;
-  const url = new URL(path.join("/"), process.env.API_SERVER).href
+  const url = new URL(path.join("/"), process.env.API_SERVER).href;
   res.set("Cache-Control", "max-age=31536000, immutable");
   if (req.user) {
     try {
@@ -42,31 +42,39 @@ export async function get(req, res, next) {
         const result = xml.serializeToString(clean);
         res.type("svg");
         res.send(result);
-      } else if (response.headers["content-type"].includes("image") && req.query.cover && response.statusCode !== 404) {
-        const resizer =
-          sharp()
-            .resize(300, 300, {fit: 'inside'})
-            .jpeg({quality: 70});
-        resizer.on('error', (err) => {
-          console.error(err)
-          res.sendStatus(404)
-        })
-        return got.stream(redirect.headers.location)
-          .on('error', (err) => console.error(err))
+      } else if (
+        response.headers["content-type"].includes("image") &&
+        req.query.cover &&
+        response.statusCode !== 404
+      ) {
+        const resizer = sharp()
+          .resize(300, 300, { fit: "inside" })
+          .jpeg({ quality: 70 });
+        resizer.on("error", err => {
+          console.error(err);
+          res.sendStatus(404);
+        });
+        return got
+          .stream(redirect.headers.location)
+          .on("error", err => console.error(err))
           .pipe(resizer)
           .pipe(res);
-      } else if (req.query.cover && (response.statusCode === 404 || !response)) {
-        res.redirect('/placeholder-cover.jpg')
+      } else if (
+        req.query.cover &&
+        (response.statusCode === 404 || !response)
+      ) {
+        res.redirect("/placeholder-cover.jpg");
       } else if (testMediaTypes(response.headers["content-type"])) {
-        return got.stream(redirect.headers.location)
-          .on('error', (err) => console.error(err))
+        return got
+          .stream(redirect.headers.location)
+          .on("error", err => console.error(err))
           .pipe(res);
       } else {
         return res.sendStatus(404);
       }
     } catch (err) {
       if (req.query.cover) {
-        res.redirect('/placeholder-cover.jpg')
+        res.redirect("/placeholder-cover.jpg");
       } else {
         return res.sendStatus(404);
       }
@@ -74,11 +82,27 @@ export async function get(req, res, next) {
   }
 }
 
-const validTypes = ["application/x-font-ttf", "font/woff2", "font/woff", "font/ttf", "font/sfnt", "font/otf", "image/gif", "image/jpeg", "image/png", "application/font-sfnt", "application/font-woff", "audio/mpeg", "audio/mp4", "video/H264", "video/H265", "video/mp4"]
+const validTypes = [
+  "application/x-font-ttf",
+  "font/woff2",
+  "font/woff",
+  "font/ttf",
+  "font/sfnt",
+  "font/otf",
+  "image/gif",
+  "image/jpeg",
+  "image/png",
+  "application/font-sfnt",
+  "application/font-woff",
+  "audio/mpeg",
+  "audio/mp4",
+  "video/H264",
+  "video/H265",
+  "video/mp4"
+];
 
-function testMediaTypes (contentType) {
+function testMediaTypes(contentType) {
   if (validTypes.includes(contentType)) {
-      return true
-    }
-
+    return true;
+  }
 }

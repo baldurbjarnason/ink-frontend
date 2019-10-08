@@ -1,41 +1,41 @@
-import * as book from './book.js'
-import * as layout from './layout.js'
-import * as doc from './doc.js'
+import * as book from "./book.js";
+import * as layout from "./layout.js";
+import * as doc from "./doc.js";
 import { writable } from "svelte/store";
 
-let collections
-let recent
+let collections;
+let recent;
 
-let updating = false
-export function stores () {
-  let update = false
+let updating = false;
+export function stores() {
+  let update = false;
   if (!collections) {
     collections = writable([]);
-    update = true
+    update = true;
   }
   if (!recent) {
     recent = writable([]);
-    update = true
+    update = true;
   }
-  if (update && !updating) updateCollections()
-  return {...book, ...layout, ...doc, collections, recent}
+  if (update && !updating) updateCollections();
+  return { ...book, ...layout, ...doc, collections, recent };
 }
 
-
 function updateCollections() {
-  if (!process.browser) return
-  updating = true
-  window.fetch(`/recent.json`)
+  if (!process.browser) return;
+  updating = true;
+  window
+    .fetch(`/recent.json`)
     .then(response => {
       if (response.ok) {
-        return response.json()
+        return response.json();
       } else {
-        return {}
+        return {};
       }
     })
     .then(json => {
-      recent.set(json)
+      recent.set(json);
       collections.set(json.tags);
-      updating = false
+      updating = false;
     });
 }

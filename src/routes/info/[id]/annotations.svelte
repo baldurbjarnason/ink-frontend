@@ -17,9 +17,9 @@
   import Toolbar from "../../../components/Toolbar.svelte";
   import { open } from "../../../actions/modal.js";
   import InfoActions from "../../../components/InfoActions.svelte";
-  import AnnotationsChapter from '../../../library/AnnotationsChapter.svelte'
-  import {stores} from "../../../stores"
-  const { infoBook, currentInfoBook} = stores();
+  import AnnotationsChapter from "../../../library/AnnotationsChapter.svelte";
+  import { stores } from "../../../stores";
+  const { infoBook, currentInfoBook } = stores();
   export let book;
   let width = 0;
   let sidebar = true;
@@ -116,8 +116,7 @@
 </svelte:head>
 <div class="Info" class:sidebar={sidebargrid}>
   {#if sidebar}
-    <div
-      class="Sidebar">
+    <div class="Sidebar">
       <InfoActions modal={false} />
     </div>
   {/if}
@@ -174,7 +173,7 @@
     <div class="InfoMetadata">
       <h1>{book.name}</h1>
       {#each book.readingOrder as chapter, i}
-         <AnnotationsChapter {chapter} index={i} />
+        <AnnotationsChapter {chapter} index={i} />
       {/each}
     </div>
   </div>

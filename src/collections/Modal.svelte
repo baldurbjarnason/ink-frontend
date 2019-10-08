@@ -8,8 +8,8 @@
   import { removeMany } from "../api/remove.js";
   import Collections from "./Collections.svelte";
   import { goto } from "@sapper/app";
-  import {stores as inkStores} from '../stores';
-  const {collections} = inkStores()
+  import { stores as inkStores } from "../stores";
+  const { collections } = inkStores();
   let creating;
   let deleting;
   let name = "";

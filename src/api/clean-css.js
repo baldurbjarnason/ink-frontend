@@ -12,7 +12,7 @@ const purifyConfig = {
 };
 
 export async function cleanCSS(text, url) {
-  const resourceURL = new URL(url)
+  const resourceURL = new URL(url);
   const dom = new JSDOM(
     `<html><head><style>${text}</style></head><body></body></html>`,
     {
@@ -22,7 +22,7 @@ export async function cleanCSS(text, url) {
   const window = dom.window;
   const DOMPurify = createDOMPurify(window);
   // Based on sample from https://github.com/cure53/DOMPurify/tree/master/demos, same license as DOMPurify
-  
+
   // const regex = /(url\("?)(?!data:)/gim;
   // function replacer(match, p1) {
   //   try {
@@ -37,10 +37,13 @@ export async function cleanCSS(text, url) {
   //     return "";
   //   }
   // }
-  function processURL (prop) {
-    const href = /url\("?([^)|"]+)(?!data:)/gim.exec(prop)[1]
+  function processURL(prop) {
+    const href = /url\("?([^)|"]+)(?!data:)/gim.exec(prop)[1];
     const propURL = new URL(href, resourceURL);
-    if (propURL.host === resourceURL.host && propURL.protocol === resourceURL.protocol) {
+    if (
+      propURL.host === resourceURL.host &&
+      propURL.protocol === resourceURL.protocol
+    ) {
       return `url("${href}")`;
     } else {
       return null;

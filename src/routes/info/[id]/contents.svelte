@@ -90,8 +90,7 @@
 </svelte:head>
 <div class="Info" class:sidebar={sidebargrid}>
   {#if sidebar}
-    <div
-      class="Sidebar">
+    <div class="Sidebar">
       <InfoActions modal={false} />
     </div>
   {/if}

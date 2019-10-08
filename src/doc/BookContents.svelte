@@ -1,9 +1,9 @@
 <script>
-  import {stores} from '../stores'
+  import { stores } from "../stores";
   import Contents from "./Contents.svelte";
   import TextButton from "../components/TextButton.svelte";
   import { configuringReader } from "./stores.js";
-  const { contents, docStore } = stores()
+  const { contents, docStore } = stores();
   export let modal = false;
 </script>
 

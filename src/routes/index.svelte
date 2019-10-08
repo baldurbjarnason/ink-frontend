@@ -19,11 +19,11 @@
   import { onMount } from "svelte";
   import { profile } from "./_profile.js";
   import { open } from "../actions/modal.js";
-  import { fly } from 'svelte/transition';
-  import {stores} from '../stores';
-  const {recent, title, leftSidebar} = stores()
-  title.set("Uploads")
-  leftSidebar.set('collections')
+  import { fly } from "svelte/transition";
+  import { stores } from "../stores";
+  const { recent, title, leftSidebar } = stores();
+  title.set("Uploads");
+  leftSidebar.set("collections");
   function fileDrop(files) {
     for (let file of files) {
       uploadQueue.add(file);
@@ -56,7 +56,10 @@
 <svelte:head>
   <title>Uploads – Rebus Ink</title>
 </svelte:head>
-<div class="Front" in:fly="{{ y: 200, duration:250, delay: 250}}" out:fly="{{ y: 200, duration:250}}">
+<div
+  class="Front"
+  in:fly={{ y: 200, duration: 250, delay: 250 }}
+  out:fly={{ y: 200, duration: 250 }}>
   <!-- Uploader -->
   <Uploader upload={fileDrop} />
   {#if uploadQueue}

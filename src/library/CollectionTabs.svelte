@@ -4,7 +4,7 @@
   export let current = 0;
   export let notes;
   export let library;
-  let tabs = [{label: "Library"}, {label: 'Notes'}];
+  let tabs = [{ label: "Library" }, { label: "Notes" }];
 </script>
 
 <style>
@@ -39,11 +39,20 @@
 <ol class="tabs">
   {#if tabs}
     {#each tabs as tab, i}
-    {#if tab.label.toLowerCase() === current}
-      <li><a href={tab.label === 'Library' ? library : notes} class:current={tab.label.toLowerCase() === current} aria-current="page">{tab.label}</a></li>
+      {#if tab.label.toLowerCase() === current}
+        <li>
+          <a
+            href={tab.label === 'Library' ? library : notes}
+            class:current={tab.label.toLowerCase() === current}
+            aria-current="page">
+            {tab.label}
+          </a>
+        </li>
       {:else}
-      <li><a href={tab.label === 'Library' ? library : notes}>{tab.label}</a></li>
-    {/if}
+        <li>
+          <a href={tab.label === 'Library' ? library : notes}>{tab.label}</a>
+        </li>
+      {/if}
     {/each}
   {/if}
 </ol>

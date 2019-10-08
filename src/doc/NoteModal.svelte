@@ -1,29 +1,30 @@
 <script>
   import { modal, setup, open, opener } from "../actions/modal.js";
   import { fly, fade } from "svelte/transition";
-  import TextButton from "../components/TextButton.svelte"
-  import Button from "../components/Button.svelte"
-  import Editor from "../components/Editor.svelte"
-  import DOMPurify from 'dompurify'
-  import {remove as deleter} from "../api/remove.js"
+  import TextButton from "../components/TextButton.svelte";
+  import Button from "../components/Button.svelte";
+  import Editor from "../components/Editor.svelte";
+  import DOMPurify from "dompurify";
+  import { remove as deleter } from "../api/remove.js";
   const purifyConfig = {
     KEEP_CONTENT: false,
     RETURN_DOM: true,
-    FORBID_TAGS: ['style', 'link'],
-    FORBID_ATTR: ['style']
+    FORBID_TAGS: ["style", "link"],
+    FORBID_ATTR: ["style"]
+  };
+  let note;
+  let remove;
+  function removeHighlight() {
+    document
+      .querySelectorAll(`reader-highlight[data-note-id="${note.id}"]`)
+      .forEach(highlight => highlight.replaceWith(...highlight.childNodes));
+    // Need to actually delete
+    deleter(note);
   }
-  let note
-  let remove
-  function removeHighlight () {
-    document.querySelectorAll(`reader-highlight[data-note-id="${note.id}"]`)
-          .forEach(highlight => highlight.replaceWith(...highlight.childNodes))
-   // Need to actually delete
-   deleter(note)
-  }
-  let blockquote
+  let blockquote;
   $: if (note) {
-    let dom = DOMPurify.sanitize(note.content, purifyConfig)
-    blockquote = dom.querySelector('blockquote').outerHTML
+    let dom = DOMPurify.sanitize(note.content, purifyConfig);
+    blockquote = dom.querySelector("blockquote").outerHTML;
   }
 </script>
 
@@ -119,11 +120,11 @@
 </style>
 
 <svelte:window
-    on:highlight-selected={(event => {
-      note = event.detail.note
-      note.loading = true
-      opener({id: 'note-modal'})
-    })} />
+  on:highlight-selected={event => {
+    note = event.detail.note;
+    note.loading = true;
+    opener({ id: 'note-modal' });
+  }} />
 
 <div class="Modal" use:setup id="note-modal" hidden>
 
@@ -145,26 +146,43 @@
         </svg>
       </button>
       <div class="NoteModal">
-{#if remove}
-  <p>
-    Are you sure you want to remove this highlight? This action cannot be undone.
-  </p>
-          <Button click={(event) => {
-          remove = false
-        }} noClose={true}>No, keep the highlight</Button>
-          <TextButton click={(event) => {
-          removeHighlight()
-        }} warning close={true}>Yes, remove Highlight</TextButton>
+        {#if remove}
+          <p>
+            Are you sure you want to remove this highlight? This action cannot
+            be undone.
+          </p>
+          <Button
+            click={event => {
+              remove = false;
+            }}
+            noClose={true}>
+            No, keep the highlight
+          </Button>
+          <TextButton
+            click={event => {
+              removeHighlight();
+            }}
+            warning
+            close={true}>
+            Yes, remove Highlight
+          </TextButton>
+        {:else}
+          <span class="Deleter">
+            <TextButton
+              click={event => {
+                remove = true;
+              }}
+              warning
+              noClose={true}>
+              Delete Highlight
+            </TextButton>
+          </span>
 
-{:else}
-          <span class="Deleter"><TextButton click={(event) => {
-          remove = true
-        }} warning noClose={true}>Delete Highlight</TextButton></span>
-
-        <div class="Chapter">
-        {@html blockquote}</div>
-        <Editor {note} />
-{/if}
+          <div class="Chapter">
+            {@html blockquote}
+          </div>
+          <Editor {note} />
+        {/if}
       </div>
     </div>
   {/if}

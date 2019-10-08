@@ -35,7 +35,7 @@
 {:else if $profile.loading}
   <Loading />
 {:else}
-<!-- To switch back to the old mechanism, replace <Layout> here with <main> -->
+  <!-- To switch back to the old mechanism, replace <Layout> here with <main> -->
   <Layout>
     <slot />
   </Layout>

@@ -1,5 +1,5 @@
 <script>
-  import {stores} from '../stores'
+  import { stores } from "../stores";
   import { sidebar as open } from "../actions/modal.js";
   import { goto } from "@sapper/app";
   const { infoBook, currentInfoBook } = stores();
@@ -24,9 +24,9 @@
   export let contributor;
   export let inLanguage = "en";
   export let current;
-  function handleClick (event) {
+  function handleClick(event) {
     infoBook.set({ name, id, url, cover });
-    currentInfoBook.set('');
+    currentInfoBook.set("");
   }
 </script>
 
@@ -194,9 +194,14 @@
     {/if}
     <div class="BookCard-group">
       <h4 class="BookCard-title">
-        <a href={url + 'metadata'} class="BookCard-link" 
-      data-sidebar={id}
-      use:open={{ id: 'item-modal' }} on:click={handleClick}>{name}</a>
+        <a
+          href={url + 'metadata'}
+          class="BookCard-link"
+          data-sidebar={id}
+          use:open={{ id: 'item-modal' }}
+          on:click={handleClick}>
+          {name}
+        </a>
       </h4>
       <p class="BookCard-paragraph">
         {#each author as attribution}

@@ -10,7 +10,7 @@
 
 <script>
   import { stores } from "../../../stores";
-  const {docStore} = stores();
+  const { docStore } = stores();
   export let bookData;
   docStore.set(bookData);
 </script>

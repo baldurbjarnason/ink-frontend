@@ -17,7 +17,7 @@ function generateToken(user) {
   });
 }
 
-async function deserialise (user) {
+async function deserialise(user) {
   if (!user.token) {
     user.token = generateToken(user);
   } else if (user.token) {
@@ -50,11 +50,10 @@ async function deserialise (user) {
       const { id, outbox } = response.body;
       user.profile = { id, outbox };
     } catch (err) {
-      user.profile = {status: err.statusCode}
+      user.profile = { status: err.statusCode };
     }
-
   }
-  return user
+  return user;
 }
 
 export function setup(app) {
@@ -66,7 +65,7 @@ export function setup(app) {
     // console.log('deserialise: ', user)
     return deserialise(user)
       .then(user => done(null, user))
-      .catch(err => done(err))
+      .catch(err => done(err));
   });
   app.use(passport.initialize());
   app.use(passport.session());
@@ -80,7 +79,7 @@ export function setup(app) {
           callbackURL: process.env.CALLBACK_URL
         },
         (accessToken, refreshToken, extraParams, profile, done) => {
-          return done(null, {id: profile.id});
+          return done(null, { id: profile.id });
         }
       )
     );
@@ -112,7 +111,7 @@ export function setup(app) {
   );
   app.use("/logout", (req, res) => {
     if (!req.user) return res.redirect("/");
-    req.session.destroy(() =>{
+    req.session.destroy(() => {
       req.logout();
       let redirect;
       if (process.env.PASSPORT_STRATEGY === "auth0" && process.env.SIGNOUTURL) {

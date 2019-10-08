@@ -4,8 +4,8 @@ import compression from "compression";
 import csurf from "csurf";
 import { setup as authSetup } from "./auth.js";
 import dotenv from "dotenv";
-import session from 'express-session';
-import levelStore  from 'level-session-store'
+import session from "express-session";
+import levelStore from "level-session-store";
 
 const { NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
@@ -16,27 +16,31 @@ if (dev) {
   }
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 }
-let defaultSession
+let defaultSession;
 if (dev) {
-  const LevelStore = levelStore(session)
+  const LevelStore = levelStore(session);
   defaultSession = session({
     store: new LevelStore(),
     secret: process.env.COOKIE_KEY,
     resave: false,
     rolling: true,
     saveUninitialized: false,
-    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000, secure: !dev, name: "__session" }
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      secure: !dev,
+      name: "__session"
+    }
   });
 }
 
-export function setup (sapper, options = {}) {
-  const {session = defaultSession, firebase} = options
+export function setup(sapper, options = {}) {
+  const { session = defaultSession, firebase } = options;
   const app = express();
-  
+
   app.enable("strict routing");
   app.disable("x-powered-by");
   app.set("trust proxy", true);
-  
+
   app.use(express.urlencoded({ extended: true }));
   app.use(
     express.json({
@@ -48,28 +52,29 @@ export function setup (sapper, options = {}) {
       limit: "100mb"
     })
   );
-  
-  app.use(session)
+
+  app.use(session);
   if (firebase) {
     app.use((req, res, next) => {
-      req.firebase = firebase
-      next()
-    })
+      req.firebase = firebase;
+      next();
+    });
   }
   authSetup(app);
   if (dev) {
     app.use(
       compression({ threshold: 0 }),
       sirv("dev-static", { dev }),
-      sirv("static", { dev }))
+      sirv("static", { dev })
+    );
   }
   app.use(
     "/",
     (req, res, next) => {
-      if (req.path === '/callback') {
-        return next()
+      if (req.path === "/callback") {
+        return next();
       } else {
-        return csurf()(req, res, next)
+        return csurf()(req, res, next);
       }
     },
     (req, res, next) => {
@@ -78,9 +83,9 @@ export function setup (sapper, options = {}) {
     },
     sapper.middleware({
       session: (req, res) => {
-        return {...req.session, cookie: null, user: req.user}
+        return { ...req.session, cookie: null, user: req.user };
       }
     })
   );
-  return app
+  return app;
 }

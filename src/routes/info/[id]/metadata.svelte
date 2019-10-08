@@ -17,7 +17,7 @@
   import Toolbar from "../../../components/Toolbar.svelte";
   import { open } from "../../../actions/modal.js";
   import InfoActions from "../../../components/InfoActions.svelte";
-  import {stores} from "../../../stores"
+  import { stores } from "../../../stores";
   const { infoBook, currentInfoBook } = stores();
   export let book;
   let width = 0;
@@ -115,8 +115,7 @@
 </svelte:head>
 <div class="Info" class:sidebar={sidebargrid}>
   {#if sidebar}
-    <div
-      class="Sidebar">
+    <div class="Sidebar">
       <InfoActions modal={false} />
     </div>
   {/if}

@@ -2,8 +2,16 @@
   import { decode, encode } from "universal-base64url";
   export async function preload(page, session) {
     try {
-      const [collection, type = "library", sidebarEncoded] = page.params.collection;
-      const { orderBy = "datePublished", reverse = "false", layout = 'list' } = page.query;
+      const [
+        collection,
+        type = "library",
+        sidebarEncoded
+      ] = page.params.collection;
+      const {
+        orderBy = "datePublished",
+        reverse = "false",
+        layout = "list"
+      } = page.query;
       let books = { items: [] };
       if (session.user) {
         books = await this.fetch(
@@ -19,11 +27,11 @@
       if (books.totalItems === books.items.length || books.items.length === 0) {
         hideLoadMore = true;
       }
-      let sidebar
+      let sidebar;
       if (sidebarEncoded) {
-        sidebar = decode(sidebarEncoded)
+        sidebar = decode(sidebarEncoded);
       } else {
-        sidebar = ""
+        sidebar = "";
       }
       return {
         items: books.items,
@@ -54,9 +62,9 @@
   import * as sapper from "@sapper/app";
   import { profile } from "../_profile.js";
   import { open } from "../../actions/modal.js";
-  import {stores} from '../../stores'
-  import {writable} from 'svelte/store'
-  import { fly } from 'svelte/transition';
+  import { stores } from "../../stores";
+  import { writable } from "svelte/store";
+  import { fly } from "svelte/transition";
   // import {title, leftSidebar} from "../../stores/layout.js"
   const { infoBook, currentInfoBook, title, leftSidebar } = stores();
   export let items;
@@ -65,19 +73,19 @@
   export let page;
   export let hideLoadMore = false;
   export let layout;
-  export let type = 'library';
+  export let type = "library";
   export let sidebar;
-  title.set(collection)
-  leftSidebar.set('collections')
-  let notes
-  let library
-  const search = writable(window.location.search)
+  title.set(collection);
+  leftSidebar.set("collections");
+  let notes;
+  let library;
+  const search = writable(window.location.search);
   $: if ($search) {
-    notes = `/collections/${collection}/notes${$search}`
-    library = `/collections/${collection}${$search}`
+    notes = `/collections/${collection}/notes${$search}`;
+    library = `/collections/${collection}${$search}`;
   } else {
-    notes = `/collections/${collection}/notes`
-    library = `/collections/${collection}`
+    notes = `/collections/${collection}/notes`;
+    library = `/collections/${collection}`;
   }
   const options = [
     {
@@ -130,8 +138,8 @@
         order.reverse = "&reverse=true";
       }
     }
-    search.set(`${order.orderBy}${order.reverse}`)
-    const sidebarEncoded = sidebar ? encode(sidebar) : ''
+    search.set(`${order.orderBy}${order.reverse}`);
+    const sidebarEncoded = sidebar ? encode(sidebar) : "";
     return sapper.goto(
       `/collections/${collection}/${type}/${sidebarEncoded}${order.orderBy}${order.reverse}`
     );
@@ -141,7 +149,9 @@
       const libraryAdditions = await window
         .fetch(
           `/api/collections?collection=${collection}&page=${order.page +
-            1}${order.orderBy && order.orderBy.slice(1)}${order.reverse}&type=${type}`,
+            1}${order.orderBy && order.orderBy.slice(1)}${
+            order.reverse
+          }&type=${type}`,
           {
             credentials: "include"
           }
@@ -180,7 +190,7 @@
   }
   $: if (sidebar) {
     infoBook.set({ id: sidebar });
-    currentInfoBook.set('');
+    currentInfoBook.set("");
   }
 </script>
 
@@ -247,10 +257,13 @@
   <title>{collection === 'all' ? 'All' : collection} – Rebus Ink</title>
 </svelte:head>
 
-<div class="CollectionsMain" in:fly="{{ y: 200, duration:250, delay: 250}}" out:fly="{{ y: 200, duration:250}}">
-    <div class="ViewConfig">
-    <CollectionTabs {collection} current={type} {notes} {library}/>
-    {#if type === "library"}
+<div
+  class="CollectionsMain"
+  in:fly={{ y: 200, duration: 250, delay: 250 }}
+  out:fly={{ y: 200, duration: 250 }}>
+  <div class="ViewConfig">
+    <CollectionTabs {collection} current={type} {notes} {library} />
+    {#if type === 'library'}
       <div class="select">
         Ordered By
         <label>
@@ -267,22 +280,31 @@
         </label>
       </div>
     {/if}
-    </div>
-    <!-- Recent -->
-    {#if items}
-      {#if type === "library"}
-        <List list={items} {layout} withSidebar={true} {collection} current={sidebar} />
-      {:else}
-        <NotesList notes={items} {collection} current={sidebar} withSidebar={true}  />
-      {/if}
-    {/if}
-    <span class="buttonWrapper" use:observe>
-      <Button
-        click={async event => {
-          loadMore();
-        }}
-        hidden={hideLoadMore}>
-        Load More...
-      </Button>
-    </span>
   </div>
+  <!-- Recent -->
+  {#if items}
+    {#if type === 'library'}
+      <List
+        list={items}
+        {layout}
+        withSidebar={true}
+        {collection}
+        current={sidebar} />
+    {:else}
+      <NotesList
+        notes={items}
+        {collection}
+        current={sidebar}
+        withSidebar={true} />
+    {/if}
+  {/if}
+  <span class="buttonWrapper" use:observe>
+    <Button
+      click={async event => {
+        loadMore();
+      }}
+      hidden={hideLoadMore}>
+      Load More...
+    </Button>
+  </span>
+</div>

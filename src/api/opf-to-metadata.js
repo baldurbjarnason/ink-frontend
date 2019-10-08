@@ -17,11 +17,11 @@ export function parseOPF(text, opfPath) {
     json: {}
   };
   book.inLanguage = $("dc\\:language").text();
-  const titles = []
+  const titles = [];
   $("dc\\:title").each((index, el) => {
     titles[index] = $(el).text();
-  })
-  book.name = titles.join('\n')
+  });
+  book.name = titles.join("\n");
 
   const packageElement = $("package");
   const idforid = packageElement.attr("unique-identifier");
@@ -122,31 +122,46 @@ export function parseOPF(text, opfPath) {
     .filter(creator => !knownRoles.includes(creator.role))
     .map(creator => creator.name);
 
-  book.translator = [].concat(contributors
-    .filter(contributor => contributor.role === "trl")
-    .map(contributor => contributor.name), creators
-    .filter(contributor => contributor.role === "trl")
-    .map(contributor => contributor.name));
-  book.illustrator = [].concat(contributors
-    .filter(contributor => contributor.role === "ill")
-    .map(contributor => contributor.name), creators
-    .filter(contributor => contributor.role === "ill")
-    .map(contributor => contributor.name));
-  book.editor = [].concat(contributors
-    .filter(contributor => contributor.role === "edt")
-    .map(contributor => contributor.name), creators
-    .filter(contributor => contributor.role === "edt")
-    .map(contributor => contributor.name));
-  book.colorist = [].concat(contributors
-    .filter(contributor => contributor.role === "clr")
-    .map(contributor => contributor.name), creators
-    .filter(contributor => contributor.role === "clr")
-    .map(contributor => contributor.name));
-  book.contributor = [].concat(contributors
-    .filter(contributor => !knownRoles.includes(contributor.role))
-    .map(creator => creator.name), creators
-    .filter(contributor => !knownRoles.includes(contributor.role))
-    .map(creator => creator.name));
+  book.translator = [].concat(
+    contributors
+      .filter(contributor => contributor.role === "trl")
+      .map(contributor => contributor.name),
+    creators
+      .filter(contributor => contributor.role === "trl")
+      .map(contributor => contributor.name)
+  );
+  book.illustrator = [].concat(
+    contributors
+      .filter(contributor => contributor.role === "ill")
+      .map(contributor => contributor.name),
+    creators
+      .filter(contributor => contributor.role === "ill")
+      .map(contributor => contributor.name)
+  );
+  book.editor = [].concat(
+    contributors
+      .filter(contributor => contributor.role === "edt")
+      .map(contributor => contributor.name),
+    creators
+      .filter(contributor => contributor.role === "edt")
+      .map(contributor => contributor.name)
+  );
+  book.colorist = [].concat(
+    contributors
+      .filter(contributor => contributor.role === "clr")
+      .map(contributor => contributor.name),
+    creators
+      .filter(contributor => contributor.role === "clr")
+      .map(contributor => contributor.name)
+  );
+  book.contributor = [].concat(
+    contributors
+      .filter(contributor => !knownRoles.includes(contributor.role))
+      .map(creator => creator.name),
+    creators
+      .filter(contributor => !knownRoles.includes(contributor.role))
+      .map(creator => creator.name)
+  );
   return book;
 }
 
