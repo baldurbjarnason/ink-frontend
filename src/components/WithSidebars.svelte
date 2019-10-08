@@ -11,11 +11,6 @@
   let rightsidebar = true;
   let showRightSidebar = true;
   let openInModal;
-  $: if (width >= 1200) {
-    openInModal = true;
-  } else {
-    openInModal = false;
-  }
 </script>
 
 <style>
@@ -29,33 +24,10 @@
   @media (min-width: 1024px) {
     .Main.sidebar {
       display: grid;
-      grid-template-columns: min-content 1fr;
+      grid-template-columns: 1fr minmax(min-content, 400px);
       grid-template-areas:
-        "sidebar body"
-        "sidebar body";
-    }
-    .center {
-      grid-area: body;
-      min-height: 100vh;
-    }
-    .Sidebar {
-      display: block;
-      height: 100vh;
-      position: sticky;
-      top: 0px;
-      grid-area: sidebar;
-      padding: 0;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-  }
-  @media (min-width: 1200px) {
-    .Main.right-sidebar {
-      display: grid;
-      grid-template-columns: min-content 1fr minmax(min-content, 400px);
-      grid-template-areas:
-        "sidebar body right-sidebar"
-        "sidebar body right-sidebar";
+        "body right-sidebar"
+        "body right-sidebar";
     }
     .center {
       grid-area: body;
@@ -73,6 +45,29 @@
       background-color: var(--sidebar-background-color);
     }
   }
+  @media (min-width: 1200px) {
+    .Main.right-sidebar {
+      display: grid;
+      grid-template-columns: min-content 1fr minmax(min-content, 400px);
+      grid-template-areas:
+        "sidebar body right-sidebar"
+        "sidebar body right-sidebar";
+    }
+    .center {
+      grid-area: body;
+      min-height: 100vh;
+    }
+    .Sidebar {
+      display: block;
+      height: 100vh;
+      position: sticky;
+      top: 0px;
+      grid-area: sidebar;
+      padding: 0;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
 </style>
 
 <svelte:window bind:innerWidth={width} />
@@ -80,8 +75,7 @@
   class="Main"
   class:sidebar={sidebargrid}
   class:right-sidebar={rightsidebar}
-  class:show-right-sidebar={showRightSidebar}
-  data-open-in-modal={openInModal}>
+  class:show-right-sidebar={showRightSidebar}>
   {#if sidebar}
     <div class="Sidebar">
       <slot name="left-sidebar">
@@ -93,7 +87,7 @@
 
     <Toolbar>
       <span slot="left-button">
-        {#if width <= 1024}
+        {#if width <= 1200}
           <a use:open={{ id: leftModal }} href="/" class="Toolbar-link">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +131,7 @@
       </span>
       <span slot="toolbar-title">{title}</span>
       <span slot="right-button">
-        {#if width <= 1200 && rightModal}
+        {#if width <= 1024 && rightModal}
           <a use:open={{ id: rightModal }} href="/" class="Toolbar-link">
             {rightLabel}
           </a>
