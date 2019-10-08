@@ -16,7 +16,7 @@
 <script>
   import Toolbar from "../../../components/Toolbar.svelte";
   import { open } from "../../../actions/modal.js";
-  import { book as item, current } from "../../../stores/book.js";
+  import { infoBook as item, currentInfoBook as current } from "../../../stores/book.js";
   import InfoActions from "../../../components/InfoActions.svelte";
   export let book;
   let width = 0;

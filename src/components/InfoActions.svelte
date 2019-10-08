@@ -1,7 +1,7 @@
 <script>
   import Button from "./Button.svelte";
   import TextButton from "./TextButton.svelte";
-  import { book as item, current } from "../stores/book.js";
+  import { infoBook as item, currentInfoBook as current } from "../stores/book.js";
   import { collections } from "../collections/store.js";
   import { collection } from "../api/collection.js";
   export let modal;

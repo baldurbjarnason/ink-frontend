@@ -19,6 +19,10 @@
   import { onMount } from "svelte";
   import { profile } from "./_profile.js";
   import { open } from "../actions/modal.js";
+  import { fly } from 'svelte/transition';
+  import {title, leftSidebar} from "../stores/layout.js"
+  title.set("Uploads")
+  leftSidebar.set('collections')
   export let recent;
   function fileDrop(files) {
     for (let file of files) {
@@ -52,32 +56,7 @@
 <svelte:head>
   <title>Uploads – Rebus Ink</title>
 </svelte:head>
-<!-- Menubar -->
-<Toolbar>
-  <a
-    use:open={{ id: 'collections-modal' }}
-    slot="left-button"
-    href="/"
-    class="Toolbar-link">
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="2"
-      stroke-linecap="square"
-      stroke-linejoin="round">
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
-    <!-- <span class="Label">Collections</span> -->
-  </a>
-  <span slot="toolbar-title">Uploads</span>
-</Toolbar>
-<div class="Front">
+<div class="Front" in:fly="{{ y: 200, duration:250, delay: 250}}" out:fly="{{ y: 200, duration:250}}">
   <!-- Uploader -->
   <Uploader upload={fileDrop} />
   {#if uploadQueue}

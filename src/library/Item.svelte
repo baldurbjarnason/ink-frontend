@@ -1,5 +1,5 @@
 <script>
-  import { book as item, current as currentBook } from "../stores/book.js";
+  import { infoBook as item, currentInfoBook as currentBook } from "../stores/book.js";
   import { sidebar as open } from "../actions/modal.js";
   import { goto } from "@sapper/app";
   export let author;

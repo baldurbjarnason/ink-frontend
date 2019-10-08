@@ -54,8 +54,10 @@
   import * as sapper from "@sapper/app";
   import { profile } from "../_profile.js";
   import { open } from "../../actions/modal.js";
-  import { book as item, current } from "../../stores/book.js";
+  import { infoBook as item, currentInfoBook as current } from "../../stores/book.js";
   import {writable} from 'svelte/store'
+  import { fly } from 'svelte/transition';
+  import {title, leftSidebar} from "../../stores/layout.js"
   export let items;
   export let collection;
   export let selected;
@@ -64,6 +66,8 @@
   export let layout;
   export let type = 'library';
   export let sidebar;
+  title.set(collection)
+  leftSidebar.set('collections')
   let notes
   let library
   const search = writable(window.location.search)
@@ -180,7 +184,7 @@
 </script>
 
 <style>
-  .Front {
+  .CollectionsMain {
     padding: var(--reader-left-margin);
   }
 
@@ -242,9 +246,7 @@
   <title>{collection === 'all' ? 'All' : collection} – Rebus Ink</title>
 </svelte:head>
 
-<WithSidebars title={collection} leftModal={"collections-modal"}>
-  <div slot="left-sidebar"><Collections /></div>
-  <div class="Front">
+<div class="CollectionsMain" in:fly="{{ y: 200, duration:250, delay: 250}}" out:fly="{{ y: 200, duration:250}}">
     <div class="ViewConfig">
     <CollectionTabs {collection} current={type} {notes} {library}/>
     {#if type === "library"}
@@ -283,9 +285,3 @@
       </Button>
     </span>
   </div>
-  <div slot="right-sidebar" data-sidebar-value={sidebar}>
-    {#if $item.id}
-      <InfoActions modal={false} rightSidebar={true} />
-    {/if}
-  </div>
-</WithSidebars>

@@ -3,6 +3,7 @@
   import Login from "../components/Login.svelte";
   import Profile from "../components/Profile.svelte";
   import Loading from "../components/Loading.svelte";
+  import Layout from "../layout/Layout.svelte";
   import { profile } from "../routes/_profile.js";
   import Modal from "../collections/Modal.svelte";
   import ItemActions from "../library/ItemActions.svelte";
@@ -34,7 +35,8 @@
 {:else if $profile.loading}
   <Loading />
 {:else}
-  <main>
+<!-- To switch back to the old mechanism, replace <Layout> here with <main> -->
+  <Layout>
     <slot />
-  </main>
+  </Layout>
 {/if}
