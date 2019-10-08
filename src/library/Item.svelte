@@ -1,7 +1,8 @@
 <script>
-  import { infoBook as item, currentInfoBook as currentBook } from "../stores/book.js";
+  import {stores} from '../stores'
   import { sidebar as open } from "../actions/modal.js";
   import { goto } from "@sapper/app";
+  const { infoBook, currentInfoBook } = stores();
   export let author;
   export let resources;
   export let tags;
@@ -24,8 +25,8 @@
   export let inLanguage = "en";
   export let current;
   function handleClick (event) {
-    item.set({ name, id, url, cover });
-    currentBook.set('');
+    infoBook.set({ name, id, url, cover });
+    currentInfoBook.set('');
   }
 </script>
 

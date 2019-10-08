@@ -1,14 +1,14 @@
 <script>
   import Button from "./Button.svelte";
   import TextButton from "./TextButton.svelte";
-  import { infoBook as item, currentInfoBook as current } from "../stores/book.js";
-  import { collections } from "../collections/store.js";
   import { collection } from "../api/collection.js";
+  import { stores } from "../stores";
+  const {infoBook, currentInfoBook, collections} = stores()
   export let modal;
   export let rightSidebar = false;
   let book = { navigation: { current: {} } };
-  $: if ($item.id && $item.id !== book.id) {
-    updateBook($item.id);
+  $: if ($infoBook.id && $infoBook.id !== book.id) {
+    updateBook($infoBook.id);
   }
   let bookTags = [];
   $: if (book.tags) {
@@ -23,7 +23,7 @@
   let checkboxes = {};
 
   function handleCollection(tag, input) {
-    collection(tag, $item, input.checked);
+    collection(tag, $infoBook, input.checked);
   }
 </script>
 
@@ -182,7 +182,7 @@
   }
 </style>
 
-{#if $current}
+{#if $currentInfoBook}
   <a href="/collections/all" class="return" data-close-modal class:modal>
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -238,16 +238,16 @@
 {/if}
 {/if}
 {#if modal}
-  <h1>{$item.name || ""}</h1>
+  <h1>{$infoBook.name || ""}</h1>
 {/if}
 <ol>
 {#if book.json.epubVersion}
   <li>
     <a
-      class:item={true}
+      class:infoBook={true}
       href={book.navigation.current.path}
       data-close-modal
-      class:current={$current === 'read'}>
+      class:current={$currentInfoBook === 'read'}>
       {book.position ? 'Continue' : 'Read'}
     </a>
   </li>
@@ -279,25 +279,25 @@
 {/if}
   <li class="first-item">
     <a
-      href="{$item.url}metadata"
+      href="{$infoBook.url}metadata"
       data-close-modal
-      class:current={$current === 'metadata'}>
+      class:current={$currentInfoBook === 'metadata'}>
       Metadata
     </a>
   </li>
   <li>
     <a
-      href="{$item.url}contents"
+      href="{$infoBook.url}contents"
       data-close-modal
-      class:current={$current === 'contents'}>
+      class:current={$currentInfoBook === 'contents'}>
       Contents
     </a>
   </li>
   <li class="last-item">
     <a
-      href="{$item.url}annotations"
+      href="{$infoBook.url}annotations"
       data-close-modal
-      class:current={$current === 'annotations'}>
+      class:current={$currentInfoBook === 'annotations'}>
       Annotations
     </a>
   </li>

@@ -4,32 +4,33 @@
   import Button from "../components/Button.svelte";
   import TextButton from "../components/TextButton.svelte";
   import { onMount } from "svelte";
-  import { collections } from "./store.js";
   import { create } from "../api/create.js";
   import { removeMany } from "../api/remove.js";
   import Collections from "./Collections.svelte";
   import { goto } from "@sapper/app";
+  import {stores as inkStores} from '../stores';
+  const {collections} = inkStores()
   let creating;
   let deleting;
   let name = "";
-  function update() {
-    fetch(`/recent.json`)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else {
-          return {}
-        }
-      })
-      .then(json => {
-        collections.set(json.tags);
-      });
-  }
-  onMount(async () => {
-    if ($collections.length === 0) {
-      update();
-    }
-  });
+  // function update() {
+  //   fetch(`/recent.json`)
+  //     .then(response => {
+  //       if (response.ok) {
+  //         return response.json()
+  //       } else {
+  //         return {}
+  //       }
+  //     })
+  //     .then(json => {
+  //       collections.set(json.tags);
+  //     });
+  // }
+  // onMount(async () => {
+  //   if ($collections.length === 0) {
+  //     update();
+  //   }
+  // });
 </script>
 
 <style>

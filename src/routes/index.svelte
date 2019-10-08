@@ -20,28 +20,28 @@
   import { profile } from "./_profile.js";
   import { open } from "../actions/modal.js";
   import { fly } from 'svelte/transition';
-  import {title, leftSidebar} from "../stores/layout.js"
+  import {stores} from '../stores';
+  const {recent, title, leftSidebar} = stores()
   title.set("Uploads")
   leftSidebar.set('collections')
-  export let recent;
   function fileDrop(files) {
     for (let file of files) {
       uploadQueue.add(file);
     }
   }
-  $: if ($uploadQueue) {
-    fetch(`/recent.json`)
-      .then(response => {
-        if (response.ok) {
-          return response.json()
-        } else {
-          return {}
-        }
-      })
-      .then(json => {
-        recent = json;
-      });
-  }
+  // $: if ($uploadQueue) {
+  //   fetch(`/recent.json`)
+  //     .then(response => {
+  //       if (response.ok) {
+  //         return response.json()
+  //       } else {
+  //         return {}
+  //       }
+  //     })
+  //     .then(json => {
+  //       recent = json;
+  //     });
+  // }
 </script>
 
 <style>

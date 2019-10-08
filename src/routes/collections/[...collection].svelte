@@ -54,10 +54,11 @@
   import * as sapper from "@sapper/app";
   import { profile } from "../_profile.js";
   import { open } from "../../actions/modal.js";
-  import { infoBook as item, currentInfoBook as current } from "../../stores/book.js";
+  import {stores} from '../../stores'
   import {writable} from 'svelte/store'
   import { fly } from 'svelte/transition';
-  import {title, leftSidebar} from "../../stores/layout.js"
+  // import {title, leftSidebar} from "../../stores/layout.js"
+  const { infoBook, currentInfoBook, title, leftSidebar } = stores();
   export let items;
   export let collection;
   export let selected;
@@ -178,8 +179,8 @@
     };
   }
   $: if (sidebar) {
-    item.set({ id: sidebar });
-    current.set('');
+    infoBook.set({ id: sidebar });
+    currentInfoBook.set('');
   }
 </script>
 

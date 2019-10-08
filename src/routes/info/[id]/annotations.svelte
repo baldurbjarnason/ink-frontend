@@ -16,15 +16,16 @@
 <script>
   import Toolbar from "../../../components/Toolbar.svelte";
   import { open } from "../../../actions/modal.js";
-  import { infoBook as item, currentInfoBook as current } from "../../../stores/book.js";
   import InfoActions from "../../../components/InfoActions.svelte";
   import AnnotationsChapter from '../../../library/AnnotationsChapter.svelte'
+  import {stores} from "../../../stores"
+  const { infoBook, currentInfoBook} = stores();
   export let book;
   let width = 0;
   let sidebar = true;
   let sidebargrid = true;
-  $: item.set(book);
-  current.set("annotations");
+  $: infoBook.set(book);
+  currentInfoBook.set("annotations");
 </script>
 
 <style>

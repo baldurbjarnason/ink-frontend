@@ -35,16 +35,17 @@
 <script>
   import Toolbar from "../../../components/Toolbar.svelte";
   import { open } from "../../../actions/modal.js";
-  import { infoBook as item, currentInfoBook as current } from "../../../stores/book.js";
   import InfoActions from "../../../components/InfoActions.svelte";
   import Contents from "../../../doc/Contents.svelte";
+  import { stores } from "../../../stores";
+  const { infoBook, currentInfoBook } = stores();
   export let book;
   export let contents;
   let width = 0;
   let sidebar = true;
   let sidebargrid = true;
-  $: item.set(book);
-  current.set("contents");
+  $: infoBook.set(book);
+  currentInfoBook.set("contents");
 </script>
 
 <style>

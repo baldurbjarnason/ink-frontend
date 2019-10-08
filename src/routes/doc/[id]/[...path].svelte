@@ -15,9 +15,10 @@
   import InfoActions from "../../../components/InfoActions.svelte";
   import { read } from "../../../api/read.js";
   import {handleHighlight, highlightNotes}  from "./_handleHighlight.js"
-  import {
-    book as bookStore,
-    chapter as chapterStore,
+  import {stores} from '../../../stores'
+  const {
+    docStore,
+    chapterStore,
     navigation,
     contents,
     currentLocation,
@@ -26,7 +27,7 @@
     chapterTitle,
     configuringReader,
     notes
-  } from "../../../doc/stores.js";
+  } = stores();
   function handleCurrent({ detail }) {
     currentLocation.set({
       location: detail.highest.dataset.location
@@ -52,7 +53,7 @@
   export let book;
   export let chapter;
   $: if (book) {
-    bookStore.set(book);
+    docStore.set(book);
   }
   $: if (chapter) {
     chapterStore.set(chapter);
@@ -77,9 +78,9 @@
   onMount(async () => {
     window.lifecycle.addEventListener("statechange", handleLifeCycle);
     await tick();
-    if ($bookStore.position && $bookStore.position.path === $chapterStore.url) {
+    if ($docStore.position && $docStore.position.path === $chapterStore.url) {
       const location = document.querySelector(
-        `[data-location="${$bookStore.position.location}"]`
+        `[data-location="${$docStore.position.location}"]`
       );
       if (location) {
         location.scrollIntoView({ behavior: "smooth" });
@@ -89,7 +90,7 @@
   onDestroy(() => {
       const location = $currentLocation.location;
       const chapter = $chapterStore.url;
-      const url = new URL(`/${$bookStore.id}/`, $chapterStore.url).href
+      const url = new URL(`/${$docStore.id}/`, $chapterStore.url).href
 
       read(url, location, chapter);
       window.lifecycle.removeEventListener("statechange", handleLifeCycle);
@@ -100,7 +101,7 @@
       event.oldState === "active" &&
       $currentLocation
     ) {
-      const url = new URL(`/${$bookStore.id}/`, $chapterStore.url).href
+      const url = new URL(`/${$docStore.id}/`, $chapterStore.url).href
       read(url, $currentLocation.location, $chapterStore.url);
     }
   }
