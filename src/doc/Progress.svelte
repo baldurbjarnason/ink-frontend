@@ -21,14 +21,40 @@
   }
 
   button.Toolbar-link.Progress {
-    /* position: fixed;
+    font-family: var(--sans-fonts);
+    font-weight: 400;
+    flex: 0 1 auto;
+    line-height: 1.2;
+
+    display: inline-block;
+    padding: 5px 5px 4px;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: none;
+
+    color: var(--link);
+    border: none;
+    background-color: transparent;
+
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+    border-bottom: solid 3px transparent;
+    position: sticky;
     top: 40px;
-    left: 13px; */
     width: 24px;
     display: flex;
     flex-direction: column;
     padding: 0.25rem;
     align-items: center;
+    z-index: 1;
   }
   @media (min-width: 1024px) {
     .Progress {
