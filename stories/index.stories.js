@@ -63,6 +63,30 @@ const list = [
 
 const notes = [{
   content: '<blockquote>Test Quote</blockquote><p>test</p>',
+  id: 'https://example.com/test-id-for-note1',
+  publication: list[0]
+}, {
+  content: '<blockquote>Test Quote</blockquote><p>test 2</p>',
+  id: 'https://example.com/test-id-for-note',
+  publication: list[0]
+}, {
+  content: '<blockquote>Test Quote</blockquote><p>test 3</p>',
+  id: 'https://example.com/test-id-for-note3',
+  publication: list[0]
+}, {
+  content: '<blockquote>Test Quote</blockquote><p>test 4</p>',
+  id: 'https://example.com/test-id-for-note4',
+  publication: list[0]
+}, {
+  content: '<blockquote>Test Quote</blockquote><p>test 5</p>',
+  id: 'https://example.com/test-id-for-note5',
+  publication: list[0]
+}, {
+  content: '<blockquote>Test Quote</blockquote><p>test 6</p>',
+  id: 'https://example.com/test-id-for-note6',
+  publication: list[0]
+}, {
+  content: '<blockquote>Test Quote</blockquote><p>test 7</p>',
   id: 'https://example.com/test-id-for-note',
   publication: list[0]
 }]
@@ -124,6 +148,7 @@ storiesOf("NotesList", module)
     Component: NotesList,
     props: {
       notes,
+      current: "https://example.com/test-id-for-note",
       layout: "covers"
     }
   }));

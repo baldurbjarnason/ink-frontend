@@ -6,6 +6,7 @@
   export let index;
   export let withSidebar = false;
   export let collection;
+  export let current;
   $: if (notes) {
     notes.forEach(note => {
       if (note && note.id) {
@@ -47,7 +48,7 @@
     {#each notes as note}
       <div class="Note">
         <a class="title" href={note.publication.url}>{note.publication.name}</a>
-        <Highlight {note} edit={note.edit} />
+        <Highlight {note} edit={note.edit} {current} />
       </div>
     {/each}
   {/if}

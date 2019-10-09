@@ -9,6 +9,11 @@
   };
   export let note;
   export let edit;
+  export let current;
+  let selected
+  $: if (current === note.id) {
+    selected = true
+  }
 </script>
 
 <style>
@@ -23,6 +28,10 @@
     grid-template-columns: 1rem 1fr 1rem;
     position: relative;
     border: 0.25rem solid #ffffbd;
+  }
+  .AnnotationsHighlight.selected {
+    background-color: var(--light);
+    border-color: #ddd;
   }
   :global(.AnnotationsHighlight > *) {
     grid-column: 2 / 3;
@@ -53,7 +62,7 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-<div class="AnnotationsHighlight">
+<div class="AnnotationsHighlight" class:selected >
   <a href="{edit}" class="edit">Edit</a>
   {@html DOMPurify.sanitize(note.content, purifyConfig)}
 </div>
