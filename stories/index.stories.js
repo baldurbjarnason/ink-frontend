@@ -7,6 +7,8 @@ import LibraryList from "./LibraryList.svelte";
 import NotesList from "./NotesList.svelte";
 import Upload from "./Upload.svelte";
 import UploadQueue from "./UploadQueue.svelte";
+import Book from "./Book.svelte";
+import chapter from './preview-data/epub.html.json'
 
 const list = [
   {
@@ -150,6 +152,13 @@ storiesOf("NotesList", module)
       notes,
       current: "https://example.com/test-id-for-note",
       layout: "covers"
+    }
+  }));
+storiesOf("Book", module)
+  .add("basic", () => ({
+    Component: Book,
+    props: {
+      chapter
     }
   }));
 storiesOf("Upload", module).add("main", () => ({
