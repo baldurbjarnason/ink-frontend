@@ -26,7 +26,8 @@
     fontSize,
     chapterTitle,
     configuringReader,
-    notes
+    notes,
+    title
   } = stores();
   function handleCurrent({ detail }) {
     currentLocation.set({
@@ -54,6 +55,7 @@
   export let chapter;
   $: if (book) {
     docStore.set(book);
+    title.set(book.name)
   }
   $: if (chapter) {
     chapterStore.set(chapter);
@@ -117,31 +119,6 @@
 </script>
 
 <style>
-  .Sidebar {
-    display: none;
-  }
-  @media (min-width: 1024px) {
-    .BookBody.sidebar {
-      display: grid;
-      grid-template-columns: minmax(300px, 0.4fr) 1fr;
-      grid-template-areas:
-        "sidebar body"
-        "sidebar body"
-        "sidebar body";
-    }
-    .BookBody.sidebar :global(.Chapter) {
-      grid-column: 2 / -1;
-    }
-    .Sidebar {
-      display: block;
-      background-color: white;
-      height: 100vh;
-      position: sticky;
-      top: 0px;
-      grid-area: sidebar;
-      padding: 0 0.25rem;
-    }
-  }
   .LeftButton {
     align-self: flex-start;
   }
@@ -244,6 +221,10 @@
       display: none;
     }
   }
+  .BookBody {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+  }
 </style>
 
 <svelte:window bind:innerWidth={width} />
@@ -259,31 +240,12 @@
 </svelte:head>
 
 {#if book}
-  <div
-    class="BookBody"
-    bind:this={bookBody}
-    class:sidebar={sidebargrid}
-    data-current={$currentLocation.location}>
-    {#if sidebar}
-      <div bind:clientWidth={sidebarWidth} class="Sidebar">
-        <BookContents modal={false} />
-      </div>
-    {/if}
     <!-- Menubar -->
+  {#if $configuringReader}
     <Toolbar>
       <span slot="left-button" class="LeftButton">
-
-        <Progress
-          chapters={book.readingOrder}
-          current={chapter.index}
-          {width}
-          on:toggle-sidebar={() => {
-            sidebar = !sidebar;
-            sidebargrid = !sidebargrid;
-          }} />
       </span>
       <span slot="toolbar-title">
-        {#if $configuringReader}
           <label>
             <span class="SelectLabel">Theme</span>
             <select
@@ -384,7 +346,6 @@
               </option>
             </select>
           </label>
-        {:else}{book.name}{/if}
       </span>
       <span slot="right-button">
         {#if $configuringReader}
@@ -399,6 +360,20 @@
         {/if}
       </span>
     </Toolbar>
+  {/if}
+  <div
+    class="BookBody"
+    bind:this={bookBody}
+    data-current={$currentLocation.location}>
+<!-- This needs to be first positioned using the grid, then made sticky -->
+        <Progress
+          chapters={book.readingOrder}
+          current={chapter.index}
+          {width}
+          on:toggle-sidebar={() => {
+            sidebar = !sidebar;
+            sidebargrid = !sidebargrid;
+          }} />
     <!-- Should have all chapters appear, they should get values from stores and only use props for chapter assignments. Only when props match store is the chapter rendered -->
     {#each book.readingOrder as chapter, index}
       <Chapter
