@@ -259,7 +259,7 @@
     position: relative;
     border-bottom: 0.125rem solid #eded00;
   }
-  :global(.Chapter a.Highlight) {
+  :global(.Chapter a.Highlight, .Chapter mark.Highlight) {
     background-color: #ffff98;
     box-shadow: 0 0 0 2px #ffff98;
     color: var(--reader-text-color);
@@ -272,6 +272,25 @@
     color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
+  }
+  :global(.Chapter mark::before), 
+  :global(.Chapter mark::after), :global(.Chapter a.Highlight::before), 
+  :global(.Chapter a.Highlight::after) {
+    clip-path: inset(100%);
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+
+  :global(.Chapter mark::before), :global(.Chapter a.Highlight::before) {
+    content: " [highlight start] ";
+  }
+
+  :global(.Chapter mark::after), :global(.Chapter a.Highlight::after) {
+    content: " [highlight end] ";
   }
   :global(.Chapter a:focus) {
     background-color: var(--rc-lighter);
