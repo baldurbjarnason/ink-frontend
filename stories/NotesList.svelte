@@ -10,6 +10,6 @@
   /* your styles go here */
 </style>
 
-<NotesList {layout} {notes} collection={"all"} {current} />
+<NotesList {layout} {notes} collection={'all'} {current} />
 
 <!-- markup (zero or more items) goes here -->

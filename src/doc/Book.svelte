@@ -8,7 +8,10 @@
   import Button from "../components/Button.svelte";
   import InfoActions from "../components/InfoActions.svelte";
   import { read } from "../api/read.js";
-  import { handleHighlight, highlightNotes } from "../routes/doc/[id]/_handleHighlight.js";
+  import {
+    handleHighlight,
+    highlightNotes
+  } from "../routes/doc/[id]/_handleHighlight.js";
   import { stores } from "../stores";
   const {
     docStore,
@@ -49,7 +52,7 @@
   export let chapter;
   $: if (book) {
     docStore.set(book);
-    title.set(book.name)
+    title.set(book.name);
   }
   $: if (chapter) {
     chapterStore.set(chapter);
@@ -95,7 +98,7 @@
       selectionRange = null;
     }
   });
-  console.log('gets to the end of render')
+  console.log("gets to the end of render");
 </script>
 
 <style>
@@ -213,19 +216,18 @@
 </svelte:head>
 
 {#if book}
-    <!-- Menubar -->
+  <!-- Menubar -->
   {#if $configuringReader}
     <Toolbar>
-      <span slot="left-button" class="LeftButton">
-      </span>
+      <span slot="left-button" class="LeftButton" />
       <span slot="toolbar-title">
-          <label>
-            <span class="SelectLabel">Theme</span>
-            <select
-              name="viewConfig"
-              id="Theme"
-              on:change={event => theme.save(event.target.value)}>
-              <!-- 
+        <label>
+          <span class="SelectLabel">Theme</span>
+          <select
+            name="viewConfig"
+            id="Theme"
+            on:change={event => theme.save(event.target.value)}>
+            <!-- 
   --fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -236,89 +238,89 @@
     Roboto, Noto, "Helvetica Neue", Arial, sans-serif;
   --humanist-sans-fonts: Seravek, Calibri, Roboto, Arial, sans-serif;
   --monospace-fonts: "Andale Mono", Consolas, monospace; -->
-              <option
-                value="old-style"
-                selected={$theme === 'old-style'}
-                aria-label="Old Style (Default)">
-                Old Style (Default)
-              </option>
-              <option
-                value="modern-serif"
-                selected={$theme === 'modern-serif'}
-                aria-label="Modern Serif">
-                Modern Serif
-              </option>
-              <option
-                value="neutral"
-                selected={$theme === 'neutral'}
-                aria-label="Neutral">
-                Neutral
-              </option>
-              <option
-                value="humanist-sans"
-                selected={$theme === 'humanist-sans'}
-                aria-label="Humanist Sans">
-                Humanist Sans
-              </option>
-              <option
-                value="duo-accessible"
-                selected={$theme === 'duo-accessible'}
-                aria-label="Duo (accessible)">
-                Duo (accessible)
-              </option>
-            </select>
-          </label>
-          <label>
-            <span class="SelectLabel">Font Size</span>
-            <select
-              name="viewConfig"
-              id="viewConfig"
-              on:change={event => fontSize.save(event.target.value)}>
+            <option
+              value="old-style"
+              selected={$theme === 'old-style'}
+              aria-label="Old Style (Default)">
+              Old Style (Default)
+            </option>
+            <option
+              value="modern-serif"
+              selected={$theme === 'modern-serif'}
+              aria-label="Modern Serif">
+              Modern Serif
+            </option>
+            <option
+              value="neutral"
+              selected={$theme === 'neutral'}
+              aria-label="Neutral">
+              Neutral
+            </option>
+            <option
+              value="humanist-sans"
+              selected={$theme === 'humanist-sans'}
+              aria-label="Humanist Sans">
+              Humanist Sans
+            </option>
+            <option
+              value="duo-accessible"
+              selected={$theme === 'duo-accessible'}
+              aria-label="Duo (accessible)">
+              Duo (accessible)
+            </option>
+          </select>
+        </label>
+        <label>
+          <span class="SelectLabel">Font Size</span>
+          <select
+            name="viewConfig"
+            id="viewConfig"
+            on:change={event => fontSize.save(event.target.value)}>
 
-              <option
-                value="xx-small"
-                selected={$fontSize === 'xx-small'}
-                aria-label="Tiny">
-                Tiny
-              </option>
-              <option
-                value="x-small"
-                selected={$fontSize === 'x-small'}
-                aria-label="Extra Small">
-                Extra Small
-              </option>
-              <option
-                value="small"
-                selected={$fontSize === 'small'}
-                aria-label="Small">
-                Small
-              </option>
-              <option
-                value="regular"
-                selected={$fontSize === 'regular'}
-                aria-label="Regular">
-                Regular
-              </option>
-              <option
-                value="bigger"
-                selected={$fontSize === 'bigger'}
-                aria-label="Bigger">
-                Bigger
-              </option>
-              <option
-                value="large"
-                selected={$fontSize === 'large'}
-                aria-label="Large">
-                Large
-              </option>
-              <option
-                value="x-large"
-                selected={$fontSize === 'x-large'}
-                aria-label="Extra Large">
-                Extra Large
-              </option>
-            </select>
-          </label>
+            <option
+              value="xx-small"
+              selected={$fontSize === 'xx-small'}
+              aria-label="Tiny">
+              Tiny
+            </option>
+            <option
+              value="x-small"
+              selected={$fontSize === 'x-small'}
+              aria-label="Extra Small">
+              Extra Small
+            </option>
+            <option
+              value="small"
+              selected={$fontSize === 'small'}
+              aria-label="Small">
+              Small
+            </option>
+            <option
+              value="regular"
+              selected={$fontSize === 'regular'}
+              aria-label="Regular">
+              Regular
+            </option>
+            <option
+              value="bigger"
+              selected={$fontSize === 'bigger'}
+              aria-label="Bigger">
+              Bigger
+            </option>
+            <option
+              value="large"
+              selected={$fontSize === 'large'}
+              aria-label="Large">
+              Large
+            </option>
+            <option
+              value="x-large"
+              selected={$fontSize === 'x-large'}
+              aria-label="Extra Large">
+              Extra Large
+            </option>
+          </select>
+        </label>
       </span>
       <span slot="right-button">
         {#if $configuringReader}
@@ -338,11 +340,8 @@
     class="BookBody"
     bind:this={bookBody}
     data-current={$currentLocation.location}>
-<!-- This needs to be first positioned using the grid, then made sticky -->
-        <Progress
-          chapters={book.readingOrder}
-          current={chapter.index}
-          {width} />
+    <!-- This needs to be first positioned using the grid, then made sticky -->
+    <Progress chapters={book.readingOrder} current={chapter.index} {width} />
     <!-- Should have all chapters appear, they should get values from stores and only use props for chapter assignments. Only when props match store is the chapter rendered -->
     {#each book.readingOrder as chapter, index}
       <Chapter

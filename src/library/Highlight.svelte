@@ -10,9 +10,9 @@
   export let note;
   export let edit;
   export let current;
-  let selected
+  let selected;
   $: if (current === note.id) {
-    selected = true
+    selected = true;
   }
 </script>
 
@@ -62,7 +62,7 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-<div class="AnnotationsHighlight" class:selected >
-  <a href="{edit}" class="edit">Edit</a>
+<div class="AnnotationsHighlight" class:selected>
+  <a href={edit} class="edit">Edit</a>
   {@html DOMPurify.sanitize(note.content, purifyConfig)}
 </div>

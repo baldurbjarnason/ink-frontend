@@ -262,14 +262,14 @@
   :global(.Chapter a.Highlight) {
     background-color: #ffff98;
     box-shadow: 0 0 0 2px #ffff98;
-    color:var(--reader-text-color);
+    color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
   }
   :global(.Chapter a.Highlight:hover) {
-    background-color:  var(--rc-lighter);
-    box-shadow: 0 0 0 3px  var(--rc-lighter);
-    color:var(--reader-text-color);
+    background-color: var(--rc-lighter);
+    box-shadow: 0 0 0 3px var(--rc-lighter);
+    color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
   }

@@ -1,7 +1,7 @@
 <script>
-  import {stores} from '../stores'
+  import { stores } from "../stores";
   import Button from "../components/Button.svelte";
-  const {collections} = stores()
+  const { collections } = stores();
   export let recent = { items: [] };
 </script>
 
@@ -21,10 +21,14 @@
 
 {#if $collections}
   <div class="Recent">
-  <h1>collections</h1>
-  {#each $collections as collection}
-    <Button href="/collections/{encodeURIComponent(collection.name)}" collection={true}>{collection.name}</Button>
-     <!-- content here -->
-  {/each}
-</div>
+    <h1>collections</h1>
+    {#each $collections as collection}
+      <Button
+        href="/collections/{encodeURIComponent(collection.name)}"
+        collection={true}>
+        {collection.name}
+      </Button>
+      <!-- content here -->
+    {/each}
+  </div>
 {/if}

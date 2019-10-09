@@ -7,7 +7,7 @@
   import { remove as deleter } from "../api/remove.js";
   import { stores } from "../stores";
   import { goto } from "@sapper/app";
-  const {note} = stores();
+  const { note } = stores();
   const purifyConfig = {
     KEEP_CONTENT: false,
     RETURN_DOM: true,
@@ -58,50 +58,50 @@
 <!-- Instead of doing this we should be using <a> tags instead of custom <reader-marker> tags to mark highlights. That way we automatically get accessible navigation to note editing. -->
 <svelte:window
   on:highlight-selected={event => {
-    note.set({...event.detail.note, loading: true});
-    const search = new window.URLSearchParams(window.location.search)
-    search.set("note", encode(event.detail.note.id))
-    const url = new window.URL(window.location)
-    url.search = search.toString()
-    return goto(url)
+    note.set({ ...event.detail.note, loading: true });
+    const search = new window.URLSearchParams(window.location.search);
+    search.set('note', encode(event.detail.note.id));
+    const url = new window.URL(window.location);
+    url.search = search.toString();
+    return goto(url);
   }} />
 
-  <div class="NoteModal">
-    {#if remove}
-      <p>
-        Are you sure you want to remove this highlight? This action cannot
-        be undone.
-      </p>
-      <Button
-        click={event => {
-          remove = false;
-        }}
-        noClose={true}>
-        No, keep the highlight
-      </Button>
+<div class="NoteModal">
+  {#if remove}
+    <p>
+      Are you sure you want to remove this highlight? This action cannot be
+      undone.
+    </p>
+    <Button
+      click={event => {
+        remove = false;
+      }}
+      noClose={true}>
+      No, keep the highlight
+    </Button>
+    <TextButton
+      click={event => {
+        removeHighlight();
+      }}
+      warning
+      close={true}>
+      Yes, remove Highlight
+    </TextButton>
+  {:else}
+    <span class="Deleter">
       <TextButton
         click={event => {
-          removeHighlight();
+          remove = true;
         }}
         warning
-        close={true}>
-        Yes, remove Highlight
+        noClose={true}>
+        Delete Highlight
       </TextButton>
-    {:else}
-      <span class="Deleter">
-        <TextButton
-          click={event => {
-            remove = true;
-          }}
-          warning
-          noClose={true}>
-          Delete Highlight
-        </TextButton>
-      </span>
+    </span>
 
-      <div class="Chapter">
-        {@html blockquote}
-      </div>
-      <Editor {$note} />
-    {/if}
-  </div>
+    <div class="Chapter">
+      {@html blockquote}
+    </div>
+    <Editor {$note} />
+  {/if}
+</div>

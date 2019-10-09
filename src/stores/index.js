@@ -5,8 +5,9 @@ import { writable } from "svelte/store";
 
 let collections;
 let recent;
-const note = writable({})
+const note = writable({});
 let updating = false;
+const jobs = writable([]);
 export function stores() {
   let update = false;
   if (!collections) {
@@ -18,7 +19,7 @@ export function stores() {
     update = true;
   }
   if (update && !updating) updateCollections();
-  return { ...book, ...layout, ...doc, collections, recent, note };
+  return { ...book, ...layout, ...doc, collections, recent, note, jobs };
 }
 
 function updateCollections() {

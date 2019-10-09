@@ -97,12 +97,12 @@ function highlightNote(selector, root, id, note) {
   }
 }
 
-function setNoteURL (id) {
-  const search = new window.URLSearchParams(window.location.search)
-  search.set("note", encode(id))
-  const url = new window.URL(window.location)
-  url.search = search.toString()
-  return url.href
+function setNoteURL(id) {
+  const search = new window.URLSearchParams(window.location.search);
+  search.set("note", encode(id));
+  const url = new window.URL(window.location);
+  url.search = search.toString();
+  return url.href;
 }
 
 export function highlightNotes(root, annotations) {

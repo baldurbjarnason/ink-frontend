@@ -10,8 +10,8 @@
   $: if (notes) {
     notes.forEach(note => {
       if (note && note.id) {
-        const query = new window.URLSearchParams(window.location.search)
-        query.set('note', encode(note.id))
+        const query = new window.URLSearchParams(window.location.search);
+        query.set("note", encode(note.id));
         // We base64url encode the url here because a lot of CDNs have problems with urls in urls, even when properly escaped as URL components.
         note.edit = `/collections/${collection}/notes/?${query.toString()}`;
       }
@@ -21,8 +21,8 @@
   function processPublication(item) {
     if (!item) return {};
     if (item.id) {
-      const query = new window.URLSearchParams(window.location.search)
-      query.set('item', encode(item.id))
+      const query = new window.URLSearchParams(window.location.search);
+      query.set("item", encode(item.id));
       // We base64url encode the url here because a lot of CDNs have problems with urls in urls, even when properly escaped as URL components.
       item.url = `/collections/${collection}/notes/?${query.toString()}`;
     }

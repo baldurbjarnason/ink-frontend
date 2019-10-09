@@ -2,10 +2,7 @@
   import { decode, encode } from "universal-base64url";
   export async function preload(page, session) {
     try {
-      const [
-        collection,
-        type = "library"
-      ] = page.params.collection;
+      const [collection, type = "library"] = page.params.collection;
       const {
         orderBy = "datePublished",
         reverse = "false",
@@ -26,9 +23,9 @@
       if (books.totalItems === books.items.length || books.items.length === 0) {
         hideLoadMore = true;
       }
-      let sidebar
+      let sidebar;
       if (page.query.item) {
-        sidebar = decode(page.query.item)
+        sidebar = decode(page.query.item);
       }
       return {
         items: books.items,
@@ -82,8 +79,8 @@
     notes = `/collections/${collection}/notes`;
     library = `/collections/${collection}`;
   }
-  let options
-  $: if (type === 'library') {
+  let options;
+  $: if (type === "library") {
     options = [
       {
         text: "Newest first",
@@ -140,15 +137,15 @@
   };
   function onSelect(event) {
     const value = event.target.value.split("-");
-    const query = new window.URLSearchParams(window.location.search)
+    const query = new window.URLSearchParams(window.location.search);
     if (value[0] === "datePublished") {
-      query.delete("orderBy")
-      query.delete("reverse")
-      query.set("page", 1)
+      query.delete("orderBy");
+      query.delete("reverse");
+      query.set("page", 1);
       if (value[1]) {
-        query.set("orderBy", "datePublished")
-        query.set("reverse", "true")
-        query.set("page", 1)
+        query.set("orderBy", "datePublished");
+        query.set("reverse", "true");
+        query.set("page", 1);
       }
     } else {
       order = {
@@ -156,15 +153,15 @@
         reverse: "",
         page: 1
       };
-        query.set("orderBy", value[0])
-        query.delete("reverse")
-        query.set("page", 1)
+      query.set("orderBy", value[0]);
+      query.delete("reverse");
+      query.set("page", 1);
       if (value[1]) {
         order.reverse = "&reverse=true";
-        query.set("reverse", "true")
+        query.set("reverse", "true");
       }
     }
-    search.set('?' + query.toString());
+    search.set("?" + query.toString());
     return sapper.goto(
       `/collections/${collection}/${type}/?${query.toString()}`
     );
@@ -228,7 +225,8 @@
   @media (max-width: 1100px) {
     label,
     select,
-    option, .select {
+    option,
+    .select {
       font-size: 13px;
     }
   }
@@ -288,21 +286,21 @@
   out:fly={{ y: 200, duration: 250 }}>
   <div class="ViewConfig">
     <CollectionTabs {collection} current={type} {notes} {library} />
-      <div class="select">
-        Ordered By
-        <label>
-          <select name="viewConfig" id="viewConfig" on:change={onSelect}>
-            {#each options as option}
-              <option
-                value={option.value}
-                selected={option.selected}
-                aria-label={option.label || option.text}>
-                {option.text}
-              </option>
-            {/each}
-          </select>
-        </label>
-      </div>
+    <div class="select">
+      Ordered By
+      <label>
+        <select name="viewConfig" id="viewConfig" on:change={onSelect}>
+          {#each options as option}
+            <option
+              value={option.value}
+              selected={option.selected}
+              aria-label={option.label || option.text}>
+              {option.text}
+            </option>
+          {/each}
+        </select>
+      </label>
+    </div>
   </div>
   <!-- Recent -->
   {#if items}

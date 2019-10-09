@@ -9,7 +9,7 @@ import Upload from "./Upload.svelte";
 import UploadQueue from "./UploadQueue.svelte";
 import Book from "./Book.svelte";
 import Highlight from "./Highlight.svelte";
-import chapter from './preview-data/epub.html.json'
+import chapter from "./preview-data/epub.html.json";
 
 const list = [
   {
@@ -64,35 +64,43 @@ const list = [
   }
 ];
 
-const notes = [{
-  content: '<blockquote>Test Quote</blockquote><p>test</p>',
-  id: 'https://example.com/test-id-for-note1',
-  publication: list[0]
-}, {
-  content: '<blockquote>Test Quote</blockquote><p>test 2</p>',
-  id: 'https://example.com/test-id-for-note',
-  publication: list[0]
-}, {
-  content: '<blockquote>Test Quote</blockquote><p>test 3</p>',
-  id: 'https://example.com/test-id-for-note3',
-  publication: list[0]
-}, {
-  content: '<blockquote>Test Quote</blockquote><p>test 4</p>',
-  id: 'https://example.com/test-id-for-note4',
-  publication: list[0]
-}, {
-  content: '<blockquote>Test Quote</blockquote><p>test 5</p>',
-  id: 'https://example.com/test-id-for-note5',
-  publication: list[0]
-}, {
-  content: '<blockquote>Test Quote</blockquote><p>test 6</p>',
-  id: 'https://example.com/test-id-for-note6',
-  publication: list[0]
-}, {
-  content: '<blockquote>Test Quote</blockquote><p>test 7</p>',
-  id: 'https://example.com/test-id-for-note',
-  publication: list[0]
-}]
+const notes = [
+  {
+    content: "<blockquote>Test Quote</blockquote><p>test</p>",
+    id: "https://example.com/test-id-for-note1",
+    publication: list[0]
+  },
+  {
+    content: "<blockquote>Test Quote</blockquote><p>test 2</p>",
+    id: "https://example.com/test-id-for-note",
+    publication: list[0]
+  },
+  {
+    content: "<blockquote>Test Quote</blockquote><p>test 3</p>",
+    id: "https://example.com/test-id-for-note3",
+    publication: list[0]
+  },
+  {
+    content: "<blockquote>Test Quote</blockquote><p>test 4</p>",
+    id: "https://example.com/test-id-for-note4",
+    publication: list[0]
+  },
+  {
+    content: "<blockquote>Test Quote</blockquote><p>test 5</p>",
+    id: "https://example.com/test-id-for-note5",
+    publication: list[0]
+  },
+  {
+    content: "<blockquote>Test Quote</blockquote><p>test 6</p>",
+    id: "https://example.com/test-id-for-note6",
+    publication: list[0]
+  },
+  {
+    content: "<blockquote>Test Quote</blockquote><p>test 7</p>",
+    id: "https://example.com/test-id-for-note",
+    publication: list[0]
+  }
+];
 storiesOf("Modal", module).add("with text", () => ({
   Component: Modal,
   props: { text: "Book First pass" }
@@ -146,29 +154,26 @@ storiesOf("LibraryList", module)
     }
   }));
 
-storiesOf("NotesList", module)
-  .add("covers", () => ({
-    Component: NotesList,
-    props: {
-      notes,
-      current: "https://example.com/test-id-for-note",
-      layout: "covers"
-    }
-  }));
-storiesOf("Book", module)
-  .add("basic", () => ({
-    Component: Book,
-    props: {
-      chapter
-    }
-  }));
-storiesOf("Highlight", module)
-  .add("basic", () => ({
-    Component: Highlight,
-    props: {
-      chapter
-    }
-  }));
+storiesOf("NotesList", module).add("covers", () => ({
+  Component: NotesList,
+  props: {
+    notes,
+    current: "https://example.com/test-id-for-note",
+    layout: "covers"
+  }
+}));
+storiesOf("Book", module).add("basic", () => ({
+  Component: Book,
+  props: {
+    chapter
+  }
+}));
+storiesOf("Highlight", module).add("basic", () => ({
+  Component: Highlight,
+  props: {
+    chapter
+  }
+}));
 storiesOf("Upload", module).add("main", () => ({
   Component: Upload,
   props: {}

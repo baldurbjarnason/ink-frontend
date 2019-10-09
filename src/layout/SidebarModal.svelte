@@ -103,12 +103,13 @@
         data-close-modal
         class="Closer"
         on:click={event => {
-          const search = new window.URLSearchParams(window.location.search)
-          search.delete(id.replace('-modal', ''))
-          const url = new window.URL(window.location)
-          url.search = search.toString()
-          return goto(url)
-        }} aria-label="Close">
+          const search = new window.URLSearchParams(window.location.search);
+          search.delete(id.replace('-modal', ''));
+          const url = new window.URL(window.location);
+          url.search = search.toString();
+          return goto(url);
+        }}
+        aria-label="Close">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -123,7 +124,7 @@
           <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
       </button>
-      <slot></slot>
+      <slot />
     </div>
   {/if}
 </div>

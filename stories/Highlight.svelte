@@ -1,5 +1,5 @@
 <script>
-  export let id
+  export let id;
 </script>
 
 <style>
@@ -169,14 +169,14 @@
   :global(.Chapter a.Highlight) {
     background-color: #ffff98;
     box-shadow: 0 0 0 2px #ffff98;
-    color:var(--reader-text-color);
+    color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
   }
   :global(.Chapter a.Highlight:hover) {
-    background-color:  var(--rc-lighter);
-    box-shadow: 0 0 0 3px  var(--rc-lighter);
-    color:var(--reader-text-color);
+    background-color: var(--rc-lighter);
+    box-shadow: 0 0 0 3px var(--rc-lighter);
+    color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
   }
@@ -232,37 +232,49 @@
     margin-bottom: var(--reader-paragraph-spacing);
   }
 </style>
+
 <div class="Chapter">
 
-<p>The difficulties of classification are very apparent here, and once more it must
-					be noted that illustrative and practical purposes rather than logical ones are
-					served by the arrangement adopted. The modern fanciful story is here placed next
-					to the <a href="/test" class="Highlight Commented">real folk story</a> instead of after all the groups of folk products. The
-					Hebrew stories at the beginning belong quite as well, perhaps even better, in
-					Section V, while the stories at the end of Section VI shade off into the more
-					modern types of short tales. Then the fact that other groups of modern stories
-					are to follow later, illustrating more realistic studies of life and the very
-					recent and remarkably numerous writings centering around animal life, limits the
-					list here. Many of the animal stories might, with equal propriety, be placed
-					under the head of the fantastic.</p>
-				<p><span epub:type="bridgehead">The child's natural literature.</span> The world has lost certain secrets as the
-					price of an advancing civilization. It is a commonplace of observation that no
-					one can duplicate the <a href="/test" class="Highlight">
-            success of Mother Goose, whether she be thought of as the
-            					maker of jingles or the teller of tales. The conditions of modern life preclude
-            					the generally naïve attitude that produced the folk rhymes, ballads, tales,
-            					proverbs, fables, and myths. The folk saw things simply and directly. The
-            					complex, analytic, questioning mind is not yet, either in or out of stories. The
-            					motives from which people act are to them plain and not mixed. Characters are
-            					good or bad. They feel no need of elaborately explaining their joys and sorrows.
-            					Such experiences come with the day's work. "To-morrow to fresh woods, and
-            					pastures new." The zest of life with them is emphatic.
-          </a> Their humor is fresh,
-					unbounded, sincere; there is no trace of cynicism. In folk literature we do not
-					feel the presence of a "writer" who is mightily concerned about maintaining his
-					reputation for wisdom, originality, or style. Hence the freedom from any note of
-					straining after effect, of artificiality. In the midst of a life limited to
-					fundamental needs, their literature deals with fundamentals. On the whole, it
-					was a literature for entertainment. A more learned upper class may have
-					concerned itself then about "problems" and "purposes," as the whole world does
-					now, but the literature of the folk had no such interests.</p></div>
+  <p>
+    The difficulties of classification are very apparent here, and once more it
+    must be noted that illustrative and practical purposes rather than logical
+    ones are served by the arrangement adopted. The modern fanciful story is
+    here placed next to the
+    <a href="/test" class="Highlight Commented">real folk story</a>
+    instead of after all the groups of folk products. The Hebrew stories at the
+    beginning belong quite as well, perhaps even better, in Section V, while the
+    stories at the end of Section VI shade off into the more modern types of
+    short tales. Then the fact that other groups of modern stories are to follow
+    later, illustrating more realistic studies of life and the very recent and
+    remarkably numerous writings centering around animal life, limits the list
+    here. Many of the animal stories might, with equal propriety, be placed
+    under the head of the fantastic.
+  </p>
+  <p>
+    <span epub:type="bridgehead">The child's natural literature.</span>
+    The world has lost certain secrets as the price of an advancing
+    civilization. It is a commonplace of observation that no one can duplicate
+    the
+    <a href="/test" class="Highlight">
+      success of Mother Goose, whether she be thought of as the maker of jingles
+      or the teller of tales. The conditions of modern life preclude the
+      generally naïve attitude that produced the folk rhymes, ballads, tales,
+      proverbs, fables, and myths. The folk saw things simply and directly. The
+      complex, analytic, questioning mind is not yet, either in or out of
+      stories. The motives from which people act are to them plain and not
+      mixed. Characters are good or bad. They feel no need of elaborately
+      explaining their joys and sorrows. Such experiences come with the day's
+      work. "To-morrow to fresh woods, and pastures new." The zest of life with
+      them is emphatic.
+    </a>
+    Their humor is fresh, unbounded, sincere; there is no trace of cynicism. In
+    folk literature we do not feel the presence of a "writer" who is mightily
+    concerned about maintaining his reputation for wisdom, originality, or
+    style. Hence the freedom from any note of straining after effect, of
+    artificiality. In the midst of a life limited to fundamental needs, their
+    literature deals with fundamentals. On the whole, it was a literature for
+    entertainment. A more learned upper class may have concerned itself then
+    about "problems" and "purposes," as the whole world does now, but the
+    literature of the folk had no such interests.
+  </p>
+</div>
