@@ -49,7 +49,7 @@
   <h1>Upload to <em>{collection}</h1>
 {:else}
       <div class="top">
-        <h2>Upload to <em>{collection}</em></h2>
+        <h2>Upload to “{collection}”</h2>
       </div>
 {/if}
   <div class="upload">
