@@ -1,6 +1,7 @@
 import textQuote from "dom-anchor-text-quote";
 import seek from "dom-seek";
 import { create } from "../../../api/create.js";
+import { encode } from "universal-base64url";
 
 export function handleHighlight(range, root, chapter) {
   if (range && root) {
@@ -44,6 +45,7 @@ export function handleHighlight(range, root, chapter) {
     return create(note).then(activity => {
       document.querySelectorAll(`[data-note-id="${tempId}"]`).forEach(node => {
         node.dataset.noteId = activity.object.id;
+        node.href = setNoteURL(activity.object.id);
       });
     });
   }
@@ -77,26 +79,30 @@ function highlightNote(selector, root, id, note) {
     if (
       node.parentElement.closest(".BookBody") &&
       !node.parentElement.closest("[data-annotation-tool]") &&
-      !node.parentElement.closest("reader-highlight")
+      !node.parentElement.closest("a.Highlight")
     ) {
       // Create a highlight
-      const highlight = document.createElement("reader-highlight");
+      const highlight = document.createElement("a");
       highlight.dataset.noteId = id;
       highlight.classList.add("Highlight");
+      if (note.json.commented) {
+        highlight.classList.add("Commented");
+      }
       highlight.root = root;
-      highlight.addEventListener("click", event => {
-        window.requestAnimationFrame(() => {
-          const customEvent = new window.CustomEvent("highlight-selected", {
-            detail: { id: note.id, note }
-          });
-          window.dispatchEvent(customEvent);
-        });
-      });
+      highlight.href = setNoteURL(id);
       // Wrap it around the text node
       node.parentNode.replaceChild(highlight, node);
       highlight.appendChild(node);
     }
   }
+}
+
+function setNoteURL (id) {
+  const search = new window.URLSearchParams(window.location.search)
+  search.set("note", encode(id))
+  const url = new window.URL(window.location)
+  url.search = search.toString()
+  return url.href
 }
 
 export function highlightNotes(root, annotations) {

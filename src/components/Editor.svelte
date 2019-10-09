@@ -25,7 +25,11 @@
     innerHTML = dom.innerHTML;
   }
   function saver(id, content) {
-    const payload = { ...note, content };
+    const json = {...note.json, commented: true}
+    const payload = { ...note, content};
+    document.querySelectorAll(`[data-note-id="${id}"]`).forEach(node => {
+        node.classList.add("Commented");
+      });
     update(payload);
   }
 

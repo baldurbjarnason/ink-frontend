@@ -1,76 +1,5 @@
 <script>
-  import { onMount, onDestroy, createEventDispatcher } from "svelte";
-  import { stores } from "../stores";
-  import { fade } from "svelte/transition";
-  import ChapterBody from "./ChapterBody.svelte";
-  const {
-    docStore,
-    chapterStore,
-    navigation,
-    contents,
-    currentLocation,
-    theme,
-    fontSize
-  } = stores();
-  const dispatch = createEventDispatcher();
-  let { url, index } = $chapterStore;
-  let positionObserver;
-  let locationObserver;
-  let highest;
-  let chapterElement;
-  export let chapterIndex;
-  onMount(() => {
-    if (!positionObserver) {
-      positionObserver = new window.IntersectionObserver(onPosition, {
-        rootMargin: "-15% 0px -75% 0px",
-        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
-      });
-    }
-    if (!locationObserver) {
-      locationObserver = new window.IntersectionObserver(onLocation, {
-        rootMargin: "15% 0px 75% 0px",
-        threshold: [0]
-      });
-    }
-    function onPosition(entries) {
-      if (entries[0].target !== highest) {
-        highest = entries[0].target;
-        dispatch("current", {
-          highest
-        });
-      }
-    }
-    function onLocation(entries) {
-      const nodes = entries.map(entry => {
-        locationObserver.unobserve(entry.target);
-        const { target, boundingClientRect } = entry;
-        const { top, left, width, height } = boundingClientRect;
-        return {
-          target,
-          top,
-          width,
-          height,
-          location: target.dataset.location
-        };
-      });
-      dispatch("appearing", {
-        nodes
-      });
-    }
-  });
-  onDestroy(() => {
-    if (positionObserver) positionObserver.disconnect();
-    if (locationObserver) locationObserver.disconnect();
-  });
-  function handleIntroEnd() {
-    window.requestAnimationFrame(() => {});
-  }
-  $: if (chapterElement) {
-    chapterElement.querySelectorAll("[data-location]").forEach(element => {
-      positionObserver.observe(element);
-      locationObserver.observe(element);
-    });
-  }
+  export let id
 </script>
 
 <style>
@@ -97,11 +26,11 @@
     grid-row-gap: var(--reader-paragraph-spacing);
     min-height: 100vh;
   }
-  .ChapterNotes {
+  /* .ChapterNotes {
     grid-area: rightmargin;
     margin-left: var(--reader-left-margin);
     background-color: #fefefe;
-  }
+  } */
   :global(.Chapter > *) {
     grid-column: 2 / 3;
     margin: 0 auto;
@@ -130,15 +59,8 @@
     top: 0;
     height: 1.25rem;
     border-left: 1.25rem solid #b4312e;
+    border-bottom: 0.75rem solid transparent;
   } */
-
-  :global(.Chapter .Highlight) {
-    background-color: #ffff98;
-  }
-
-  :global(.Chapter .Highlight--selected) {
-    background-color: #ddddd0;
-  }
 
   :global(.Chapter [hidden]),
   :global(.Chapter template) {
@@ -239,22 +161,7 @@
   :global(.Chapter a) {
     border-radius: 0;
   }
-  @keyframes readableChapterPop {
-    0% {
-      box-shadow: 0 0 0 1px rgb(228, 255, 254, 0.2);
-      background-color: rgb(228, 255, 254, 0.2);
-      transform: scale(0.5);
-    }
-    50% {
-      box-shadow: 0 0 0 8px var(--rc-lighter);
-      transform: scale(1.5);
-    }
-    100% {
-      box-shadow: 0 0 0 3px var(--rc-lighter);
-      background-color: var(--rc-lighter);
-      transform: scale(1);
-    }
-  }
+
   :global(.Highlight.Commented) {
     position: relative;
     border-bottom: 0.125rem solid #eded00;
@@ -272,6 +179,26 @@
     color:var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
+  }
+
+  :global(.Chapter .Highlight--selected) {
+    background-color: #ddddd0;
+  }
+  @keyframes readableChapterPop {
+    0% {
+      box-shadow: 0 0 0 1px rgb(228, 255, 254, 0.2);
+      background-color: rgb(228, 255, 254, 0.2);
+      transform: scale(0.5);
+    }
+    50% {
+      box-shadow: 0 0 0 8px var(--rc-lighter);
+      transform: scale(1.5);
+    }
+    100% {
+      box-shadow: 0 0 0 3px var(--rc-lighter);
+      background-color: var(--rc-lighter);
+      transform: scale(1);
+    }
   }
   :global(.Chapter a:focus) {
     background-color: var(--rc-lighter);
@@ -305,10 +232,37 @@
     margin-bottom: var(--reader-paragraph-spacing);
   }
 </style>
+<div class="Chapter">
 
-{#if $docStore && $chapterStore && $chapterStore.index === chapterIndex}
-  <div class="Chapter" bind:this={chapterElement} on:introend={handleIntroEnd}>
-    <ChapterBody html={$chapterStore.html} />
-    <div class="ChapterNotes" />
-  </div>
-{/if}
+<p>The difficulties of classification are very apparent here, and once more it must
+					be noted that illustrative and practical purposes rather than logical ones are
+					served by the arrangement adopted. The modern fanciful story is here placed next
+					to the <a href="/test" class="Highlight Commented">real folk story</a> instead of after all the groups of folk products. The
+					Hebrew stories at the beginning belong quite as well, perhaps even better, in
+					Section V, while the stories at the end of Section VI shade off into the more
+					modern types of short tales. Then the fact that other groups of modern stories
+					are to follow later, illustrating more realistic studies of life and the very
+					recent and remarkably numerous writings centering around animal life, limits the
+					list here. Many of the animal stories might, with equal propriety, be placed
+					under the head of the fantastic.</p>
+				<p><span epub:type="bridgehead">The child's natural literature.</span> The world has lost certain secrets as the
+					price of an advancing civilization. It is a commonplace of observation that no
+					one can duplicate the <a href="/test" class="Highlight">
+            success of Mother Goose, whether she be thought of as the
+            					maker of jingles or the teller of tales. The conditions of modern life preclude
+            					the generally naïve attitude that produced the folk rhymes, ballads, tales,
+            					proverbs, fables, and myths. The folk saw things simply and directly. The
+            					complex, analytic, questioning mind is not yet, either in or out of stories. The
+            					motives from which people act are to them plain and not mixed. Characters are
+            					good or bad. They feel no need of elaborately explaining their joys and sorrows.
+            					Such experiences come with the day's work. "To-morrow to fresh woods, and
+            					pastures new." The zest of life with them is emphatic.
+          </a> Their humor is fresh,
+					unbounded, sincere; there is no trace of cynicism. In folk literature we do not
+					feel the presence of a "writer" who is mightily concerned about maintaining his
+					reputation for wisdom, originality, or style. Hence the freedom from any note of
+					straining after effect, of artificiality. In the midst of a life limited to
+					fundamental needs, their literature deals with fundamentals. On the whole, it
+					was a literature for entertainment. A more learned upper class may have
+					concerned itself then about "problems" and "purposes," as the whole world does
+					now, but the literature of the folk had no such interests.</p></div>
