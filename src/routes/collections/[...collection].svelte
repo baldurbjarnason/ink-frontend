@@ -197,18 +197,22 @@
     padding: var(--reader-left-margin);
   }
 
-  @media (min-width: 480px) {
-  }
   label,
   select,
   option {
     font-size: 1em;
   }
+  @media (max-width: 1100px) {
+    label,
+    select,
+    option, .select {
+      font-size: 13px;
+    }
+  }
   select {
     display: inline-block;
     color: var(--dark);
     padding: 0.5em 2.5em 0.5em 0.5em;
-    min-width: 15rem;
     max-width: 100%;
     box-sizing: border-box;
     margin: 0;

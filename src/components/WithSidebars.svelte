@@ -24,7 +24,7 @@
   @media (min-width: 1024px) {
     .Main.sidebar {
       display: grid;
-      grid-template-columns: 1fr minmax(min-content, 400px);
+      grid-template-columns: 1fr minmax(min-content, 1fr);
       grid-template-areas:
         "body right-sidebar"
         "body right-sidebar";
