@@ -4,8 +4,7 @@
     try {
       const [
         collection,
-        type = "library",
-        sidebarEncoded
+        type = "library"
       ] = page.params.collection;
       const {
         orderBy = "datePublished",
@@ -27,11 +26,9 @@
       if (books.totalItems === books.items.length || books.items.length === 0) {
         hideLoadMore = true;
       }
-      let sidebar;
-      if (sidebarEncoded) {
-        sidebar = decode(sidebarEncoded);
-      } else {
-        sidebar = "";
+      let sidebar
+      if (page.query.item) {
+        sidebar = decode(page.query.item)
       }
       return {
         items: books.items,
@@ -39,8 +36,8 @@
         page: books.page,
         selected: `${orderBy}${reverse === "false" ? "" : "-reversed"}`,
         hideLoadMore,
-        layout,
         sidebar,
+        layout,
         type
       };
     } catch (err) {
@@ -116,15 +113,15 @@
   };
   function onSelect(event) {
     const value = event.target.value.split("-");
+    const query = new window.URLSearchParams(window.location.search)
     if (value[0] === "datePublished") {
-      order = {
-        orderBy: "",
-        reverse: "",
-        page: 1
-      };
+      query.delete("orderBy")
+      query.delete("reverse")
+      query.set("page", 1)
       if (value[1]) {
-        order.orderBy = "?orderBy=datePublished";
-        order.reverse = "&reverse=true";
+        query.set("orderBy", "datePublished")
+        query.set("reverse", "true")
+        query.set("page", 1)
       }
     } else {
       order = {
@@ -132,14 +129,17 @@
         reverse: "",
         page: 1
       };
+        query.set("orderBy", value[0])
+        query.delete("reverse")
+        query.set("page", 1)
       if (value[1]) {
         order.reverse = "&reverse=true";
+        query.set("reverse", "true")
       }
     }
-    search.set(`${order.orderBy}${order.reverse}`);
-    const sidebarEncoded = sidebar ? encode(sidebar) : "";
+    search.set(query.toString());
     return sapper.goto(
-      `/collections/${collection}/${type}/${sidebarEncoded}${order.orderBy}${order.reverse}`
+      `/collections/${collection}/${type}/?${query.toString()}`
     );
   }
   async function loadMore() {
@@ -185,10 +185,6 @@
         collectionObserver.unobserve(node);
       }
     };
-  }
-  $: if (sidebar) {
-    infoBook.set({ id: sidebar });
-    currentInfoBook.set("");
   }
 </script>
 
