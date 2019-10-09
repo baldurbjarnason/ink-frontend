@@ -82,30 +82,57 @@
     notes = `/collections/${collection}/notes`;
     library = `/collections/${collection}`;
   }
-  const options = [
-    {
-      text: "Newest first",
-      value: "datePublished",
-      selected: selected === "datePublished"
-    },
-    {
-      text: "Oldest first",
-      value: "datePublished-reversed",
-      selected: selected === "datePublished-reversed"
-    },
-    {
-      text: "A-Z",
-      value: "title",
-      label: "Alphabetical, ascending",
-      selected: selected === "title"
-    },
-    {
-      text: "Z-A",
-      value: "title-reversed",
-      label: "Alphabetical, descending",
-      selected: selected === "title-reversed"
-    }
-  ];
+  let options
+  $: if (type === 'library') {
+    options = [
+      {
+        text: "Newest first",
+        value: "datePublished",
+        selected: selected === "datePublished"
+      },
+      {
+        text: "Oldest first",
+        value: "datePublished-reversed",
+        selected: selected === "datePublished-reversed"
+      },
+      {
+        text: "A-Z",
+        value: "title",
+        label: "Alphabetical, ascending",
+        selected: selected === "title"
+      },
+      {
+        text: "Z-A",
+        value: "title-reversed",
+        label: "Alphabetical, descending",
+        selected: selected === "title-reversed"
+      }
+    ];
+  } else {
+    options = [
+      {
+        text: "Newest first",
+        value: "created",
+        selected: selected === "created"
+      },
+      {
+        text: "Oldest first",
+        value: "created-reversed",
+        selected: selected === "created-reversed"
+      },
+      {
+        text: "Updated first",
+        value: "updated",
+        selected: selected === "updated"
+      },
+      {
+        text: "Updated last",
+        value: "updated-reversed",
+        selected: selected === "updated-reversed"
+      }
+    ];
+  }
+
   let order = {
     orderBy: "",
     reverse: "",
@@ -137,7 +164,7 @@
         query.set("reverse", "true")
       }
     }
-    search.set(query.toString());
+    search.set('?' + query.toString());
     return sapper.goto(
       `/collections/${collection}/${type}/?${query.toString()}`
     );
@@ -261,7 +288,6 @@
   out:fly={{ y: 200, duration: 250 }}>
   <div class="ViewConfig">
     <CollectionTabs {collection} current={type} {notes} {library} />
-    {#if type === 'library'}
       <div class="select">
         Ordered By
         <label>
@@ -277,7 +303,6 @@
           </select>
         </label>
       </div>
-    {/if}
   </div>
   <!-- Recent -->
   {#if items}
