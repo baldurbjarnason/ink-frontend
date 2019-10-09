@@ -1,9 +1,8 @@
 <script>
   import { stores } from "../stores";
-  import { sidebar as open } from "../actions/modal.js";
   import { goto } from "@sapper/app";
   const { infoBook, currentInfoBook } = stores();
-  export let author;
+  export let author = [];
   export let resources;
   export let tags;
   export let id;
@@ -24,10 +23,6 @@
   export let contributor;
   export let inLanguage = "en";
   export let current;
-  function handleClick(event) {
-    infoBook.set({ name, id, url, cover });
-    currentInfoBook.set("");
-  }
 </script>
 
 <style>
@@ -183,23 +178,19 @@
   <div class={layout}>
     <a
       data-sidebar={id}
-      href={url + 'metadata'}
-      class="icon-link"
-      use:open={{ id: 'item-modal' }}
-      on:click={handleClick}>
+      href={url}
+      class="icon-link">
       <img class="BookCard-icon" alt={'Cover for ' + name} src={cover} />
     </a>
     {#if layout === 'square'}
-      <a href={url + 'metadata'} class="BookCard-overlay">{name}</a>
+      <a href={url} class="BookCard-overlay">{name}</a>
     {/if}
     <div class="BookCard-group">
       <h4 class="BookCard-title">
         <a
-          href={url + 'metadata'}
+          href={url}
           class="BookCard-link"
-          data-sidebar={id}
-          use:open={{ id: 'item-modal' }}
-          on:click={handleClick}>
+          data-sidebar={id}>
           {name}
         </a>
       </h4>

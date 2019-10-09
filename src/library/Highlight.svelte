@@ -1,12 +1,14 @@
 <script>
   // your script goes here
   import DOMPurify from "dompurify";
+  import { decode, encode } from "universal-base64url";
   const purifyConfig = {
     KEEP_CONTENT: false,
     FORBID_TAGS: ["style", "link"],
     FORBID_ATTR: ["style"]
   };
   export let note;
+  export let edit;
 </script>
 
 <style>
@@ -39,9 +41,19 @@
     grid-column: 1 / -1;
     box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
   }
+  a.edit {
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 0.85rem;
+    z-index: 1;
+    text-decoration: none;
+  }
 </style>
 
 <!-- markup (zero or more items) goes here -->
 <div class="AnnotationsHighlight">
+  <a href="{edit}" class="edit">Edit</a>
   {@html DOMPurify.sanitize(note.content, purifyConfig)}
 </div>

@@ -4,6 +4,7 @@ import { storiesOf } from "@storybook/svelte";
 import Modal from "./Modal.svelte";
 import LibraryItem from "./LibraryItem.svelte";
 import LibraryList from "./LibraryList.svelte";
+import NotesList from "./NotesList.svelte";
 import Upload from "./Upload.svelte";
 import UploadQueue from "./UploadQueue.svelte";
 
@@ -60,6 +61,11 @@ const list = [
   }
 ];
 
+const notes = [{
+  content: '<blockquote>Test Quote</blockquote><p>test</p>',
+  id: 'https://example.com/test-id-for-note',
+  publication: list[0]
+}]
 storiesOf("Modal", module).add("with text", () => ({
   Component: Modal,
   props: { text: "Book First pass" }
@@ -113,6 +119,14 @@ storiesOf("LibraryList", module)
     }
   }));
 
+storiesOf("NotesList", module)
+  .add("covers", () => ({
+    Component: NotesList,
+    props: {
+      notes,
+      layout: "covers"
+    }
+  }));
 storiesOf("Upload", module).add("main", () => ({
   Component: Upload,
   props: {}
