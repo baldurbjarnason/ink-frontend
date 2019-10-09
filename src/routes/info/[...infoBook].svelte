@@ -27,8 +27,8 @@
   let sidebar = true;
   let sidebargrid = true;
   $: infoBook.set(book);
-  currentInfoBook.set(type);
-  title.set(type);
+  $: currentInfoBook.set(type);
+  $: title.set(type);
 </script>
 
 <style>

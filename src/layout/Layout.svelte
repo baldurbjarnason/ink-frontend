@@ -51,6 +51,8 @@
       rightSidebar = "addbooks";
     } else if (params.collection) {
       rightSidebar = "upload";
+    } else if ($page.path === "/") {
+      rightSidebar = "upload";
     }
   }
   $: if (width <= 1200 && rightSidebar && query[rightSidebar]) {

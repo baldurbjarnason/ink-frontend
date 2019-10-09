@@ -16,11 +16,12 @@
   import UploadQueue from "../uploader/UploadQueue.svelte";
   import { uploadQueue } from "../uploader/upload-doc.js";
   import Recent from "../uploader/Recent.svelte";
+  import CollectionsList from "../library/CollectionsList.svelte";
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
   import { stores } from "../stores";
   const { recent, title } = stores();
-  title.set("Recent");
+  $: title.set("Recent");
   function fileDrop(files) {
     for (let file of files) {
       uploadQueue.add(file);
@@ -62,4 +63,5 @@
   {#if recent}
     <Recent {recent} />
   {/if}
+  <CollectionsList />
 </div>

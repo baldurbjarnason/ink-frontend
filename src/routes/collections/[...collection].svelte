@@ -74,7 +74,7 @@
   export let layout;
   export let type = "library";
   export let sidebar;
-  title.set(collection);
+  $: title.set(collection);
   let notes;
   let library;
   const search = writable(window.location.search);
