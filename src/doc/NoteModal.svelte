@@ -29,6 +29,7 @@
   }
   const search = new window.URLSearchParams(window.location.search);
   search.delete('item');
+  search.delete('noHistory');
   const url = new window.URL(window.location);
   url.search = search.toString();
   let closeURL = url.href

@@ -138,6 +138,7 @@
   function onSelect(event) {
     const value = event.target.value.split("-");
     const query = new window.URLSearchParams(window.location.search);
+    query.set('noHistory', 'true')
     if (value[0] === "datePublished") {
       query.delete("orderBy");
       query.delete("reverse");

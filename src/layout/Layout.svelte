@@ -16,13 +16,13 @@
   let history
   let firstRun = true;
   $: if ($page) {
-    if (!firstRun) {
+    query = $page.query;
+    params = $page.params;
+    if (!firstRun && !query.noHistory) {
       history = true
     } else {
       firstRun = false
     }
-    query = $page.query;
-    params = $page.params;
     if (params.infoBook) {
       leftSidebar = "item";
     } else if (params.path) {
