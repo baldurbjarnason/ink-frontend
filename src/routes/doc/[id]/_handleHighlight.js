@@ -7,10 +7,6 @@ import { goto } from "@sapper/app";
 export function handleHighlight(range, root, chapter) {
   if (range && root) {
     const selector = textQuote.fromRange(root, range);
-    const html = serializeRange(range);
-    const content = `<blockquote data-original-quote>${html}</blockquote>`;
-    // const content = `<blockquote data-original-quote>${html}</blockquote>`
-    // const docurl = new URL(document, window.location).href
     let startLocation;
     if (range.startContainer.nodeType === window.Node.TEXT_NODE) {
       startLocation = range.startContainer.parentElement.closest(
@@ -28,6 +24,9 @@ export function handleHighlight(range, root, chapter) {
       endLocation = range.endContainer.closest("[data-location]").dataset
         .location;
     }
+    const html = serializeRange(range);
+    let content = `<blockquote data-original-quote>${html}</blockquote>`;
+    const contentRange = document.createRange()
     const note = {
       type: "Note",
       noteType: "reader:Highlight",
@@ -39,6 +38,12 @@ export function handleHighlight(range, root, chapter) {
       },
       content
     };
+    try {
+      contentRange.setStartBefore(document.querySelector(`[data-location=${startLocation}]`))
+      contentRange.setEndAfter(document.querySelector(`[data-location=${endLocation}]`))
+      const html = serializeRange(contentRange, note)
+      content = `<blockquote data-original-quote>${html}</blockquote>`;
+    } catch (err) {}
     const tempId = "temp-" + Math.floor(Math.random() * 10000000000000);
     highlightNote(selector, root, tempId, note);
     console.log(`${startLocation}–${endLocation}`);
@@ -52,7 +57,7 @@ export function handleHighlight(range, root, chapter) {
   }
 }
 
-function highlightNote(selector, root, id, note) {
+function highlightNote(selector, root, id, note, mark) {
   const seeker = document.createNodeIterator(root, window.NodeFilter.SHOW_TEXT);
   function split(where) {
     const count = seek(seeker, where);
@@ -83,7 +88,7 @@ function highlightNote(selector, root, id, note) {
       !node.parentElement.closest("a.Highlight")
     ) {
       // Create a highlight
-      const highlight = document.createElement("a");
+      const highlight = mark ? document.createElement("mark") : document.createElement("a");
       highlight.dataset.noteId = id;
       highlight.classList.add("Highlight");
       if (note.json.commented) {
@@ -154,7 +159,7 @@ export function highlightNotes(root, annotations) {
 //   return placeholder.innerHTML;
 // }
 
-function serializeRange(range) {
+function serializeRange(range, note) {
   const placeholder = document.createElement("div");
   const fragment = range.cloneContents();
   fragment.querySelectorAll("[data-reader]").forEach(element => {
@@ -167,5 +172,8 @@ function serializeRange(range) {
     .querySelectorAll("[style]")
     .forEach(element => element.removeAttribute("style"));
   placeholder.appendChild(fragment);
+  if (note) {
+    highlightNote(note['oa:hasSelector'], placeholder, note.id, note. mark)
+  }
   return placeholder.innerHTML;
 }
