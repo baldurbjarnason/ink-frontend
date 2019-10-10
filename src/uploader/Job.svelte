@@ -1,6 +1,7 @@
 <script>
   import { onMount, tick } from "svelte";
   export let jobId;
+  export let collection;
   let job;
   onMount(() => {
     check(testJob, 100000, 2000);

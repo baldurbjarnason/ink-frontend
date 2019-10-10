@@ -1,6 +1,7 @@
 <script>
   import Upload from "./Upload.svelte";
-  import UploadQueue from "../uploader/UploadQueue.svelte";
+  import UploadQueue from "./UploadQueue.svelte";
+  import JobsQueue from "./JobsQueue.svelte";
   import { uploadQueue } from "../uploader/upload-doc.js";
   export let modal = false;
   export let collection;
@@ -60,4 +61,5 @@
   {#if uploadQueue}
     <UploadQueue queue={uploadQueue} />
   {/if}
+  <JobsQueue {collection} />
 </div>
