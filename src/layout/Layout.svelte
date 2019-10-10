@@ -2,13 +2,9 @@
   import { decode, encode } from "universal-base64url";
   import WithSidebars from "../components/WithSidebars.svelte";
   import { stores as inkStores } from "../stores";
-  import Collections from "../collections/Collections.svelte";
-  import InfoActions from "../components/InfoActions.svelte";
-  import BookContents from "../doc/BookContents.svelte";
-  import NoteModal from "../doc/NoteModal.svelte";
-  import UploadSidebar from "../uploader/UploadSidebar.svelte";
-  import SidebarModal from "./SidebarModal.svelte";
-  import { opener, closer, activeModal } from "../actions/modal.js";
+  import Modals from './Modals.svelte'
+  import Sidebar from './Sidebar.svelte'
+  import { opener, closer } from "../actions/modal.js";
   import { stores, goto } from "@sapper/app";
   const { page, session } = stores();
   const { title, infoBook, currentInfoBook, note } = inkStores();
@@ -56,7 +52,7 @@
       rightSidebar = "upload";
     }
   }
-  $: if (width <= 1200 && rightSidebar && query[rightSidebar]) {
+  $: if (width <= 1024 && rightSidebar && query[rightSidebar]) {
     opener({ id: rightSidebar + "-modal" });
   } else {
     closer();
@@ -78,24 +74,7 @@
 </style>
 
 <svelte:window bind:innerWidth={width} />
-<SidebarModal id={leftSidebar + '-modal'}>
-  {#if leftSidebar === 'item'}
-    <InfoActions modal={true} sidebar={true} />
-  {:else if leftSidebar === 'contents'}
-    <BookContents modal={true} />
-  {:else}
-    <Collections modal={true} />
-  {/if}
-</SidebarModal>
-<SidebarModal id={rightSidebar + '-modal'}>
-  {#if rightSidebar === 'item'}
-    <InfoActions modal={true} sidebar={true} />
-  {:else if rightSidebar === 'upload'}
-    <UploadSidebar {collection} modal={true} />
-  {:else if rightSidebar === 'note'}
-    <NoteModal />
-  {/if}
-</SidebarModal>
+<Modals {leftSidebar} {rightSidebar} {collection} />
 <main>
   <WithSidebars
     title={$title}
@@ -103,23 +82,11 @@
     rightModal={rightSidebar + '-modal'}
     rightLabel={rightSidebar}>
     <div slot="left-sidebar">
-      {#if leftSidebar === 'item'}
-        <InfoActions modal={false} sidebar={true} />
-      {:else if leftSidebar === 'contents'}
-        <BookContents modal={false} />
-      {:else}
-        <Collections />
-      {/if}
+      <Sidebar sidebar={leftSidebar} {collection} />
     </div>
     <slot />
     <div slot="right-sidebar">
-      {#if rightSidebar === 'item'}
-        <InfoActions modal={false} sidebar={true} />
-      {:else if rightSidebar === 'upload'}
-        <UploadSidebar {collection} />
-      {:else if rightSidebar === 'note'}
-        <NoteModal />
-      {/if}
+      <Sidebar sidebar={rightSidebar} {collection} />
     </div>
   </WithSidebars>
 </main>
