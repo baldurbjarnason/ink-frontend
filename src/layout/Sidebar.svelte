@@ -6,6 +6,7 @@
   import UploadSidebar from "../uploader/UploadSidebar.svelte";
   export let sidebar
   export let collection
+  export let history;
 </script>
 
 <style>
@@ -14,15 +15,13 @@
 
 <!-- markup (zero or more items) goes here -->
 {#if sidebar === 'item'}
-  <InfoActions modal={false} sidebar={true} />
+  <InfoActions modal={false} sidebar={true} {history} />
 {:else if sidebar === 'contents'}
   <BookContents modal={false} />
-{:else if sidebar === 'item'}
-  <InfoActions modal={false} sidebar={true} />
 {:else if sidebar === 'upload'}
   <UploadSidebar {collection} />
 {:else if sidebar === 'note'}
-  <NoteModal />
+  <NoteModal {history} />
 {:else}
   <Collections />
 {/if}

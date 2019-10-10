@@ -13,13 +13,19 @@
   let rightSidebar;
   let params = {};
   let collection = "all";
+  let history
+  let firstRun = true;
   $: if ($page) {
+    if (!firstRun) {
+      history = true
+    } else {
+      firstRun = false
+    }
     query = $page.query;
     params = $page.params;
     if (params.infoBook) {
       leftSidebar = "item";
-    }
-    if (params.path) {
+    } else if (params.path) {
       leftSidebar = "contents";
     } else {
       leftSidebar = "collections";
@@ -82,11 +88,11 @@
     rightModal={rightSidebar + '-modal'}
     rightLabel={rightSidebar}>
     <div slot="left-sidebar">
-      <Sidebar sidebar={leftSidebar} {collection} />
+      <Sidebar sidebar={leftSidebar} {collection} history={false} />
     </div>
     <slot />
     <div slot="right-sidebar">
-      <Sidebar sidebar={rightSidebar} {collection} />
+      <Sidebar sidebar={rightSidebar} {collection} {history} />
     </div>
   </WithSidebars>
 </main>

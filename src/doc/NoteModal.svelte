@@ -27,6 +27,11 @@
     let dom = DOMPurify.sanitize(note.content, purifyConfig);
     blockquote = dom.querySelector("blockquote").outerHTML;
   }
+  const search = new window.URLSearchParams(window.location.search);
+  search.delete('item');
+  const url = new window.URL(window.location);
+  url.search = search.toString();
+  let closeURL = url.href
 </script>
 
 <style>
@@ -53,6 +58,34 @@
     top: 0;
     right: 0;
   }
+  .Closer {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
+
+    color: var(--link);
+    border: none;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .Closer:hover {
+    color: var(--hover);
+  }
+  .Closer svg {
+    vertical-align: middle;
+  }
 </style>
 
 <!-- Instead of doing this we should be using <a> tags instead of custom <reader-marker> tags to mark highlights. That way we automatically get accessible navigation to note editing. -->
@@ -67,6 +100,13 @@
   }} />
 
 <div class="NoteModal">
+
+    <a href={closeURL} class="Closer" on:click={(event) => {
+      if (history) {
+        event.preventDefault()
+        window.history.back()
+      }
+    }} aria-label="Close sidebar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>
   {#if remove}
     <p>
       Are you sure you want to remove this highlight? This action cannot be
