@@ -10,7 +10,7 @@
   $: if ($jobs) {
     queue = $jobs.filter(job => job.finished || job.error || job.published);
     if (collection && collection !== 'all') {
-    const done = $jobs.filter(job => (!job.finished || !job.published) && tagged.indexOf(job.id) === -1);
+      const done = $jobs.filter(job => (!job.finished || !job.published) && tagged.indexOf(job.id) === -1);
       for (job of done) {
         const tag = $collections.filter(item => item.name === collection)
         collection(tag, `/${job.publicationId}/`, true).then(() => {

@@ -59,7 +59,7 @@
   import { stores } from "../../stores";
   import { writable } from "svelte/store";
   import { fly } from "svelte/transition";
-  const { infoBook, currentInfoBook, title } = stores();
+  const { infoBook, currentInfoBook, title, completedJobs } = stores();
   export let items;
   export let collection;
   export let selected;
@@ -166,12 +166,24 @@
       `/collections/${collection}/${type}/?${query.toString()}`
     );
   }
-  async function loadMore() {
+
+  // Needs to update collection if $jobs has changed. Get first 10, remove those whose ID we already have, then prepend to collection.
+  // Then load more needs to filter out all books we've already loaded.
+  $: if ($completedJobs.length > 0) {
+    loadMore(true)
+  }
+  async function loadMore(prepend) {
     try {
+      let page
+      if (prepend) {
+        page = 0
+      } else {
+        page = order.page + 1
+        order.page = order.page + 1;
+      }
       const libraryAdditions = await window
         .fetch(
-          `/api/collections?collection=${collection}&page=${order.page +
-            1}${order.orderBy && order.orderBy.slice(1)}${
+          `/api/collections?collection=${collection}&page=${page}${order.orderBy && order.orderBy.slice(1)}${
             order.reverse
           }&type=${type}`,
           {
@@ -179,8 +191,13 @@
           }
         )
         .then(response => response.json());
-      order.page = order.page + 1;
-      items = items.concat(libraryAdditions.items);
+      const itemIds = items.map(item.id)
+      const additions = libraryAdditions.items.filter(item => itemIds.indexOf === -1)
+      if (prepend) {
+        items = additions.concat(items)
+      } else {
+        items = items.concat(additions);
+      }
       if (libraryAdditions.done) {
         hideLoadMore = true;
       }

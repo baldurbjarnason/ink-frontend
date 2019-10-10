@@ -1,13 +1,18 @@
 import * as book from "./book.js";
 import * as layout from "./layout.js";
 import * as doc from "./doc.js";
-import { writable } from "svelte/store";
+import { writable, derived } from "svelte/store";
 
 let collections;
 let recent;
 const note = writable({});
 let updating = false;
 const jobs = writable([]);
+const completedJobs = derived(jobs, ($jobs) => {
+  return $jobs.filter(job => !job.finished || !job.published);
+}, [])
+completedJobs.subscribe(() => updateCollections())
+
 export function stores() {
   let update = false;
   if (!collections) {
@@ -19,7 +24,7 @@ export function stores() {
     update = true;
   }
   if (update && !updating) updateCollections();
-  return { ...book, ...layout, ...doc, collections, recent, note, jobs };
+  return { ...book, ...layout, ...doc, collections, recent, note, jobs, completedJobs };
 }
 
 function updateCollections() {
