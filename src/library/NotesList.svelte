@@ -32,14 +32,6 @@
 
 <style>
   /* your styles go here */
-  .title {
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    margin: 0;
-    padding: 0 1rem;
-    display: block;
-    text-decoration: none;
-  }
 </style>
 
 <!-- markup (zero or more items) goes here -->
@@ -47,7 +39,6 @@
   {#if notes}
     {#each notes as note}
       <div class="Note">
-        <a class="title" href={note.publication.url}>{note.publication.name}</a>
         <Highlight {note} edit={note.edit} {current} />
       </div>
     {/each}
