@@ -4,14 +4,23 @@
   import { decode, encode } from "universal-base64url";
   import { update } from "../api/update.js";
   import TextButton from "../components/TextButton.svelte"
+
   const purifyConfig = {
     KEEP_CONTENT: false,
+    RETURN_DOM: true,
     FORBID_TAGS: ["style", "link"],
     FORBID_ATTR: ["style"]
   };
   export let note;
   export let edit;
   export let current;
+  let dom = DOMPurify.sanitize(note.content, purifyConfig);
+  let blockquote = dom.querySelector("blockquote");
+  let highlight
+  if (blockquote) {
+    highlight = blockquote.outerHTML;
+    dom.removeChild(blockquote);
+  }
   let selected;
   $: if (current === note.id) {
     selected = true;
@@ -24,16 +33,16 @@
 
 <style>
   .AnnotationsHighlight {
-    --reader-font-size: 0.75rem;
+    --reader-font-size: 0.85rem;
     margin: 1rem;
-    background-color: #fefdd3;
+    background-color: white;
     border: 1px solid #ddd;
     border-radius: 0.25rem;
     font-size: var(--reader-font-size);
     display: grid;
     grid-template-columns: 1rem 1fr 1rem;
     position: relative;
-    border: 0.25rem solid #ffffbd;
+    /* border: 0.25rem solid #ffffbd; */
     padding-bottom: 1rem;
   }
   .AnnotationsHighlight.archived {
@@ -42,6 +51,7 @@
     font-style: italic;
     border-color: var(--light);
     padding-bottom: 0;
+    padding: 0.25rem;
   }
   .AnnotationsHighlight.selected {
     background-color: var(--light);
@@ -50,19 +60,21 @@
   :global(.AnnotationsHighlight > *) {
     grid-column: 2 / 3;
   }
-  :global(.AnnotationsHighlight > blockquote) {
+  .AnnotationsHighlight > .Chapter {
     --reader-font-size: 0.75rem;
     position: relative;
-    background-color: white;
     margin: 0;
     padding: 1rem;
     line-height: var(--reader-line-height);
     color: var(--reader-text-color);
-    font-family: "Source Serif Pro", serif;
-    border-bottom: 1px solid #ddd;
-    border-radius: 0.25rem;
     grid-column: 1 / -1;
-    box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  }
+  .AnnotationsHighlight > .Chapter > :global(blockquote) {
+    border-left: 1px solid #ddd;
+    padding-left: 2.5em;
+    margin-left: 0;
+    line-height: 1.2;
+    font-family: var(--reader-font-family);
   }
   .edit {
     text-transform: uppercase;
@@ -107,7 +119,10 @@
   }}>Unarchive</TextButton>
 {:else}
   <span class="edit"><TextButton href={edit}>Edit</TextButton></span>
-  {@html DOMPurify.sanitize(note.content, purifyConfig)}
+  <div class="Chapter">{@html highlight}
+  <div class="ReaderComment">{@html dom.innerHTML}</div>
+  </div>
+  
  <span class="archive"> <TextButton click={() => {
     const json = {...note.json, archived: true}
     archived = true

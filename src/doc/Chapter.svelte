@@ -149,7 +149,8 @@
   }
 
   :global(.Chapter blockquote) {
-    margin-left: 2.5em;
+    padding-left: 2.5em;
+    margin-left: 0;
   }
 
   :global(.Chapter blockquote),
