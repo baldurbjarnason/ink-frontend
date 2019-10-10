@@ -166,19 +166,43 @@
     position: relative;
     border-bottom: 0.125rem solid #eded00;
   }
-  :global(.Chapter a.Highlight) {
-    background-color: #ffff98;
-    box-shadow: 0 0 0 2px #ffff98;
+  :global(.Chapter a.Highlight), :global(.Chapter mark.Highlight) {
+    background-color: #feff9c;
+    box-shadow: 0 0 0 2px #feff9c;
     color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
   }
-  :global(.Chapter a.Highlight:hover) {
+  :global(.Chapter mark.Highlight[data-highlight-level="1"]) {
+    background-color: #7afcff;
+    box-shadow: 0 0 0 2px #7afcff;
+  }
+  :global(.Chapter mark.Highlight[data-highlight-level="2"]) {
+    background-color: #ff65a3;
+    box-shadow: 0 0 0 2px #ff65a3;
+  }
+  :global(.Chapter mark.Highlight[data-highlight-level="3"]) {
+    background-color: #fff740;
+    box-shadow: 0 0 0 2px #fff740;
+  }
+  :global(.Chapter a.Highlight:hover), :global(.Chapter mark.Highlight:hover) {
     background-color: var(--rc-lighter);
     box-shadow: 0 0 0 3px var(--rc-lighter);
     color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
+  }
+  :global(.Chapter mark.Highlight[data-highlight-level="1"]:hover) {
+    background-color: var(--rc-light);
+    box-shadow: 0 0 0 3px var(--rc-light);
+  }
+  :global(.Chapter mark.Highlight[data-highlight-level="2"]:hover) {
+    background-color: #ff7eb9;
+    box-shadow: 0 0 0 3px #ff7eb9;
+  }
+  :global(.Chapter mark.Highlight[data-highlight-level="3"]:hover) {
+    background-color: #feff9c;
+    box-shadow: 0 0 0 3px #feff9c;
   }
 
   :global(.Chapter .Highlight--selected) {
@@ -258,12 +282,16 @@
     <a href="/test" class="Highlight">
       success of Mother Goose, whether she be thought of as the maker of jingles
       or the teller of tales. The conditions of modern life preclude the
-      generally naïve attitude that produced the folk rhymes, ballads, tales,
-      proverbs, fables, and myths. The folk saw things simply and directly. The
-      complex, analytic, questioning mind is not yet, either in or out of
-      stories. The motives from which people act are to them plain and not
-      mixed. Characters are good or bad. They feel no need of elaborately
-      explaining their joys and sorrows. Such experiences come with the day's
+      generally naïve attitude <mark data-href="/" class="Highlight" data-highlight-level="1">
+        that produced the folk rhymes, ballads, tales,
+        proverbs, fables, and myths. The folk saw things simply and directly. The
+        complex, analytic, questioning mind is not yet, either in or out of
+        stories. <mark data-href="/" class="Highlight" data-highlight-level="2">
+          The motives from which people act are to them plain and not
+          mixed.
+        </mark> Characters are good or bad. They feel no need of elaborately
+        explaining their joys and sorrows.
+      </mark> Such experiences come with the day's
       work. "To-morrow to fresh woods, and pastures new." The zest of life with
       them is emphatic.
     </a>

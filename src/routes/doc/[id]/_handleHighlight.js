@@ -2,6 +2,7 @@ import textQuote from "dom-anchor-text-quote";
 import seek from "dom-seek";
 import { create } from "../../../api/create.js";
 import { encode } from "universal-base64url";
+import { goto } from "@sapper/app";
 
 export function handleHighlight(range, root, chapter) {
   if (range && root) {
@@ -88,8 +89,28 @@ function highlightNote(selector, root, id, note) {
       if (note.json.commented) {
         highlight.classList.add("Commented");
       }
+      highlight.dataset.highlightLevel = 0
       highlight.root = root;
       highlight.href = setNoteURL(id);
+      // Wrap it around the text node
+      node.parentNode.replaceChild(highlight, node);
+      highlight.appendChild(node);
+    } else if (node.parentElement.closest("a.Highlight")) {
+      // Create a highlight but a mark this time 
+      const highlight = document.createElement("mark");
+      highlight.dataset.noteId = id;
+      highlight.classList.add("Highlight");
+      if (note.json.commented) {
+        highlight.classList.add("Commented");
+      }
+      highlight.dataset.highlightLevel = highlight.dataset.highlightLevel + 1
+      highlight.root = root;
+      highlight.dataset.href = setNoteURL(id);
+      highlight.addEventListener((event) => {
+        event.preventDefault()
+        event.stopPropagation()
+        return goto(highlight.dataset.href)
+      })
       // Wrap it around the text node
       node.parentNode.replaceChild(highlight, node);
       highlight.appendChild(node);
@@ -113,13 +134,33 @@ export function highlightNotes(root, annotations) {
   }
 }
 
+// function getFragment (range) {
+//   const fragment = range.cloneContents();
+//   return fragment;
+// }
+
+// function serializeFragment (fragment) {
+//   fragment.querySelectorAll("[data-reader]").forEach(element => {
+//     element.parentElement.removeChild(element);
+//   });
+//   fragment.querySelectorAll("a.Highlight").forEach(element => {
+//     element.replaceWith(element.textContent);
+//   });
+//   fragment
+//     .querySelectorAll("[style]")
+//     .forEach(element => element.removeAttribute("style"));
+//   const placeholder = document.createElement("div");
+//   placeholder.appendChild(fragment);
+//   return placeholder.innerHTML;
+// }
+
 function serializeRange(range) {
   const placeholder = document.createElement("div");
   const fragment = range.cloneContents();
   fragment.querySelectorAll("[data-reader]").forEach(element => {
     element.parentElement.removeChild(element);
   });
-  fragment.querySelectorAll("reader-highlight").forEach(element => {
+  fragment.querySelectorAll("a.Highlight").forEach(element => {
     element.replaceWith(element.textContent);
   });
   fragment
