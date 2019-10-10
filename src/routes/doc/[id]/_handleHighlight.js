@@ -128,7 +128,7 @@ function setNoteURL(id) {
 
 export function highlightNotes(root, annotations) {
   for (const note of annotations.items) {
-    if (note.selector) {
+    if (note.selector && !note.json.archived) {
       highlightNote(note.selector, root, note.id, note);
     }
   }
