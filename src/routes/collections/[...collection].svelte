@@ -177,7 +177,7 @@
     try {
       let page
       if (prepend) {
-        page = 0
+        page = 1
       } else {
         page = order.page + 1
         order.page = order.page + 1;
@@ -192,7 +192,7 @@
           }
         )
         .then(response => response.json());
-      const itemIds = items.map(item.id)
+      const itemIds = items.map(item => item.id)
       const additions = libraryAdditions.items.filter(item => itemIds.indexOf === -1)
       if (prepend) {
         items = additions.concat(items)
