@@ -20,33 +20,7 @@
     fill: var(--rc-darker);
   }
 
-  button.Toolbar-link.Progress {
-    font-family: var(--sans-fonts);
-    font-weight: 400;
-    flex: 0 1 auto;
-    line-height: 1.2;
-
-    display: inline-block;
-    padding: 5px 5px 4px;
-
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    text-align: center;
-    white-space: nowrap;
-    text-decoration: none;
-
-    color: var(--link);
-    border: none;
-    background-color: transparent;
-
-    -ms-touch-action: manipulation;
-    touch-action: manipulation;
-    text-transform: uppercase;
-    font-size: 0.65rem;
-    border-bottom: solid 3px transparent;
+  .Toolbar-link.Progress {
     position: sticky;
     top: 40px;
     width: 24px;
@@ -62,11 +36,9 @@
     }
   }
 </style>
-
+<div>
 {#if width <= 1024}
-  <button
-    type="Button"
-    use:open={{ id: 'contents-modal' }}
+  <div
     class="Toolbar-link Progress">
     {#if chapters}
       {#each chapters as chapter, i}
@@ -82,11 +54,9 @@
         {/if}
       {/each}
     {/if}
-  </button>
+  </div>
 {:else}
-  <button
-    on:click={() => dispatch('toggle-sidebar')}
-    href="/"
+  <div
     class="Toolbar-link Progress">
     {#if chapters}
       {#each chapters as chapter, i}
@@ -102,5 +72,7 @@
         {/if}
       {/each}
     {/if}
-  </button>
+  </div>
 {/if}
+
+</div>
