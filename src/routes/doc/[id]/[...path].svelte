@@ -63,19 +63,6 @@
   let width = 0;
   let sidebar = true;
   let sidebargrid = true;
-  let sidebarWidth;
-  $: if (
-    sidebarWidth !==
-    getComputedStyle(document.documentElement).getPropertyValue(
-      "--reader-sidebar-width"
-    ) +
-      "px"
-  ) {
-    document.documentElement.style.setProperty(
-      "--reader-sidebar-width",
-      sidebarWidth + "px"
-    );
-  }
 
   onMount(async () => {
     window.lifecycle.addEventListener("statechange", handleLifeCycle);
