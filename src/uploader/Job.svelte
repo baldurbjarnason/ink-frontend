@@ -2,7 +2,7 @@
   import { onMount, tick } from "svelte";
   import {collection as setCollection} from "../api/collection.js"
   import { stores } from "../stores";
-  const { collections } = stores();
+  const { collections, recent } = stores();
   export let job;
   export let collection;
   onMount(() => {
@@ -26,9 +26,18 @@
     }
   }
   async function processPublication (job) {
-    if (!collection || collection === "all") return
     const tag = $collections.find(tag => tag.name === collection)
     console.log($collections, collection, tag)
+    const publicationResponse = await window.fetch(
+      `/api/get?path=${encodeURIComponent(`/publication-${job.publicationId}/`)}&publication=true`,
+      { credentials: "include" }
+    );
+    const publication = await publicationResponse.json();
+    recent.update(recentStore => {
+      recentStore.items = [publication].concat(recentStore.items)
+      return recentStore
+    })
+    if (!collection || collection === "all") return
     return setCollection(tag, {id: `/publication-${job.publicationId}/`}, true)
   }
   async function testJob() {
