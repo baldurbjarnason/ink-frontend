@@ -26,5 +26,6 @@
   <UploadSidebar {collection} {side} />
 {:else if sidebar === 'note'}
   <NoteModal {history} {side} />
-{:else}
+{:else if sidebar === 'collections'}
+  <Collections {collection} modal={false} />
 {/if}

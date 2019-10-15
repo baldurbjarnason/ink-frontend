@@ -54,8 +54,10 @@
       rightSidebar = "addbooks";
     } else if (params.collection) {
       rightSidebar = "upload";
+      leftSidebar = "collections";
     } else if ($page.path === "/") {
       rightSidebar = "upload";
+      leftSidebar = "collections";
     }
   }
   $: console.log(leftSidebar, rightSidebar)
