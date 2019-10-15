@@ -1,28 +1,41 @@
 <script>
   import { onMount, tick } from "svelte";
-  export let jobId;
+  import {collection as setCollection} from "../api/collection.js"
+  import { stores } from "../stores";
+  const { collections } = stores();
+  export let job;
   export let collection;
-  let job;
   onMount(() => {
     check(testJob, 100000, 2000);
   });
+  $: console.log(collection)
   async function check(fn, timeout, interval) {
+    console.log('check called: ', timeout, interval)
     const endTime = Number(new Date()) + (timeout || 2000);
     interval = interval || 100;
-    while (!job) {
+    while (!(job.finished || job.error)) {
+      console.log('interval: ', job)
       const result = await fn();
-      if (result && (result.finished || result.error || result.published)) {
+      if (result && (result.finished || result.error)) {
         job = result;
+        await processPublication(job)
         return result;
       } else if (Number(new Date()) < endTime) {
         await new Promise(resolve => setTimeout(resolve, interval));
       }
     }
   }
+  async function processPublication (job) {
+    if (!collection || collection === "all") return
+    const tag = $collections.find(tag => tag.name === collection)
+    console.log($collections, collection, tag)
+    return setCollection(tag, {id: `/publication-${job.publicationId}/`}, true)
+  }
   async function testJob() {
+    console.log('getting: ', `/api/get?path=${encodeURIComponent(`/job-${job.id}`)}`)
     try {
       const response = await window.fetch(
-        `/api/get?path=${encodeURIComponent(`/job-${jobId}`)}`,
+        `/api/get?path=${encodeURIComponent(`/job-${job.id}`)}`,
         { credentials: "include" }
       );
       return response.json();
@@ -30,6 +43,7 @@
       return { error: true };
     }
   }
+  $: console.log(job)
 </script>
 
 <style>
@@ -38,7 +52,7 @@
 
 <!-- markup (zero or more items) goes here -->
 <li>
-  {#if job.finished || job.published}
+  {#if job.finished}
     Processing done
   {:else if job.error}Error processing epub{:else}Processing epub{/if}
 </li>

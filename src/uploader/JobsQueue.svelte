@@ -9,15 +9,15 @@
   let tagged = []
   $: if ($jobs) {
     queue = $jobs.filter(job => job.finished || job.error || job.published);
-    if (collection && collection !== 'all') {
-      const done = $jobs.filter(job => (!job.finished || !job.published) && tagged.indexOf(job.id) === -1);
-      for (job of done) {
-        const tag = $collections.filter(item => item.name === collection)
-        collection(tag, `/${job.publicationId}/`, true).then(() => {
-          tagged = tagged.concat(jobs.id)
-        }).catch(err => console.error(err));
-      }
-    }
+    // if (collection && collection !== 'all') {
+    //   const done = $jobs.filter(job => (!job.finished || !job.published) && tagged.indexOf(job.id) === -1);
+    //   for (job of done) {
+    //     const tag = $collections.filter(item => item.name === collection)
+    //     collection(tag, `/${job.publicationId}/`, true).then(() => {
+    //       tagged = tagged.concat(jobs.id)
+    //     }).catch(err => console.error(err));
+    //   }
+    // }
   }
 </script>
 
@@ -41,17 +41,10 @@
 
 {#if $jobs && $jobs.length > 0}
 <div class="UploadQueue">
-  <h2>
-    {#if queue.length === 1}
-      Processing {queue.length} file
-    {:else if queue.length !== 0}
-      Processing {queue.length} files
-    {:else}Process queue is done{/if}
-  </h2>
   <ol>
     {#each $jobs as job}
       <!-- content here -->
-      <Job jobId={job.id} {collection} />
+      <Job {job} {collection} />
     {/each}
   </ol>
 </div>

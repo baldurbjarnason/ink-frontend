@@ -1,14 +1,14 @@
-<script context="module">
+<!-- <script context="module">
   export async function preload(page, session) {
-    let recent;
+    let recentlyAdded;
     if (session.user && session.user.id) {
-      recent = await this.fetch(`/recent.json`, { credentials: "include" })
+      recentlyAdded = await this.fetch(`/recent.json`, { credentials: "include" })
         .then(response => response.json())
         .catch(err => this.error(err));
     }
-    return { recent };
+    return { recentlyAdded };
   }
-</script>
+</script> -->
 
 <script>
   import Toolbar from "../components/Toolbar.svelte";
@@ -60,8 +60,8 @@
   out:fly={{ y: 200, duration: 250 }}>
   <!-- Uploader -->
   <!-- Recent -->
-  {#if recent}
-    <Recent {recent} />
+  {#if $recent}
+    <Recent recent={$recent} />
   {/if}
   <CollectionsList />
 </div>
