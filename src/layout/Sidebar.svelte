@@ -23,5 +23,4 @@
 {:else if sidebar === 'note'}
   <NoteModal {history} />
 {:else}
-  <Collections />
 {/if}

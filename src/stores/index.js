@@ -1,7 +1,7 @@
 import * as book from "./book.js";
 import * as layout from "./layout.js";
 import * as doc from "./doc.js";
-import { writable, derived } from "svelte/store";
+import { writable } from "svelte/store";
 
 let collections;
 let recent;

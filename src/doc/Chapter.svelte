@@ -81,11 +81,12 @@
     font-size: var(--reader-font-size);
     color: var(--reader-text-color);
     font-family: var(--reader-font-family);
-    background-color: var(--reader-background-color);
+    background-color: var(--main-background-color);
     line-height: var(--reader-line-height);
     display: block;
     contain: content;
     padding: 0;
+    padding-top: 25vh;
     display: grid;
     grid-template-columns:
       minmax(var(--reader-left-margin), 1fr) minmax(
