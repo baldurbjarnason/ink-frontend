@@ -1,8 +1,10 @@
 <script>
   // your script goes here
-  import Highlight from "./Highlight.svelte";
+  import InfoNotesList from "./InfoNotesList.svelte";
   export let chapter;
   export let index;
+  export let id;
+  export let type;
   let annotations = window
     .fetch(`/api/notes?path=${encodeURIComponent(chapter.url)}`)
     .then(response => response.json());
@@ -16,10 +18,6 @@
     padding: 0;
     color: var(--medium);
   }
-  .AnnotationsChapter {
-    border-top: 1px solid #f0f0f0;
-    border-bottom: 1px solid #f0f0f0;
-  }
 </style>
 
 <!-- markup (zero or more items) goes here -->
@@ -28,9 +26,7 @@
   {#await annotations}
     <p class="Loading">Loading...</p>
   {:then notes}
-    {#each notes.items as note}
-      <Highlight {note} />
-    {/each}
+    <InfoNotesList notes={notes.items} {id} {type} />
   {:catch error}
     <!-- promise was rejected -->
   {/await}

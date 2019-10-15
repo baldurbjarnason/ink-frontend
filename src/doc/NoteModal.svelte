@@ -23,8 +23,15 @@
     deleter(note);
   }
   let blockquote;
-  $: if ($note && process.browser) {
-    let dom = DOMPurify.sanitize(note.content, purifyConfig);
+  $: if ($note.id && !$note.content && process.browser) {
+    window
+    .fetch(`/api/get?path=${encodeURIComponent($note.id)}`)
+    .then(response => response.json())
+    .then(item => note.set(item))
+    .catch(err => console.error(err));
+  } else if ($note.content && process.browser) {
+    console.log($note)
+    let dom = DOMPurify.sanitize($note.content, purifyConfig);
     blockquote = dom.querySelector("blockquote").outerHTML;
   }
   const search = new window.URLSearchParams(window.location.search);
@@ -100,9 +107,11 @@
     return goto(url);
   }} />
 
-<div class="NoteModal">
+{#if $note.id && $note.content}
 
+<div class="NoteModal">
     <a href={closeURL} class="Closer" on:click={(event) => {
+      $note.set({})
       if (history) {
         event.preventDefault()
         window.history.back()
@@ -143,6 +152,7 @@
     <div class="Chapter">
       {@html blockquote}
     </div>
-    <Editor {$note} />
+    <Editor note={$note} />
   {/if}
 </div>
+{/if}

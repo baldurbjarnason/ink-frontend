@@ -179,42 +179,12 @@
   .Cover img {
     height: 150px;
   }
-  .Attributions {
-    padding: 0 1rem;
-  }
-  .InfoAttribution {
-    margin: 0;
-    font-style: italic;
-    color: var(--medium);
-    font-size: 0.85rem;
-  }
-  .Closer {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    text-decoration: none;
-
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    text-align: center;
-    white-space: nowrap;
-    text-decoration: none;
-    display: inline-block;
-
-    color: var(--link);
-    border: none;
-    background-color: transparent;
-  }
-  .Closer:hover {
-    color: var(--hover);
-  }
-  .Closer svg {
-    vertical-align: middle;
+  .wrapper {
+    min-width: 350px;
   }
 </style>
 {#if book.id}
+<div class="wrapper">
 {#if $currentInfoBook && side === "left"}
   <a href="/collections/all" class="return" data-close-modal class:modal>
     <svg
@@ -234,47 +204,13 @@
 {/if}
 {#if sidebar}
   <div class="CollectionBar">
-    <a href={closeURL} class="Closer" on:click={(event) => {
-      if (history) {
-        event.preventDefault()
-        window.history.back()
-      }
-    }} aria-label="Close sidebar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>
+    <span></span>
     <h2>{book.name || ''}</h2>
     <span />
   </div>
   <div class="Cover">
     <img src={book.cover} alt={book.name} />
   </div>
-  {#if book.author}
-    <div class="Attributions">
-      {#each book.author as attribution}
-        <p class="InfoAttribution">{attribution.name}</p>
-      {:else}
-        <p class="InfoAttribution">No author</p>
-      {/each}
-      {#each book.editor as attribution}
-        <p class="InfoAttribution">{attribution.name} (editor)</p>
-      {:else}
-        <p class="InfoAttribution">No editor</p>
-      {/each}
-      {#each book.translator as attribution}
-        <p class="InfoAttribution">{attribution.name} (translator)</p>
-      {:else}
-        <p class="InfoAttribution">No translator</p>
-      {/each}
-      {#each book.contributor as attribution}
-        <p class="InfoAttribution">{attribution.name} (contributor)</p>
-      {:else}
-        <p class="InfoAttribution">No contributor</p>
-      {/each}
-      {#each book.illustrator as attribution}
-        <p class="InfoAttribution">{attribution.name} (illustrator)</p>
-      {:else}
-        <p class="InfoAttribution">No illustrator</p>
-      {/each}
-    </div>
-  {/if}
 {/if}
 {#if modal}
   <h1>{$infoBook.name || ''}</h1>
@@ -354,4 +290,7 @@
     {/each}
   </ol>
 {/if}
+</div>
+{:else}
+  <div class="wrapper">&nbsp;</div>
 {/if}

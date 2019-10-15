@@ -9,7 +9,7 @@
         .then(response => response.json())
         .catch(err => this.error(err));
     }
-    return { book, type };
+    return { book, type, id };
   }
 </script>
 
@@ -23,6 +23,7 @@
   const { infoBook, currentInfoBook, infoContents, title } = stores();
   export let book;
   export let type;
+  export let id;
   let width = 0;
   let sidebar = true;
   let sidebargrid = true;
@@ -88,6 +89,9 @@
   .InfoBody {
     margin: 0 1rem;
   }
+  .annotations {
+    padding: 2rem 1rem;
+  }
 </style>
 
 <svelte:window bind:innerWidth={width} />
@@ -95,16 +99,13 @@
   <title>{book.name} – {type} – Rebus Ink</title>
 </svelte:head>
 {#if type === 'annotations'}
-  <div class="InfoBody">
 
-    <img class="InfoCover" alt={'Cover for ' + book.name} src={book.cover} />
-    <div class="InfoMetadata">
-      <h1>{book.name}</h1>
-      {#each book.readingOrder as chapter, i}
-        <AnnotationsChapter {chapter} index={i} />
-      {/each}
-    </div>
-  </div>
+      <div class="annotations">
+        <h1>{book.name}</h1>
+        {#each book.readingOrder as chapter, i}
+          <AnnotationsChapter {chapter} index={i} {type} {id} />
+        {/each}
+      </div>
 {:else if type === 'contents'}
   <div class="InfoBody">
     <div class="InfoMetadata">

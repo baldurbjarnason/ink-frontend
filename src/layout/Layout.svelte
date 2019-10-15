@@ -24,7 +24,7 @@
       firstRun = false
     }
     if (params.infoBook) {
-      leftSidebar = "item";
+      leftSidebar = "info";
     } else if (params.path) {
       leftSidebar = "contents";
     } else {
@@ -58,6 +58,7 @@
       rightSidebar = "upload";
     }
   }
+  $: console.log(leftSidebar, rightSidebar)
   $: if (width <= 1024 && rightSidebar && query[rightSidebar]) {
     opener({ id: rightSidebar + "-modal" });
   } else {
@@ -85,11 +86,11 @@
     rightModal={rightSidebar + '-modal'}
     rightLabel={rightSidebar}>
     <div slot="left-sidebar">
-      <Sidebar sidebar={leftSidebar} {collection} history={false} />
+      <Sidebar sidebar={leftSidebar} {collection} history={false} side={"left"} />
     </div>
     <slot />
     <div slot="right-sidebar">
-      <Sidebar sidebar={rightSidebar} {collection} {history} />
+      <Sidebar sidebar={rightSidebar} {collection} {history} side={"right"}/>
     </div>
   </WithSidebars>
 </main>
