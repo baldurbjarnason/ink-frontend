@@ -59,7 +59,7 @@
   import { stores } from "../../stores";
   import { writable } from "svelte/store";
   import { fly } from "svelte/transition";
-  const { infoBook, currentInfoBook, title, completedJobs } = stores();
+  const { infoBook, currentInfoBook, title } = stores();
   export let items;
   export let collection;
   export let selected;
@@ -170,8 +170,22 @@
 
   // Needs to update collection if $jobs has changed. Get first 10, remove those whose ID we already have, then prepend to collection.
   // Then load more needs to filter out all books we've already loaded.
-  $: if ($completedJobs.length > 0) {
-    loadMore(true)
+  $: if (process.browser) {
+    check()
+  }
+  async function check() {
+    const endTime = Number(new Date()) + (1000 * 60 * 10);
+    const interval = 1000 * 10;
+    while (true) {
+      try {
+        await loadMore(true)
+        if (Number(new Date()) < endTime) {
+          await new Promise(resolve => setTimeout(resolve, interval));
+        }
+      } catch (err) {
+        return err
+      }
+    }
   }
   async function loadMore(prepend) {
     try {
@@ -193,7 +207,7 @@
         )
         .then(response => response.json());
       const itemIds = items.map(item => item.id)
-      const additions = libraryAdditions.items.filter(item => itemIds.indexOf === -1)
+      const additions = libraryAdditions.items.filter(item => itemIds.indexOf(item.id) === -1)
       if (prepend) {
         items = additions.concat(items)
       } else {

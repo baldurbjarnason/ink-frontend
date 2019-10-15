@@ -8,10 +8,6 @@ let recent;
 const note = writable({});
 let updating = false;
 const jobs = writable([]);
-const completedJobs = derived(jobs, ($jobs) => {
-  return $jobs.filter(job => !job.finished || !job.published);
-}, [])
-completedJobs.subscribe(() => updateCollections())
 
 export function stores() {
   let update = false;
@@ -24,7 +20,7 @@ export function stores() {
     update = true;
   }
   if (update && !updating) updateCollections();
-  return { ...book, ...layout, ...doc, collections, recent, note, jobs, completedJobs };
+  return { ...book, ...layout, ...doc, collections, recent, note, jobs };
 }
 
 function updateCollections() {

@@ -2,7 +2,7 @@
   import { onMount, tick } from "svelte";
   import {collection as setCollection} from "../api/collection.js"
   import { stores } from "../stores";
-  const { collections, recent } = stores();
+  const { collections, recent, jobs } = stores();
   export let job;
   export let collection;
   onMount(() => {
@@ -38,6 +38,11 @@
       return recentStore
     })
     if (!collection || collection === "all") return
+    jobs.update(list => {
+      const index = list.map(item => item.id).indexOf(job.id)
+      list[index] = job
+      return list
+    });
     return setCollection(tag, {id: `/publication-${job.publicationId}/`}, true)
   }
   async function testJob() {
