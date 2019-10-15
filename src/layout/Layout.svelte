@@ -63,9 +63,6 @@
   } else {
     closer();
   }
-  $: if ($session) {
-    console.log($session);
-  }
   let width;
 </script>
 

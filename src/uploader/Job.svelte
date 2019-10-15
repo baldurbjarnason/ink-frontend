@@ -8,13 +8,10 @@
   onMount(() => {
     check(testJob, 100000, 2000);
   });
-  $: console.log(collection)
   async function check(fn, timeout, interval) {
-    console.log('check called: ', timeout, interval)
     const endTime = Number(new Date()) + (timeout || 2000);
     interval = interval || 100;
     while (!(job.finished || job.error)) {
-      console.log('interval: ', job)
       const result = await fn();
       if (result && (result.finished || result.error)) {
         job = result;
@@ -27,7 +24,6 @@
   }
   async function processPublication (job) {
     const tag = $collections.find(tag => tag.name === collection)
-    console.log($collections, collection, tag)
     const publicationResponse = await window.fetch(
       `/api/get?path=${encodeURIComponent(`/publication-${job.publicationId}/`)}&publication=true`,
       { credentials: "include" }
@@ -46,7 +42,6 @@
     return setCollection(tag, {id: `/publication-${job.publicationId}/`}, true)
   }
   async function testJob() {
-    console.log('getting: ', `/api/get?path=${encodeURIComponent(`/job-${job.id}`)}`)
     try {
       const response = await window.fetch(
         `/api/get?path=${encodeURIComponent(`/job-${job.id}`)}`,
@@ -57,7 +52,6 @@
       return { error: true };
     }
   }
-  $: console.log(job)
 </script>
 
 <style>

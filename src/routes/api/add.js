@@ -1,6 +1,5 @@
 import got from "got";
 export async function post(req, res, next) {
-  console.log(req.body.target.id)
   if (req.body.target.id) {
     req.body.target.id = new URL(req.body.target.id, process.env.API_SERVER)
   }
