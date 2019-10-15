@@ -39,7 +39,7 @@
   {#if notes}
     {#each notes as note}
       <div class="Note">
-        <Highlight {note} edit={note.edit} {current} />
+        <Highlight {note} edit={note.edit} {current} {collection} />
       </div>
     {/each}
   {/if}
