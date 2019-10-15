@@ -223,19 +223,22 @@
   }
   .BookBody {
     display: grid;
-    grid-template-columns: 24px 1fr;
+    grid-template-columns: 24px 1fr 24px;
+    grid-template-rows: 1fr 40px;
+    grid-template-areas: "sidebar main sidebar"
+      "navbar navbar navbar";
   }
 </style>
 
 <svelte:window bind:innerWidth={width} />
 <svelte:head>
-  {#if chapter.stylesheets.length !== 0}
+  <!-- {#if chapter.stylesheets.length !== 0}
     {#each chapter.stylesheets as sheet}
       <link
         rel="stylesheet"
         href={`/api/clean-css?css=${encodeURIComponent(sheet)}`} />
     {/each}
-  {/if}
+  {/if} -->
   <title>{book.name} - {$chapterTitle} - Rebus Ink</title>
 </svelte:head>
 

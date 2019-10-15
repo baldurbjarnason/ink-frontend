@@ -14,6 +14,12 @@
     height: 100vh;
     max-height: 100vh;
     background-color: var(--sidebar-background-color);
+    min-width: 400px;
+  }
+  @media (max-width: 400px) {
+    .BookContents {
+      min-width: 300px;
+    }
   }
   .BookContents.modal {
     background-color: white;
