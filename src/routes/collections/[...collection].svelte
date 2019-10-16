@@ -66,9 +66,10 @@
   export let page;
   export let hideLoadMore = false;
   export let layout;
-  export let type = "library";
+  export let type;
   export let sidebar;
   $: title.set(collection);
+  $: console.log(type);
   let notes;
   let library;
   const search = writable(window.location.search);

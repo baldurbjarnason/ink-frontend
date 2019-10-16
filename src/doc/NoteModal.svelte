@@ -113,7 +113,7 @@
       href={closeURL}
       class="Closer"
       on:click={event => {
-        $note.set({});
+        note.set({});
         if (history) {
           event.preventDefault();
           window.history.back();
