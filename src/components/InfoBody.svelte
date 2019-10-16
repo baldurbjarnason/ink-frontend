@@ -8,6 +8,7 @@
   const { collections } = stores();
   export let side;
   export let book;
+  export let modal;
 
   const search = new window.URLSearchParams(window.location.search);
   search.delete("item");
@@ -144,6 +145,9 @@
     class="info-book"
     in:fly={{ duration: 1000, x: 100 }}
     out:fly={{ duration: 250, x: 100 }}>
+    {#if modal}
+      <h1>{infoBook.name || ''}</h1>
+      {:else}
     <div class="CollectionBar">
       <a
         href={closeURL}
@@ -198,6 +202,7 @@
           <p class="InfoAttribution">No illustrator</p>
         {/each}
       </div>
+    {/if}
     {/if}
     <ol>
       {#if infoBook.json.epubVersion}

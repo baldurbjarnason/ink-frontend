@@ -87,6 +87,7 @@
     margin: 0;
     padding: 0;
     border-radius: 9999px;
+    z-index: 1;
   }
   .Closer:focus {
     outline: solid transparent;

@@ -63,7 +63,6 @@
       leftSidebar = "collections";
     }
   }
-  $: console.log(leftSidebar, rightSidebar);
   $: if (width <= 1024 && rightSidebar && query[rightSidebar]) {
     opener({ id: rightSidebar + "-modal" });
   } else {
@@ -84,7 +83,7 @@
 
 <svelte:window bind:innerWidth={width} />
 <svelte:body/>
-<Modals {leftSidebar} {rightSidebar} {collection} />
+<Modals {leftSidebar} {rightSidebar} {collection} id={sidebarId} />
 <main class:reader={params.path}>
   <WithSidebars
     title={$title}

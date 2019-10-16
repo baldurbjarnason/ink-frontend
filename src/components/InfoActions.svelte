@@ -42,4 +42,4 @@
 
 </style>
 
-<InfoBody {book} {side} />
+<InfoBody {book} {side} {modal} />

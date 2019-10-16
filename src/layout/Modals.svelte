@@ -8,6 +8,7 @@
   export let rightSidebar;
   export let leftSidebar;
   export let collection;
+  export let id;
 </script>
 
 <style>
@@ -25,10 +26,10 @@
 </SidebarModal>
 <SidebarModal id={rightSidebar + '-modal'}>
   {#if rightSidebar === 'item'}
-    <InfoActions modal={true} sidebar={true} />
+    <InfoActions modal={true} sidebar={true} {id} />
   {:else if rightSidebar === 'upload'}
     <UploadSidebar {collection} modal={true} />
   {:else if rightSidebar === 'note'}
-    <NoteModal />
+    <NoteModal {id} />
   {/if}
 </SidebarModal>
