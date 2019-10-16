@@ -3,11 +3,11 @@
   import TextButton from "./TextButton.svelte";
   import { collection } from "../api/collection.js";
   import { fly, fade } from "svelte/transition";
+  import CollectionCheckbox from './CollectionCheckbox.svelte'
   import { stores } from "../stores";
   const { collections } = stores();
   export let side;
   export let book;
-  let checkboxes = {};
 
   const search = new window.URLSearchParams(window.location.search);
   search.delete("item");
@@ -69,53 +69,6 @@
     margin: 1rem auto;
     min-width: 250px;
     max-width: 450px;
-  }
-  .CollectionsList label {
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0.25rem 1rem;
-  }
-  .CollectionsList label.checked {
-    font-weight: 600;
-  }
-  .CollectionsList label:hover {
-    background-color: var(--hover);
-    color: var(--light);
-    cursor: pointer;
-  }
-
-  @supports (-webkit-appearance: none) {
-    input[type="checkbox"] {
-      -webkit-appearance: none;
-      width: 1.6rem;
-      height: 1.6rem;
-      border: 1px solid #808080;
-      border-radius: 0.25rem;
-      margin-right: 0.5rem;
-    }
-    input[type="checkbox"]:focus {
-      border: 1px solid var(--rc-darker, #ccc);
-    }
-    input[type="checkbox"]:checked {
-      position: relative;
-      background: none;
-      border-color: white;
-      background: var(--rc-darker);
-    }
-    input[type="checkbox"]:checked::after {
-      position: absolute;
-      top: 0.36rem;
-      left: 0.12rem;
-      content: "";
-      width: 1rem;
-      height: 0.3rem;
-      border: 2px solid white;
-      border-right: none;
-      border-top: none;
-      transform: rotate(-45deg);
-    }
   }
   .CollectionBar {
     height: 32px;
@@ -291,21 +244,9 @@
     {#if $collections}
       <h2 class="Collections">Manage Collections</h2>
       <ol class="CollectionsList">
-        {#each $collections as tag, i}
+        {#each $collections as tag}
           <li>
-            <label
-              class:checked={checkboxes[i] || infoBook.tags
-                  .map(tag => tag.id)
-                  .includes(tag.id)}>
-              <input
-                type="checkbox"
-                value={tag.name}
-                bind:checked={checkboxes[i]}
-                checked={book.tags.map(tag => tag.id).includes(tag.id)}
-                id={tag.name}
-                on:change={event => handleCollection(tag, event.target)} />
-              {tag.name}
-            </label>
+            <CollectionCheckbox {tag} tags={infoBook.tags.map(tag => tag.id)} {handleCollection} />
           </li>
         {/each}
       </ol>

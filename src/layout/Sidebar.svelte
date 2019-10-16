@@ -9,6 +9,7 @@
   export let collection;
   export let history;
   export let side;
+  export let id;
 </script>
 
 <style>
@@ -17,7 +18,7 @@
 
 <!-- markup (zero or more items) goes here -->
 {#if sidebar === 'item'}
-  <InfoActions modal={false} sidebar={true} {history} {side} />
+  <InfoActions modal={false} sidebar={true} {history} {side} {id} />
 {:else if sidebar === 'info'}
   <InfoNavigation modal={false} sidebar={true} {history} {side} />
 {:else if sidebar === 'contents'}
@@ -25,7 +26,9 @@
 {:else if sidebar === 'upload'}
   <UploadSidebar {collection} {side} />
 {:else if sidebar === 'note'}
-  <NoteModal {history} {side} />
+  <NoteModal {history} {side} {id} />
 {:else if sidebar === 'collections'}
   <Collections {collection} modal={false} />
+  {:else}
+    <div class="empty"></div>
 {/if}

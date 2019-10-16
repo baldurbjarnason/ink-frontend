@@ -15,6 +15,7 @@
   let collection = "all";
   let history;
   let firstRun = true;
+  let sidebarId;
   $: if ($page) {
     query = $page.query;
     params = $page.params;
@@ -25,8 +26,10 @@
     }
     if (params.infoBook) {
       leftSidebar = "info";
+      rightSidebar = "empty"
     } else if (params.path) {
       leftSidebar = "contents";
+      rightSidebar = "empty"
     } else {
       leftSidebar = "collections";
     }
@@ -34,13 +37,12 @@
       collection = params.collection[0];
     }
     if (query.item) {
-      infoBook.set({ id: decode(query.item) });
-      currentInfoBook.set("");
+      sidebarId = decode(query.item)
       rightSidebar = "item";
     } else if (query.upload) {
       rightSidebar = "upload";
     } else if (query.note) {
-      note.set({ id: decode(query.note) });
+      sidebarId = decode(query.note)
       rightSidebar = "note";
     } else if (query.chapternotes) {
       rightSidebar = "chapternotes";
@@ -96,7 +98,7 @@
     </div>
     <slot />
     <div slot="right-sidebar">
-      <Sidebar sidebar={rightSidebar} {collection} {history} side={'right'} />
+      <Sidebar sidebar={rightSidebar} {collection} {history} side={'right'} id={sidebarId} />
     </div>
   </WithSidebars>
 </main>

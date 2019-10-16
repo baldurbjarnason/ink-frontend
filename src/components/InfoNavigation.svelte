@@ -184,7 +184,7 @@
     height: 150px;
   }
   .wrapper {
-    min-width: 350px;
+    min-width: 300px;
   }
 </style>
 
@@ -206,16 +206,6 @@
         </svg>
         Library
       </a>
-    {/if}
-    {#if sidebar}
-      <div class="CollectionBar">
-        <span />
-        <h2>{book.name || ''}</h2>
-        <span />
-      </div>
-      <div class="Cover">
-        <img src={book.cover} alt={book.name} />
-      </div>
     {/if}
     {#if modal}
       <h1>{$infoBook.name || ''}</h1>
@@ -281,11 +271,10 @@
       <ol class="CollectionsList">
         {#each $collections as tag, i}
           <li>
-            <label class:checked={checkboxes[i] || bookTags.includes(tag.id)}>
+            <label>
               <input
                 type="checkbox"
                 value={tag.name}
-                bind:checked={checkboxes[i]}
                 checked={bookTags.includes(tag.id)}
                 id={tag.name}
                 on:change={event => handleCollection(tag, event.target)} />

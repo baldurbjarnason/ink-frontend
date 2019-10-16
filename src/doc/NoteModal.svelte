@@ -7,6 +7,7 @@
   import { remove as deleter } from "../api/remove.js";
   import { stores } from "../stores";
   import { goto } from "@sapper/app";
+  export let id;
   const { note } = stores();
   const purifyConfig = {
     KEEP_CONTENT: false,
