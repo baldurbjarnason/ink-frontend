@@ -108,7 +108,7 @@
 {:else if type === 'contents'}
   <div class="InfoBody">
     <div class="InfoMetadata">
-      <Contents {$infoContents} />
+      <Contents contents={$infoContents} {book} />
     </div>
   </div>
 {:else}

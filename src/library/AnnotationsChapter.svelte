@@ -22,7 +22,6 @@
 
 <!-- markup (zero or more items) goes here -->
 <div class="AnnotationsChapter">
-  <h2>Chapter {index + 1}</h2>
   {#await annotations}
     <p class="Loading">Loading...</p>
   {:then notes}

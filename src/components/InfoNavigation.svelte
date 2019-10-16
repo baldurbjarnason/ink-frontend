@@ -96,8 +96,7 @@
     margin-top: 32px;
   }
   ol a.current {
-    border-left: 5px solid var(--rc-darker);
-    padding-left: calc(1rem - 6px);
+    background-color: var(--main-background-color);
     font-weight: 600;
   }
   .Collections {
