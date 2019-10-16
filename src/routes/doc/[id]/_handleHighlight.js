@@ -26,7 +26,7 @@ export function handleHighlight(range, root, chapter) {
     }
     const html = serializeRange(range);
     let content = `<blockquote data-original-quote>${html}</blockquote>`;
-    const contentRange = document.createRange()
+    const contentRange = document.createRange();
     const note = {
       type: "Note",
       noteType: "reader:Highlight",
@@ -39,9 +39,13 @@ export function handleHighlight(range, root, chapter) {
       content
     };
     try {
-      contentRange.setStartBefore(document.querySelector(`[data-location=${startLocation}]`))
-      contentRange.setEndAfter(document.querySelector(`[data-location=${endLocation}]`))
-      const html = serializeRange(contentRange, note)
+      contentRange.setStartBefore(
+        document.querySelector(`[data-location=${startLocation}]`)
+      );
+      contentRange.setEndAfter(
+        document.querySelector(`[data-location=${endLocation}]`)
+      );
+      const html = serializeRange(contentRange, note);
       content = `<blockquote data-original-quote>${html}</blockquote>`;
     } catch (err) {}
     const tempId = "temp-" + Math.floor(Math.random() * 10000000000000);
@@ -88,34 +92,37 @@ function highlightNote(selector, root, id, note, mark) {
       !node.parentElement.closest("a.Highlight")
     ) {
       // Create a highlight
-      const highlight = mark ? document.createElement("mark") : document.createElement("a");
+      const highlight = mark
+        ? document.createElement("mark")
+        : document.createElement("a");
       highlight.dataset.noteId = id;
       highlight.classList.add("Highlight");
       if (note.json.commented) {
         highlight.classList.add("Commented");
       }
-      highlight.dataset.highlightLevel = 0
+      highlight.dataset.highlightLevel = 0;
       highlight.root = root;
       highlight.href = setNoteURL(id);
       // Wrap it around the text node
       node.parentNode.replaceChild(highlight, node);
       highlight.appendChild(node);
     } else if (node.parentElement.closest("a.Highlight")) {
-      // Create a highlight but a mark this time 
+      // Create a highlight but a mark this time
       const highlight = document.createElement("mark");
       highlight.dataset.noteId = id;
       highlight.classList.add("Highlight");
       if (note.json.commented) {
         highlight.classList.add("Commented");
       }
-      highlight.dataset.highlightLevel = highlight.dataset.highlightLevel + 1
+      highlight.dataset.highlightLevel = highlight.dataset.highlightLevel + 1;
       highlight.root = root;
       highlight.dataset.href = setNoteURL(id);
-      highlight.addEventListener((event) => {
-        event.preventDefault()
-        event.stopPropagation()
-        return goto(highlight.dataset.href)
-      })
+      highlight.addEventListener(event => {
+        event.preventDefault();
+        event.stopPropagation();
+        return goto(highlight.dataset.href);
+      });
+      highlight.setAttribute("sapper-noscroll", "true");
       // Wrap it around the text node
       node.parentNode.replaceChild(highlight, node);
       highlight.appendChild(node);
@@ -173,7 +180,7 @@ function serializeRange(range, note) {
     .forEach(element => element.removeAttribute("style"));
   placeholder.appendChild(fragment);
   if (note) {
-    highlightNote(note['oa:hasSelector'], placeholder, note.id, note. mark)
+    highlightNote(note["oa:hasSelector"], placeholder, note.id, note.mark);
   }
   return placeholder.innerHTML;
 }

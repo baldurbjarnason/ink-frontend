@@ -2,30 +2,11 @@
   import Button from "./Button.svelte";
   import TextButton from "./TextButton.svelte";
   import { collection } from "../api/collection.js";
+  import { fly, fade } from "svelte/transition";
   import { stores } from "../stores";
-  const { infoBook, currentInfoBook, collections } = stores();
-  export let modal;
-  export let sidebar = false;
-  export let history = false;
+  const { collections } = stores();
   export let side;
-  let book = { navigation: { current: {} }, json: { epubVersion: "2.0" } };
-  $: if ($infoBook.id && $infoBook.id !== book.id) {
-    updateBook($infoBook.id);
-  }
-  let bookTags = [];
-  $: if (book.tags) {
-    bookTags = book.tags.map(tag => tag.id);
-  }
-  async function updateBook(id) {
-    book = {
-      navigation: { current: {} },
-      json: { epubVersion: "2.0" },
-      readingOrder: [{}]
-    };
-    const response = await fetch(`/api/book?url=${encodeURIComponent(id)}`);
-    book = await response.json();
-    return book;
-  }
+  export let book;
   let checkboxes = {};
 
   const search = new window.URLSearchParams(window.location.search);
@@ -35,7 +16,7 @@
   url.search = search.toString();
   let closeURL = url.href;
   function handleCollection(tag, input) {
-    collection(tag, $infoBook, input.checked);
+    collection(tag, book, input.checked);
   }
 </script>
 
@@ -72,28 +53,6 @@
   }
   ol li {
     list-style: none;
-  }
-  .return {
-    text-decoration: none;
-    line-height: 0.1;
-    display: flex;
-    align-items: center;
-    padding: 0.5rem calc(1rem - 16px);
-    text-transform: uppercase;
-    font-size: 0.75rem;
-    border-radius: 0;
-    margin-top: 0;
-  }
-  .return:hover {
-    background-color: var(--hover);
-    color: var(--light);
-  }
-  .return svg {
-    height: 14px;
-    width: 16px;
-  }
-  .return.modal {
-    margin-top: 32px;
   }
   ol a.current {
     border-left: 5px solid var(--rc-darker);
@@ -183,62 +142,130 @@
   .Cover img {
     height: 150px;
   }
-  .wrapper {
-    min-width: 350px;
+  .Attributions {
+    padding: 0 1rem;
+  }
+  .InfoAttribution {
+    margin: 0;
+    font-style: italic;
+    color: var(--medium);
+    font-size: 0.85rem;
+  }
+  .Closer {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-align: center;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
+
+    color: var(--link);
+    border: none;
+    background-color: transparent;
+  }
+  .Closer:hover {
+    color: var(--hover);
+  }
+  .Closer svg {
+    vertical-align: middle;
+  }
+  .info-book {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
   }
 </style>
 
-{#if book.id}
-  <div class="wrapper">
-    {#if $currentInfoBook && side === 'left'}
-      <a href="/collections/all" class="return" data-close-modal class:modal>
+{#await book}
+  <div class="loading">...</div>
+{:then infoBook}
+  <div
+    class="info-book"
+    in:fly={{ duration: 1000, x: 100 }}
+    out:fly={{ duration: 250, x: 100 }}>
+    <div class="CollectionBar">
+      <a
+        href={closeURL}
+        class="Closer"
+        aria-label="Close sidebar"
+        sapper-noscroll>
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="24"
+          height="24"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           stroke-width="2"
           stroke-linecap="square"
           stroke-linejoin="round">
-          <path d="M15 18l-6-6 6-6" />
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
         </svg>
-        Library
       </a>
-    {/if}
-    {#if sidebar}
-      <div class="CollectionBar">
-        <span />
-        <h2>{book.name || ''}</h2>
-        <span />
+      <h2>{infoBook.name || ''}</h2>
+      <span />
+    </div>
+    <div class="Cover">
+      <img src={infoBook.cover} alt={infoBook.name} />
+    </div>
+    {#if infoBook.author}
+      <div class="Attributions">
+        {#each infoBook.author as attribution}
+          <p class="InfoAttribution">{attribution.name}</p>
+        {:else}
+          <p class="InfoAttribution">No author</p>
+        {/each}
+        {#each infoBook.editor as attribution}
+          <p class="InfoAttribution">{attribution.name} (editor)</p>
+        {:else}
+          <p class="InfoAttribution">No editor</p>
+        {/each}
+        {#each infoBook.translator as attribution}
+          <p class="InfoAttribution">{attribution.name} (translator)</p>
+        {:else}
+          <p class="InfoAttribution">No translator</p>
+        {/each}
+        {#each infoBook.contributor as attribution}
+          <p class="InfoAttribution">{attribution.name} (contributor)</p>
+        {:else}
+          <p class="InfoAttribution">No contributor</p>
+        {/each}
+        {#each infoBook.illustrator as attribution}
+          <p class="InfoAttribution">{attribution.name} (illustrator)</p>
+        {:else}
+          <p class="InfoAttribution">No illustrator</p>
+        {/each}
       </div>
-      <div class="Cover">
-        <img src={book.cover} alt={book.name} />
-      </div>
-    {/if}
-    {#if modal}
-      <h1>{$infoBook.name || ''}</h1>
     {/if}
     <ol>
-      {#if book.json.epubVersion}
+      {#if infoBook.json.epubVersion}
         <li>
           <a
             class:infoBook={true}
-            href={book.navigation.current.path}
-            data-close-modal
-            class:current={$currentInfoBook === 'read'}>
-            {book.position ? 'Continue' : 'Read'}
+            href={infoBook.navigation.current.path}
+            data-close-modal>
+            {infoBook.position ? 'Continue' : 'Read'}
           </a>
         </li>
         <li>
-          <a href="/assets{new window.URL(book.id + 'original.epub').pathname}">
+          <a
+            href="/assets{new window.URL(infoBook.id + 'original.epub').pathname}">
             Download original
           </a>
         </li>
-      {:else if book.readingOrder[0] && book.readingOrder[0].url}
+      {:else if infoBook.readingOrder[0] && infoBook.readingOrder[0].url}
         <li>
-          <a href="/assets{new window.URL(book.readingOrder[0].url).pathname}">
+          <a
+            href="/assets{new window.URL(infoBook.readingOrder[0].url).pathname}">
             Download original
           </a>
         </li>
@@ -251,28 +278,13 @@
         </li>
       {/if}
       <li class="first-item">
-        <a
-          href="{book.url}metadata"
-          data-close-modal
-          class:current={$currentInfoBook === 'metadata'}>
-          Metadata
-        </a>
+        <a href="{infoBook.url}metadata" data-close-modal>Metadata</a>
       </li>
       <li>
-        <a
-          href="{book.url}contents"
-          data-close-modal
-          class:current={$currentInfoBook === 'contents'}>
-          Contents
-        </a>
+        <a href="{infoBook.url}contents" data-close-modal>Contents</a>
       </li>
       <li class="last-item">
-        <a
-          href="{book.url}annotations"
-          data-close-modal
-          class:current={$currentInfoBook === 'annotations'}>
-          Annotations
-        </a>
+        <a href="{infoBook.url}annotations" data-close-modal>Annotations</a>
       </li>
     </ol>
 
@@ -281,12 +293,15 @@
       <ol class="CollectionsList">
         {#each $collections as tag, i}
           <li>
-            <label class:checked={checkboxes[i] || bookTags.includes(tag.id)}>
+            <label
+              class:checked={checkboxes[i] || infoBook.tags
+                  .map(tag => tag.id)
+                  .includes(tag.id)}>
               <input
                 type="checkbox"
                 value={tag.name}
                 bind:checked={checkboxes[i]}
-                checked={bookTags.includes(tag.id)}
+                checked={book.tags.map(tag => tag.id).includes(tag.id)}
                 id={tag.name}
                 on:change={event => handleCollection(tag, event.target)} />
               {tag.name}
@@ -296,6 +311,4 @@
       </ol>
     {/if}
   </div>
-{:else}
-  <div class="wrapper">&nbsp;</div>
-{/if}
+{/await}

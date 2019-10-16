@@ -1,15 +1,3 @@
-<!-- <script context="module">
-  export async function preload(page, session) {
-    let recentlyAdded;
-    if (session.user && session.user.id) {
-      recentlyAdded = await this.fetch(`/recent.json`, { credentials: "include" })
-        .then(response => response.json())
-        .catch(err => this.error(err));
-    }
-    return { recentlyAdded };
-  }
-</script> -->
-
 <script>
   import Toolbar from "../components/Toolbar.svelte";
   import Uploader from "../uploader/Upload.svelte";
@@ -51,6 +39,17 @@
   }
 </style>
 
+<!-- <script context="module">
+  export async function preload(page, session) {
+    let recentlyAdded;
+    if (session.user && session.user.id) {
+      recentlyAdded = await this.fetch(`/recent.json`, { credentials: "include" })
+        .then(response => response.json())
+        .catch(err => this.error(err));
+    }
+    return { recentlyAdded };
+  }
+</script> -->
 <svelte:head>
   <title>Uploads – Rebus Ink</title>
 </svelte:head>

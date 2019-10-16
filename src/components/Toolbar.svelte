@@ -1,4 +1,3 @@
-
 <style>
   .Toolbar {
     display: block;

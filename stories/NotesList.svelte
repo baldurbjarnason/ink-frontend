@@ -4,7 +4,7 @@
   export let layout;
   export let notes;
   export let current;
-  export let collection
+  export let collection;
 </script>
 
 <style>

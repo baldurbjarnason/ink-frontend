@@ -212,7 +212,8 @@
     display: grid;
     grid-template-columns: 24px 1fr 24px;
     grid-template-rows: 1fr 40px;
-    grid-template-areas: "sidebar main right"
+    grid-template-areas:
+      "sidebar main right"
       "navbar navbar navbar";
   }
 </style>

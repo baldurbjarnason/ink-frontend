@@ -36,43 +36,42 @@
     }
   }
 </style>
+
 <div>
-{#if width <= 1024}
-  <div
-    class="Toolbar-link Progress">
-    {#if chapters}
-      {#each chapters as chapter, i}
-        <!-- content here -->
-        {#if i === current}
-          <svg class="current">
-            <circle cx="6" cy="6" r="3" />
-          </svg>
-        {:else}
-          <svg>
-            <circle cx="6" cy="6" r="2" />
-          </svg>
-        {/if}
-      {/each}
-    {/if}
-  </div>
-{:else}
-  <div
-    class="Toolbar-link Progress">
-    {#if chapters}
-      {#each chapters as chapter, i}
-        <!-- content here -->
-        {#if i === current}
-          <svg class="current">
-            <circle cx="6" cy="6" r="3" />
-          </svg>
-        {:else}
-          <svg>
-            <circle cx="6" cy="6" r="2" />
-          </svg>
-        {/if}
-      {/each}
-    {/if}
-  </div>
-{/if}
+  {#if width <= 1024}
+    <div class="Toolbar-link Progress">
+      {#if chapters}
+        {#each chapters as chapter, i}
+          <!-- content here -->
+          {#if i === current}
+            <svg class="current">
+              <circle cx="6" cy="6" r="3" />
+            </svg>
+          {:else}
+            <svg>
+              <circle cx="6" cy="6" r="2" />
+            </svg>
+          {/if}
+        {/each}
+      {/if}
+    </div>
+  {:else}
+    <div class="Toolbar-link Progress">
+      {#if chapters}
+        {#each chapters as chapter, i}
+          <!-- content here -->
+          {#if i === current}
+            <svg class="current">
+              <circle cx="6" cy="6" r="3" />
+            </svg>
+          {:else}
+            <svg>
+              <circle cx="6" cy="6" r="2" />
+            </svg>
+          {/if}
+        {/each}
+      {/if}
+    </div>
+  {/if}
 
 </div>

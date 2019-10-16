@@ -5,9 +5,9 @@
   import NoteModal from "../doc/NoteModal.svelte";
   import UploadSidebar from "../uploader/UploadSidebar.svelte";
   import SidebarModal from "./SidebarModal.svelte";
-  export let rightSidebar
-  export let leftSidebar
-  export let collection
+  export let rightSidebar;
+  export let leftSidebar;
+  export let collection;
 </script>
 
 <style>

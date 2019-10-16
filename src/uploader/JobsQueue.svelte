@@ -6,7 +6,7 @@
   export let collection;
   const { jobs, collections } = stores();
   let queue;
-  let tagged = []
+  let tagged = [];
   $: if ($jobs) {
     queue = $jobs.filter(job => job.finished || job.error || job.published);
     // if (collection && collection !== 'all') {
@@ -40,13 +40,12 @@
 </style>
 
 {#if $jobs && $jobs.length > 0}
-<div class="UploadQueue">
-  <ol>
-    {#each $jobs as job}
-      <!-- content here -->
-      <Job {job} {collection} />
-    {/each}
-  </ol>
-</div>
-
+  <div class="UploadQueue">
+    <ol>
+      {#each $jobs as job}
+        <!-- content here -->
+        <Job {job} {collection} />
+      {/each}
+    </ol>
+  </div>
 {/if}

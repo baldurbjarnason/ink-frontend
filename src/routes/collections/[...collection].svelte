@@ -138,7 +138,7 @@
   function onSelect(event) {
     const value = event.target.value.split("-");
     const query = new window.URLSearchParams(window.location.search);
-    query.set('noHistory', 'true')
+    query.set("noHistory", "true");
     if (value[0] === "datePublished") {
       query.delete("orderBy");
       query.delete("reverse");
@@ -171,45 +171,46 @@
   // Needs to update collection if $jobs has changed. Get first 10, remove those whose ID we already have, then prepend to collection.
   // Then load more needs to filter out all books we've already loaded.
   $: if (process.browser) {
-    check()
+    check();
   }
   async function check() {
-    const endTime = Number(new Date()) + (1000 * 60 * 10);
+    const endTime = Number(new Date()) + 1000 * 60 * 10;
     const interval = 1000 * 10;
     while (true) {
       try {
-        await loadMore(true)
+        await loadMore(true);
         if (Number(new Date()) < endTime) {
           await new Promise(resolve => setTimeout(resolve, interval));
         }
       } catch (err) {
-        return err
+        return err;
       }
     }
   }
   async function loadMore(prepend) {
     try {
-      let page
+      let page;
       if (prepend) {
-        page = 1
+        page = 1;
       } else {
-        page = order.page + 1
+        page = order.page + 1;
         order.page = order.page + 1;
       }
       const libraryAdditions = await window
         .fetch(
-          `/api/collections?collection=${collection}&page=${page}${order.orderBy && order.orderBy.slice(1)}${
-            order.reverse
-          }&type=${type}`,
+          `/api/collections?collection=${collection}&page=${page}${order.orderBy &&
+            order.orderBy.slice(1)}${order.reverse}&type=${type}`,
           {
             credentials: "include"
           }
         )
         .then(response => response.json());
-      const itemIds = items.map(item => item.id)
-      const additions = libraryAdditions.items.filter(item => itemIds.indexOf(item.id) === -1)
+      const itemIds = items.map(item => item.id);
+      const additions = libraryAdditions.items.filter(
+        item => itemIds.indexOf(item.id) === -1
+      );
       if (prepend) {
-        items = additions.concat(items)
+        items = additions.concat(items);
       } else {
         items = items.concat(additions);
       }

@@ -1,6 +1,6 @@
 <script>
   import { onMount, tick } from "svelte";
-  import {collection as setCollection} from "../api/collection.js"
+  import { collection as setCollection } from "../api/collection.js";
   import { stores } from "../stores";
   const { collections, recent, jobs } = stores();
   export let job;
@@ -15,31 +15,37 @@
       const result = await fn();
       if (result && (result.finished || result.error)) {
         job = result;
-        await processPublication(job)
+        await processPublication(job);
         return result;
       } else if (Number(new Date()) < endTime) {
         await new Promise(resolve => setTimeout(resolve, interval));
       }
     }
   }
-  async function processPublication (job) {
-    const tag = $collections.find(tag => tag.name === collection)
+  async function processPublication(job) {
+    const tag = $collections.find(tag => tag.name === collection);
     const publicationResponse = await window.fetch(
-      `/api/get?path=${encodeURIComponent(`/publication-${job.publicationId}/`)}&publication=true`,
+      `/api/get?path=${encodeURIComponent(
+        `/publication-${job.publicationId}/`
+      )}&publication=true`,
       { credentials: "include" }
     );
     const publication = await publicationResponse.json();
     recent.update(recentStore => {
-      recentStore.items = [publication].concat(recentStore.items)
-      return recentStore
-    })
-    if (!collection || collection === "all") return
-    jobs.update(list => {
-      const index = list.map(item => item.id).indexOf(job.id)
-      list[index] = job
-      return list
+      recentStore.items = [publication].concat(recentStore.items);
+      return recentStore;
     });
-    return setCollection(tag, {id: `/publication-${job.publicationId}/`}, true)
+    if (!collection || collection === "all") return;
+    jobs.update(list => {
+      const index = list.map(item => item.id).indexOf(job.id);
+      list[index] = job;
+      return list;
+    });
+    return setCollection(
+      tag,
+      { id: `/publication-${job.publicationId}/` },
+      true
+    );
   }
   async function testJob() {
     try {

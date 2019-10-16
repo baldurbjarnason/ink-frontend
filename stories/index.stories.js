@@ -99,7 +99,10 @@ const notes = [
       literature of the folk had no such interests.
     </p></blockquote><p>Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb.</p>`,
     id: "https://example.com/test-id-for-note1",
-    'oa:hasSelector': {exact: "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb."},
+    "oa:hasSelector": {
+      exact:
+        "Do you see any Teletubbies in here? Do you see a slender plastic tag clipped to my shirt with my name printed on it? Do you see a little Asian child with a blank expression on his face sitting outside on a mechanical helicopter that shakes when you put quarters in it? No? Well, that's what you see at a toy store. And you must think you're in a toy store, because you're here shopping for an infant named Jeb."
+    },
     publication: list[0],
     json: {}
   },
@@ -121,14 +124,20 @@ const notes = [
       under the head of the fantastic.
     </p></blockquote><p>test 2</p>`,
     id: "https://example.com/test-id-for-note",
-    'oa:hasSelector': {exact: "This is a very long but exact quote that we need to do something with."},
+    "oa:hasSelector": {
+      exact:
+        "This is a very long but exact quote that we need to do something with."
+    },
     publication: list[0],
     json: {}
   },
   {
     content: "<blockquote>Test Quote</blockquote><p>test 3</p>",
     id: "https://example.com/test-id-for-note3",
-    'oa:hasSelector': {exact: "This is a very long but exact quote that we need to do something with."},
+    "oa:hasSelector": {
+      exact:
+        "This is a very long but exact quote that we need to do something with."
+    },
     publication: list[0],
     json: {
       archived: true
@@ -137,28 +146,40 @@ const notes = [
   {
     content: "<blockquote>Test Quote</blockquote><p>test 4</p>",
     id: "https://example.com/test-id-for-note4",
-    'oa:hasSelector': {exact: "This is a very long but exact quote that we need to do something with."},
+    "oa:hasSelector": {
+      exact:
+        "This is a very long but exact quote that we need to do something with."
+    },
     publication: list[0],
     json: {}
   },
   {
     content: "<blockquote>Test Quote</blockquote><p>test 5</p>",
     id: "https://example.com/test-id-for-note5",
-    'oa:hasSelector': {exact: "This is a very long but exact quote that we need to do something with."},
+    "oa:hasSelector": {
+      exact:
+        "This is a very long but exact quote that we need to do something with."
+    },
     publication: list[0],
     json: {}
   },
   {
     content: "<blockquote>Test Quote</blockquote>",
     id: "https://example.com/test-id-for-note6",
-    'oa:hasSelector': {exact: "This is a very long but exact quote that we need to do something with."},
+    "oa:hasSelector": {
+      exact:
+        "This is a very long but exact quote that we need to do something with."
+    },
     publication: list[0],
     json: {}
   },
   {
     content: "<blockquote>Test Quote</blockquote>",
     id: "https://example.com/test-id-for-note7",
-    'oa:hasSelector': {exact: "This is a very long but exact quote that we need to do something with."},
+    "oa:hasSelector": {
+      exact:
+        "This is a very long but exact quote that we need to do something with."
+    },
     publication: list[0],
     json: {}
   }
@@ -216,22 +237,24 @@ storiesOf("LibraryList", module)
     }
   }));
 
-storiesOf("NotesList", module).add("collection", () => ({
-  Component: NotesList,
-  props: {
-    notes,
-    current: "https://example.com/test-id-for-note",
-    layout: "covers",
-    collection: "all"
-  }
-})).add("no collection", () => ({
-  Component: NotesList,
-  props: {
-    notes,
-    current: "https://example.com/test-id-for-note",
-    layout: "covers"
-  }
-}));
+storiesOf("NotesList", module)
+  .add("collection", () => ({
+    Component: NotesList,
+    props: {
+      notes,
+      current: "https://example.com/test-id-for-note",
+      layout: "covers",
+      collection: "all"
+    }
+  }))
+  .add("no collection", () => ({
+    Component: NotesList,
+    props: {
+      notes,
+      current: "https://example.com/test-id-for-note",
+      layout: "covers"
+    }
+  }));
 storiesOf("Book", module).add("basic", () => ({
   Component: Book,
   props: {

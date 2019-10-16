@@ -176,7 +176,7 @@
 <!-- markup (zero or more items) goes here -->
 <div class="LibraryItem" class:current={current === id}>
   <div class={layout}>
-    <a data-sidebar={id} href={url} class="icon-link">
+    <a data-sidebar={id} href={url} class="icon-link" sapper-noscroll>
       <img class="BookCard-icon" alt={'Cover for ' + name} src={cover} />
     </a>
     {#if layout === 'square'}
@@ -184,7 +184,9 @@
     {/if}
     <div class="BookCard-group">
       <h4 class="BookCard-title">
-        <a href={url} class="BookCard-link" data-sidebar={id}>{name}</a>
+        <a href={url} class="BookCard-link" data-sidebar={id} sapper-noscroll>
+          {name}
+        </a>
       </h4>
       <p class="BookCard-paragraph">
         {#each author as attribution}

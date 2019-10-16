@@ -25,21 +25,21 @@
   let blockquote;
   $: if ($note.id && !$note.content && process.browser) {
     window
-    .fetch(`/api/get?path=${encodeURIComponent($note.id)}`)
-    .then(response => response.json())
-    .then(item => note.set(item))
-    .catch(err => console.error(err));
+      .fetch(`/api/get?path=${encodeURIComponent($note.id)}`)
+      .then(response => response.json())
+      .then(item => note.set(item))
+      .catch(err => console.error(err));
   } else if ($note.content && process.browser) {
-    console.log($note)
+    console.log($note);
     let dom = DOMPurify.sanitize($note.content, purifyConfig);
     blockquote = dom.querySelector("blockquote").outerHTML;
   }
   const search = new window.URLSearchParams(window.location.search);
-  search.delete('item');
-  search.delete('noHistory');
+  search.delete("item");
+  search.delete("noHistory");
   const url = new window.URL(window.location);
   url.search = search.toString();
-  let closeURL = url.href
+  let closeURL = url.href;
 </script>
 
 <style>
@@ -108,51 +108,69 @@
   }} />
 
 {#if $note.id && $note.content}
-
-<div class="NoteModal">
-    <a href={closeURL} class="Closer" on:click={(event) => {
-      $note.set({})
-      if (history) {
-        event.preventDefault()
-        window.history.back()
-      }
-    }} aria-label="Close sidebar"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></a>
-  {#if remove}
-    <p>
-      Are you sure you want to remove this highlight? This action cannot be
-      undone.
-    </p>
-    <Button
-      click={event => {
-        remove = false;
+  <div class="NoteModal">
+    <a
+      href={closeURL}
+      class="Closer"
+      on:click={event => {
+        $note.set({});
+        if (history) {
+          event.preventDefault();
+          window.history.back();
+        }
       }}
-      noClose={true}>
-      No, keep the highlight
-    </Button>
-    <TextButton
-      click={event => {
-        removeHighlight();
-      }}
-      warning
-      close={true}>
-      Yes, remove Highlight
-    </TextButton>
-  {:else}
-    <span class="Deleter">
+      aria-label="Close sidebar"
+      sapper-noscroll>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="square"
+        stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18" />
+        <line x1="6" y1="6" x2="18" y2="18" />
+      </svg>
+    </a>
+    {#if remove}
+      <p>
+        Are you sure you want to remove this highlight? This action cannot be
+        undone.
+      </p>
+      <Button
+        click={event => {
+          remove = false;
+        }}
+        noClose={true}>
+        No, keep the highlight
+      </Button>
       <TextButton
         click={event => {
-          remove = true;
+          removeHighlight();
         }}
         warning
-        noClose={true}>
-        Delete Highlight
+        close={true}>
+        Yes, remove Highlight
       </TextButton>
-    </span>
+    {:else}
+      <span class="Deleter">
+        <TextButton
+          click={event => {
+            remove = true;
+          }}
+          warning
+          noClose={true}>
+          Delete Highlight
+        </TextButton>
+      </span>
 
-    <div class="Chapter">
-      {@html blockquote}
-    </div>
-    <Editor note={$note} />
-  {/if}
-</div>
+      <div class="Chapter">
+        {@html blockquote}
+      </div>
+      <Editor note={$note} />
+    {/if}
+  </div>
 {/if}

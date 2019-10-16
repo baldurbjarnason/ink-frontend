@@ -5,8 +5,8 @@
   import BookContents from "../doc/BookContents.svelte";
   import NoteModal from "../doc/NoteModal.svelte";
   import UploadSidebar from "../uploader/UploadSidebar.svelte";
-  export let sidebar
-  export let collection
+  export let sidebar;
+  export let collection;
   export let history;
   export let side;
 </script>

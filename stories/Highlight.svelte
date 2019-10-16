@@ -166,7 +166,8 @@
     position: relative;
     border-bottom: 0.125rem solid #eded00;
   }
-  :global(.Chapter a.Highlight), :global(.Chapter mark.Highlight) {
+  :global(.Chapter a.Highlight),
+  :global(.Chapter mark.Highlight) {
     background-color: #feff9c;
     box-shadow: 0 0 0 2px #feff9c;
     color: var(--reader-text-color);
@@ -185,7 +186,8 @@
     background-color: #fff740;
     box-shadow: 0 0 0 2px #fff740;
   }
-  :global(.Chapter a.Highlight:hover), :global(.Chapter mark.Highlight:hover) {
+  :global(.Chapter a.Highlight:hover),
+  :global(.Chapter mark.Highlight:hover) {
     background-color: var(--rc-lighter);
     box-shadow: 0 0 0 3px var(--rc-lighter);
     color: var(--reader-text-color);
@@ -282,18 +284,19 @@
     <a href="/test" class="Highlight">
       success of Mother Goose, whether she be thought of as the maker of jingles
       or the teller of tales. The conditions of modern life preclude the
-      generally naïve attitude <mark data-href="/" class="Highlight" data-highlight-level="1">
-        that produced the folk rhymes, ballads, tales,
-        proverbs, fables, and myths. The folk saw things simply and directly. The
-        complex, analytic, questioning mind is not yet, either in or out of
-        stories. <mark data-href="/" class="Highlight" data-highlight-level="2">
-          The motives from which people act are to them plain and not
-          mixed.
-        </mark> Characters are good or bad. They feel no need of elaborately
-        explaining their joys and sorrows.
-      </mark> Such experiences come with the day's
-      work. "To-morrow to fresh woods, and pastures new." The zest of life with
-      them is emphatic.
+      generally naïve attitude
+      <mark data-href="/" class="Highlight" data-highlight-level="1">
+        that produced the folk rhymes, ballads, tales, proverbs, fables, and
+        myths. The folk saw things simply and directly. The complex, analytic,
+        questioning mind is not yet, either in or out of stories.
+        <mark data-href="/" class="Highlight" data-highlight-level="2">
+          The motives from which people act are to them plain and not mixed.
+        </mark>
+        Characters are good or bad. They feel no need of elaborately explaining
+        their joys and sorrows.
+      </mark>
+      Such experiences come with the day's work. "To-morrow to fresh woods, and
+      pastures new." The zest of life with them is emphatic.
     </a>
     Their humor is fresh, unbounded, sincere; there is no trace of cynicism. In
     folk literature we do not feel the presence of a "writer" who is mightily

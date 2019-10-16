@@ -1,7 +1,7 @@
 import got from "got";
 export async function post(req, res, next) {
   if (req.body.target.id) {
-    req.body.target.id = new URL(req.body.target.id, process.env.API_SERVER)
+    req.body.target.id = new URL(req.body.target.id, process.env.API_SERVER);
   }
   if (typeof req.body !== "string") {
     req.body = JSON.stringify(req.body);

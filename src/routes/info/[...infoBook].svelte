@@ -99,13 +99,12 @@
   <title>{book.name} – {type} – Rebus Ink</title>
 </svelte:head>
 {#if type === 'annotations'}
-
-      <div class="annotations">
-        <h1>{book.name}</h1>
-        {#each book.readingOrder as chapter, i}
-          <AnnotationsChapter {chapter} index={i} {type} {id} />
-        {/each}
-      </div>
+  <div class="annotations">
+    <h1>{book.name}</h1>
+    {#each book.readingOrder as chapter, i}
+      <AnnotationsChapter {chapter} index={i} {type} {id} />
+    {/each}
+  </div>
 {:else if type === 'contents'}
   <div class="InfoBody">
     <div class="InfoMetadata">

@@ -3,7 +3,7 @@
   import DOMPurify from "dompurify";
   import { decode, encode } from "universal-base64url";
   import { update } from "../api/update.js";
-  import TextButton from "../components/TextButton.svelte"
+  import TextButton from "../components/TextButton.svelte";
 
   const purifyConfig = {
     KEEP_CONTENT: false,
@@ -17,7 +17,7 @@
   export let collection;
   let dom = DOMPurify.sanitize(note.content, purifyConfig);
   let blockquote = dom.querySelector("blockquote");
-  let highlight
+  let highlight;
   if (blockquote) {
     highlight = blockquote.outerHTML;
     dom.removeChild(blockquote);
@@ -26,9 +26,9 @@
   $: if (current === note.id) {
     selected = true;
   }
-  let archived
+  let archived;
   $: if (note.json.archived) {
-    archived = true
+    archived = true;
   }
 </script>
 
@@ -131,32 +131,60 @@
   <a class="title" href={note.publication.url}>{note.publication.name}</a>
 {/if}
 <div class="AnnotationsHighlight" class:selected class:archived>
-{#if archived}
-  <span>{#if collection}
-    {note.publication.name}: 
-  {/if}{note['oa:hasSelector'].exact.slice(0, 40)}... (Archived)</span> <TextButton click={() => {
-    const json = {...note.json, archived: false}
-    note = {...note, json}
-    archived = false
-    try {
-      return update({...note, json})
-    } catch (err) {}
-  }}>Unarchive</TextButton>
-{:else}
-  <div class="Chapter">{@html highlight}
-  <div class="ReaderComment">{@html dom.innerHTML}
-  <span class="edit"><TextButton href={edit}>Edit</TextButton></span>
- 
-  
-  </div><span class="archive"> <TextButton click={() => {
-    const json = {...note.json, archived: true}
-    archived = true
-    try {
-      return update({...note, json})
-    } catch (err) {}
-  }}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></TextButton></span>
-  </div>
-  
-{/if}
+  {#if archived}
+    <span>
+      {#if collection}{note.publication.name}:{/if}
+      {note['oa:hasSelector'].exact.slice(0, 40)}... (Archived)
+    </span>
+    <TextButton
+      click={() => {
+        const json = { ...note.json, archived: false };
+        note = { ...note, json };
+        archived = false;
+        try {
+          return update({ ...note, json });
+        } catch (err) {}
+      }}>
+      Unarchive
+    </TextButton>
+  {:else}
+    <div class="Chapter">
+      {@html highlight}
+      <div class="ReaderComment">
+        {@html dom.innerHTML}
+        <span class="edit">
+          <TextButton href={edit}>Edit</TextButton>
+        </span>
+
+      </div>
+      <span class="archive">
+        <TextButton
+          click={() => {
+            const json = { ...note.json, archived: true };
+            archived = true;
+            try {
+              return update({ ...note, json });
+            } catch (err) {}
+          }}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="square"
+            stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6" />
+            <path
+              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1
+              2-2h4a2 2 0 0 1 2 2v2" />
+            <line x1="10" y1="11" x2="10" y2="17" />
+            <line x1="14" y1="11" x2="14" y2="17" />
+          </svg>
+        </TextButton>
+      </span>
+    </div>
+  {/if}
 </div>

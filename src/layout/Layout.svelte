@@ -2,8 +2,8 @@
   import { decode, encode } from "universal-base64url";
   import WithSidebars from "../components/WithSidebars.svelte";
   import { stores as inkStores } from "../stores";
-  import Modals from './Modals.svelte'
-  import Sidebar from './Sidebar.svelte'
+  import Modals from "./Modals.svelte";
+  import Sidebar from "./Sidebar.svelte";
   import { opener, closer } from "../actions/modal.js";
   import { stores, goto } from "@sapper/app";
   const { page, session } = stores();
@@ -13,15 +13,15 @@
   let rightSidebar;
   let params = {};
   let collection = "all";
-  let history
+  let history;
   let firstRun = true;
   $: if ($page) {
     query = $page.query;
     params = $page.params;
     if (!firstRun && !query.noHistory) {
-      history = true
+      history = true;
     } else {
-      firstRun = false
+      firstRun = false;
     }
     if (params.infoBook) {
       leftSidebar = "info";
@@ -60,7 +60,7 @@
       leftSidebar = "collections";
     }
   }
-  $: console.log(leftSidebar, rightSidebar)
+  $: console.log(leftSidebar, rightSidebar);
   $: if (width <= 1024 && rightSidebar && query[rightSidebar]) {
     opener({ id: rightSidebar + "-modal" });
   } else {
@@ -88,11 +88,15 @@
     rightModal={rightSidebar + '-modal'}
     rightLabel={rightSidebar}>
     <div slot="left-sidebar">
-      <Sidebar sidebar={leftSidebar} {collection} history={false} side={"left"} />
+      <Sidebar
+        sidebar={leftSidebar}
+        {collection}
+        history={false}
+        side={'left'} />
     </div>
     <slot />
     <div slot="right-sidebar">
-      <Sidebar sidebar={rightSidebar} {collection} {history} side={"right"}/>
+      <Sidebar sidebar={rightSidebar} {collection} {history} side={'right'} />
     </div>
   </WithSidebars>
 </main>

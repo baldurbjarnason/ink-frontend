@@ -11,7 +11,7 @@ export async function get(req, res, next) {
         json: true
       });
       if (req.query.publication) {
-        return res.json(normalise(response.body))
+        return res.json(normalise(response.body));
       }
       return res.json(response.body);
     } catch (err) {
