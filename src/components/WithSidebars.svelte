@@ -85,7 +85,7 @@
   {/if}
   <div class="center">
 
-    <Toolbar>
+    <Toolbar scrollTop={true}>
       <span slot="left-button">
         {#if width <= 1200}
           <a use:open={{ id: leftModal }} href="/" class="Toolbar-link">
