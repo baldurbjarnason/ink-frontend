@@ -19,6 +19,7 @@
   $: if ($page) {
     query = $page.query;
     params = $page.params;
+    console.log(params)
     if (!firstRun && !query.noHistory) {
       history = true;
     } else {
@@ -82,8 +83,9 @@
 </style>
 
 <svelte:window bind:innerWidth={width} />
+<svelte:body/>
 <Modals {leftSidebar} {rightSidebar} {collection} />
-<main>
+<main class:reader={params.path}>
   <WithSidebars
     title={$title}
     leftModal={leftSidebar + '-modal'}

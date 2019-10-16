@@ -14,11 +14,12 @@
     height: 100vh;
     max-height: 100vh;
     background-color: var(--sidebar-background-color);
-    min-width: 400px;
+    min-width: 250px;
+    font-size: 0.75rem;
   }
   @media (max-width: 400px) {
     .BookContents {
-      min-width: 300px;
+    font-size: 0.65rem;
     }
   }
   .BookContents.modal {
