@@ -3,6 +3,8 @@ import seek from "dom-seek";
 import { create } from "../../../api/create.js";
 import { encode } from "universal-base64url";
 import { goto } from "@sapper/app";
+import {stores} from '../../../stores';
+const {updateNotes} = stores();
 
 export function handleHighlight(range, root, chapter) {
   if (range && root) {
@@ -24,9 +26,8 @@ export function handleHighlight(range, root, chapter) {
       endLocation = range.endContainer.closest("[data-location]").dataset
         .location;
     }
-    const html = serializeRange(range);
+    let html = serializeRange(range);
     let content = `<blockquote data-original-quote>${html}</blockquote>`;
-    const contentRange = document.createRange();
     const note = {
       type: "Note",
       noteType: "reader:Highlight",
@@ -38,16 +39,21 @@ export function handleHighlight(range, root, chapter) {
       },
       content
     };
-    try {
-      contentRange.setStartBefore(
-        document.querySelector(`[data-location=${startLocation}]`)
-      );
-      contentRange.setEndAfter(
-        document.querySelector(`[data-location=${endLocation}]`)
-      );
-      const html = serializeRange(contentRange, note);
-      content = `<blockquote data-original-quote>${html}</blockquote>`;
-    } catch (err) {}
+    // try {
+    //   const contentRange = document.createRange();
+    //   console.log(document.querySelector(`[data-location="${startLocation}"]`), document.querySelector(`[data-location="${endLocation}"]`))
+    //   contentRange.setStartBefore(
+    //     document.querySelector(`[data-location="${startLocation}"]`)
+    //   );
+    //   contentRange.setEndAfter(
+    //     document.querySelector(`[data-location="${endLocation}"]`)
+    //   );
+    //   // let html = serializeRange(contentRange, note);
+    //   // note.content = `<blockquote data-original-quote>${html}</blockquote>`;
+    //   console.log(note.content, contentRange)
+    // } catch (err) {
+    //   console.log(err)
+    // }
     const tempId = "temp-" + Math.floor(Math.random() * 10000000000000);
     highlightNote(selector, root, tempId, note);
     console.log(`${startLocation}–${endLocation}`);
@@ -57,11 +63,12 @@ export function handleHighlight(range, root, chapter) {
         node.dataset.noteId = activity.object.id;
         node.href = setNoteURL(activity.object.id);
       });
+      updateNotes.set(new Date().toISOString())
     });
   }
 }
 
-function highlightNote(selector, root, id, note, mark) {
+function highlightNote(selector, root, id, note) {
   const seeker = document.createNodeIterator(root, window.NodeFilter.SHOW_TEXT);
   function split(where) {
     const count = seek(seeker, where);
@@ -86,44 +93,22 @@ function highlightNote(selector, root, id, note, mark) {
   }
   for (var i = 0; i < nodes.length; i++) {
     const node = nodes[i];
-    if (
-      node.parentElement.closest(".BookBody") &&
-      !node.parentElement.closest("[data-annotation-tool]") &&
-      !node.parentElement.closest("a.Highlight")
-    ) {
-      // Create a highlight
-      const highlight = mark
-        ? document.createElement("mark")
-        : document.createElement("a");
-      highlight.dataset.noteId = id;
-      highlight.classList.add("Highlight");
-      if (note.json.commented) {
-        highlight.classList.add("Commented");
-      }
-      highlight.dataset.highlightLevel = 0;
-      highlight.root = root;
-      highlight.href = setNoteURL(id);
-      // Wrap it around the text node
-      node.parentNode.replaceChild(highlight, node);
-      highlight.appendChild(node);
-    } else if (node.parentElement.closest("a.Highlight")) {
-      // Create a highlight but a mark this time
+    if (!node.parentElement.closest(".Highlight")) {
       const highlight = document.createElement("mark");
       highlight.dataset.noteId = id;
       highlight.classList.add("Highlight");
-      if (note.json.commented) {
+      if (note.json.comment) {
         highlight.classList.add("Commented");
       }
-      highlight.dataset.highlightLevel = highlight.dataset.highlightLevel + 1;
       highlight.root = root;
       highlight.dataset.href = setNoteURL(id);
-      highlight.addEventListener(event => {
+      highlight.addEventListener('click', event => {
+        console.log('highlight clicked', highlight.dataset.href)
         event.preventDefault();
         event.stopPropagation();
         return goto(highlight.dataset.href);
       });
       highlight.setAttribute("sapper-noscroll", "true");
-      // Wrap it around the text node
       node.parentNode.replaceChild(highlight, node);
       highlight.appendChild(node);
     }
@@ -180,7 +165,7 @@ function serializeRange(range, note) {
     .forEach(element => element.removeAttribute("style"));
   placeholder.appendChild(fragment);
   if (note) {
-    highlightNote(note["oa:hasSelector"], placeholder, note.id, note.mark);
+    highlightNote(note["oa:hasSelector"], placeholder, note.id, note);
   }
   return placeholder.innerHTML;
 }

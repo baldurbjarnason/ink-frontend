@@ -4,6 +4,7 @@ import { get, set } from "idb-keyval";
 export const docStore = writable({});
 
 export const chapterStore = writable({});
+export const updateNotes = writable(new Date().toISOString());
 
 export const contents = derived(docStore, ($docStore, set) => {
   if ($docStore.resources) {
@@ -23,9 +24,9 @@ export const contents = derived(docStore, ($docStore, set) => {
     set({});
   }
 });
-export const notes = derived(chapterStore, ($chapterStore, set) => {
+export const notes = derived([chapterStore, updateNotes], ([$chapterStore, $updateNotes], set) => {
   try {
-    if ($chapterStore.url) {
+    if ($chapterStore.url && $updateNotes) {
       window
         .fetch(`/api/notes?path=${encodeURIComponent($chapterStore.url)}`)
         .then(response => response.json())

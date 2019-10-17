@@ -178,6 +178,7 @@
     color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
+    cursor: pointer;
   }
   .Chapter mark.Highlight[data-highlight-level="1"]:hover {
     background-color: var(--rc-light);

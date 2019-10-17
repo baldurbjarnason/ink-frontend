@@ -98,7 +98,14 @@
   document.addEventListener("selectionchange", () => {
     const selection = document.getSelection();
     if (selection && !selection.isCollapsed) {
-      selectionRange = selection.getRangeAt(0);
+      const tempRange = selection.getRangeAt(0);
+      let common = tempRange.commonAncestorContainer 
+      if (!common.querySelector) {
+        common = common.parentElement
+      }
+      if (!common.querySelector("[data-no-highlight]") && !common.closest("[data-no-highlight]")) {
+        selectionRange = selection.getRangeAt(0);
+      }
     } else {
       selectionRange = null;
     }

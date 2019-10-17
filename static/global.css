@@ -499,3 +499,7 @@ a:link:active {
   background-color: var(--light);
   color: black;
 } */
+*[contenteditable]:empty:before
+{
+    content: "\feff"; /* ZERO WIDTH NO-BREAK SPACE */
+}

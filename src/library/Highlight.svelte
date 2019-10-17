@@ -7,20 +7,26 @@
 
   const purifyConfig = {
     KEEP_CONTENT: false,
-    RETURN_DOM: true,
     FORBID_TAGS: ["style", "link"],
     FORBID_ATTR: ["style"]
   };
   export let note;
-  export let edit;
   export let current;
   export let collection;
-  let dom = DOMPurify.sanitize(note.content, purifyConfig);
-  let blockquote = dom.querySelector("blockquote");
   let highlight;
-  if (blockquote) {
-    highlight = blockquote.outerHTML;
-    dom.removeChild(blockquote);
+  let comment;
+  let commented;
+  $: if (note) {
+    highlight = DOMPurify.sanitize(note.content, purifyConfig);
+    comment = "";
+    commented = false;
+    if (note.json.comment) {
+      comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
+      commented = true
+    }
+  }
+  $: if (comment) {
+    console.log(comment)
   }
   let selected;
   $: if (current === note.id) {
@@ -30,12 +36,21 @@
   $: if (note.json.archived) {
     archived = true;
   }
+  function handlePaste (event) {
+    event.stopPropagation();
+    event.preventDefault();
+    const clipboardData = event.clipboardData || window.clipboardData;
+    const text = clipboardData.getData('Text');
+    document.execCommand('inserttext', false, text);
+  }
+  function handleFocus (event) {
+    document.execCommand("defaultParagraphSeparator", false, "p");
+  }
 </script>
 
 <style>
   .AnnotationsHighlight {
     --reader-font-size: 0.85rem;
-    background-color: var(--main-background-color);
     font-size: var(--reader-font-size);
     display: grid;
     grid-template-columns: 1rem 1fr 1rem;
@@ -72,19 +87,29 @@
   .AnnotationsHighlight .ReaderComment {
     position: relative;
     --reader-font-size: 0.85rem;
-    display: grid;
+    display: block;
     padding-left: 1.25rem;
     /* padding-top:24px; */
     padding-right: 2.5rem;
     background-color: #f9f9f9;
     border-color: #f0f0f0;
+    grid-column: 1 / -1;
+    --reader-paragraph-spacing: 0.25rem;
+    border-left: 0.25rem solid transparent;
+  }
+  .AnnotationsHighlight:hover .ReaderComment, .AnnotationsHighlight .ReaderComment:focus {
+    background-color: white;
+    border-left: 0.25rem solid #eded00;
+  }
+  .commented {
+    background-color: white;
+    border-left: 0.25rem solid #eded00;
   }
   .AnnotationsHighlight.selected .ReaderComment {
     background-color: #fafafa;
     outline: solid #ccc 2px;
   }
   .AnnotationsHighlight > .Chapter > :global(blockquote) {
-    border-left: 1px solid #ddd;
     padding-left: 2.5em;
     padding-right: 2.5rem;
     margin-left: 0;
@@ -93,25 +118,24 @@
     line-height: 1.2;
     font-family: var(--reader-font-family);
   }
-  .edit {
+  .archive {
     text-transform: uppercase;
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 1;
-    text-decoration: none;
-  }
-  .Chapter .edit :global(a) {
-    text-decoration: none;
-  }
-  .archive {
-    text-transform: uppercase;
-    position: absolute;
-    top: var(--reader-paragraph-spacing);
-    right: 0;
     font-size: 0.85rem;
     z-index: 1;
     text-decoration: none;
+    visibility: hidden;
+  }
+  .archive:focus {
+    visibility: visible;
+  }
+  .Chapter:hover .archive {
+    visibility:visible;
+  }
+  .AnnotationsHighlight:focus-within .archive {
+    visibility: visible;
   }
   .Chapter .archive :global(a) {
     text-decoration: none;
@@ -124,6 +148,22 @@
     display: block;
     text-decoration: none;
   }
+  .AnnotationsHighlight :global(blockquote)::before {
+    position: absolute;
+    top: 0.25rem;
+    left: 0.25rem;
+    color: #eee;
+    content: "‘";
+    font-size: 4rem;
+  }
+  /* .AnnotationsHighlight :global(blockquote)::after {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+    color: #eee;
+    content: "’";
+    font-size: 4rem;
+  } */
 </style>
 
 <!-- markup (zero or more items) goes here -->
@@ -150,13 +190,6 @@
   {:else}
     <div class="Chapter">
       {@html highlight}
-      <div class="ReaderComment">
-        {@html dom.innerHTML}
-        <span class="edit">
-          <TextButton href={edit}>Edit</TextButton>
-        </span>
-
-      </div>
       <span class="archive">
         <TextButton
           click={() => {
@@ -186,5 +219,7 @@
         </TextButton>
       </span>
     </div>
+      <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment} on:paste={handlePaste} on:focus={handleFocus} class:commented>
+      </div>
   {/if}
 </div>

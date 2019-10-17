@@ -8,6 +8,7 @@
   import { stores } from "../stores";
   import { goto } from "@sapper/app";
   export let id;
+  export let side;
   const { note } = stores();
   const purifyConfig = {
     KEEP_CONTENT: false,
@@ -18,25 +19,24 @@
   let remove;
   function removeHighlight() {
     document
-      .querySelectorAll(`reader-highlight[data-note-id="${note.id}"]`)
+      .querySelectorAll(`reader-highlight[data-note-id="${id}"]`)
       .forEach(highlight => highlight.replaceWith(...highlight.childNodes));
     // Need to actually delete
     deleter(note);
   }
   let blockquote;
-  $: if ($note.id && !$note.content && process.browser) {
+  $: if (id && !$note.content && process.browser) {
     window
-      .fetch(`/api/get?path=${encodeURIComponent($note.id)}`)
+      .fetch(`/api/get?path=${encodeURIComponent(id)}`)
       .then(response => response.json())
       .then(item => note.set(item))
       .catch(err => console.error(err));
   } else if ($note.content && process.browser) {
-    console.log($note);
     let dom = DOMPurify.sanitize($note.content, purifyConfig);
     blockquote = dom.querySelector("blockquote").outerHTML;
   }
   const search = new window.URLSearchParams(window.location.search);
-  search.delete("item");
+  search.delete("note");
   search.delete("noHistory");
   const url = new window.URL(window.location);
   url.search = search.toString();
@@ -113,13 +113,6 @@
     <a
       href={closeURL}
       class="Closer"
-      on:click={event => {
-        note.set({});
-        if (history) {
-          event.preventDefault();
-          window.history.back();
-        }
-      }}
       aria-label="Close sidebar"
       sapper-noscroll>
       <svg

@@ -96,7 +96,7 @@
   }
 </style>
 
-<div class="Modal" use:setup {id} hidden>
+<div class="Modal" use:setup {id} hidden data-no-highlight>
   {#if $modal && $modal.id === id}
     <div role="document" transition:fade={{ duration: 100 }}>
       <button

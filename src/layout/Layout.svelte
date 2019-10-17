@@ -30,7 +30,7 @@
       rightSidebar = "empty"
     } else if (params.path) {
       leftSidebar = "contents";
-      rightSidebar = "empty"
+      rightSidebar = "notes"
     } else {
       leftSidebar = "collections";
     }
@@ -63,6 +63,7 @@
       leftSidebar = "collections";
     }
   }
+  $: console.log(leftSidebar, rightSidebar, sidebarId)
   $: if (width <= 1024 && rightSidebar && query[rightSidebar]) {
     opener({ id: rightSidebar + "-modal" });
   } else {
@@ -90,15 +91,15 @@
     leftModal={leftSidebar + '-modal'}
     rightModal={rightSidebar + '-modal'}
     rightLabel={rightSidebar}>
-    <div slot="left-sidebar">
+    <div slot="left-sidebar" data-no-highlight>
       <Sidebar
         sidebar={leftSidebar}
         {collection}
         history={false}
-        side={'left'} />
+        side={'left'} id={sidebarId} />
     </div>
     <slot />
-    <div slot="right-sidebar">
+    <div slot="right-sidebar" data-no-highlight>
       <Sidebar sidebar={rightSidebar} {collection} {history} side={'right'} id={sidebarId} />
     </div>
   </WithSidebars>

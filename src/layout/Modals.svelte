@@ -4,6 +4,7 @@
   import BookContents from "../doc/BookContents.svelte";
   import NoteModal from "../doc/NoteModal.svelte";
   import UploadSidebar from "../uploader/UploadSidebar.svelte";
+  import NotesSidebar from "../doc/NotesSidebar.svelte";
   import SidebarModal from "./SidebarModal.svelte";
   export let rightSidebar;
   export let leftSidebar;
@@ -31,5 +32,7 @@
     <UploadSidebar {collection} modal={true} />
   {:else if rightSidebar === 'note'}
     <NoteModal {id} />
+  {:else if rightSidebar === 'notes'}
+    <NotesSidebar modal={false} />
   {/if}
 </SidebarModal>
