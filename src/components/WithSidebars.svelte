@@ -68,6 +68,10 @@
       -webkit-overflow-scrolling: touch;
     }
   }
+  :global(.reader) .RightSidebar {
+    background-color: #fcfcfc;
+    border-left: 1px solid #eee;;
+  }
 </style>
 
 <svelte:window bind:innerWidth={width} />

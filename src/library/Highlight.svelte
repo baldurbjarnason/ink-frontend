@@ -4,6 +4,7 @@
   import { decode, encode } from "universal-base64url";
   import { update } from "../api/update.js";
   import TextButton from "../components/TextButton.svelte";
+  import {afterUpdate, tick} from 'svelte';
 
   const purifyConfig = {
     KEEP_CONTENT: false,
@@ -46,6 +47,13 @@
   function handleFocus (event) {
     document.execCommand("defaultParagraphSeparator", false, "p");
   }
+  let commentElement
+  afterUpdate(async () => {
+    await tick()
+    if (current && commentElement && current === note.id) {
+      commentElement.focus()
+    }
+  });
 </script>
 
 <style>
@@ -105,10 +113,9 @@
     background-color: white;
     border-left: 0.25rem solid #eded00;
   }
-  .AnnotationsHighlight.selected .ReaderComment {
+  /* .AnnotationsHighlight.selected .ReaderComment {
     background-color: #fafafa;
-    outline: solid #ccc 2px;
-  }
+  } */
   .AnnotationsHighlight > .Chapter > :global(blockquote) {
     padding-left: 2.5em;
     padding-right: 2.5rem;
@@ -121,7 +128,7 @@
   .archive {
     text-transform: uppercase;
     position: absolute;
-    top: 0;
+    top: 1rem;
     right: 0;
     font-size: 0.85rem;
     z-index: 1;
@@ -185,7 +192,7 @@
           return update({ ...note, json });
         } catch (err) {}
       }}>
-      Unarchive
+      Show
     </TextButton>
   {:else}
     <div class="Chapter">
@@ -199,27 +206,11 @@
               return update({ ...note, json });
             } catch (err) {}
           }}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="square"
-            stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6" />
-            <path
-              d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1
-              2-2h4a2 2 0 0 1 2 2v2" />
-            <line x1="10" y1="11" x2="10" y2="17" />
-            <line x1="14" y1="11" x2="14" y2="17" />
-          </svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
         </TextButton>
       </span>
     </div>
-      <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment} on:paste={handlePaste} on:focus={handleFocus} class:commented>
+      <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment} on:paste={handlePaste} on:focus={handleFocus} bind:this={commentElement} class:commented data-note-id={note.id}>
       </div>
   {/if}
 </div>

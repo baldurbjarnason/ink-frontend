@@ -14,6 +14,13 @@ export async function get(req, res, next) {
         },
         json: true
       });
+      if (response.body.items) {
+        response.body.items.sort(function (first, second) {
+          const start = first.json.startLocation + new Date(first.updated).valueOf()
+          const end = second.json.startLocation + new Date(second.updated).valueOf()
+          return start.localeCompare(end);
+        })
+      }
       return res.json(response.body);
     } catch (err) {
       console.log(err);

@@ -63,7 +63,7 @@ export function handleHighlight(range, root, chapter) {
         node.dataset.noteId = activity.object.id;
         node.href = setNoteURL(activity.object.id);
       });
-      updateNotes.set(new Date().toISOString())
+      updateNotes.set(activity.object.id)
     });
   }
 }
@@ -102,12 +102,12 @@ function highlightNote(selector, root, id, note) {
       }
       highlight.root = root;
       highlight.dataset.href = setNoteURL(id);
-      highlight.addEventListener('click', event => {
-        console.log('highlight clicked', highlight.dataset.href)
-        event.preventDefault();
-        event.stopPropagation();
-        return goto(highlight.dataset.href);
-      });
+      // highlight.addEventListener('click', event => {
+      //   console.log('highlight clicked', highlight.dataset.href)
+      //   event.preventDefault();
+      //   event.stopPropagation();
+      //   return goto(highlight.dataset.href);
+      // });
       highlight.setAttribute("sapper-noscroll", "true");
       node.parentNode.replaceChild(highlight, node);
       highlight.appendChild(node);

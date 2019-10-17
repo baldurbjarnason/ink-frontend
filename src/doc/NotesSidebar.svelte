@@ -7,7 +7,8 @@
     docStore,
     chapterStore,
     chapterTitle,
-    notes
+    notes,
+    updateNotes
   } = stores();
   let items
   $: if ($notes) {
@@ -17,8 +18,6 @@
 
 <style>
   .wrapper {
-    background-color: #fcfcfc;
-    border-left: 1px solid #eee;;
   }
 </style>
 <div class="wrapper">
@@ -29,5 +28,5 @@
         <span slot="right-button" class="LeftButton" />
   </Toolbar>
 {/if}
-  <NotesList notes={items} />
+  <NotesList notes={items} current={modal && $updateNotes} />
 </div>

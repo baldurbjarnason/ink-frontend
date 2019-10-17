@@ -27,7 +27,8 @@
     chapterTitle,
     configuringReader,
     notes,
-    title
+    title,
+    updateNotes
   } = stores();
   function handleCurrent({ detail }) {
     currentLocation.set({
