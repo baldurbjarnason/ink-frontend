@@ -13,6 +13,7 @@ const purifyConfig = {
   FORBID_ATTR: ["srcset", "action", "background", "poster"]
 };
 const tagLocations = [
+  "div",
   "p",
   "h1",
   "h2",
@@ -118,14 +119,18 @@ export async function chapterToJSON(
       addCSSRules(output, node.sheet.cssRules);
       node.textContent = output.join("\n");
     } else if (tagLocations.indexOf(data.tagName) !== -1) {
-      if (data.tagName === "h1") {
+      if (data.tagName.toLowerCase() === "h1") {
         h1 = h1 + 1;
         locations = 0;
-      } else if (data.tagName === "h2") {
+      } else if (data.tagName.toLowerCase() === "h2") {
         h2 = h2 + 1;
         locations = 0;
       }
-      node.dataset.location = `${order}.${h1}.${h2}.${locations++}`;
+      if (data.tagName === "div" && !node.querySelector(tagLocations.join(','))) {
+        node.dataset.location = `${order}.${h1}.${h2}.${locations++}`;
+      } else if (!node.closest('[data-location]') && data.tagName !== "div") {
+        node.dataset.location = `${order}.${h1}.${h2}.${locations++}`;
+      }
     }
     if (
       node.getAttributeNS &&
