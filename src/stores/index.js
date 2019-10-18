@@ -8,6 +8,7 @@ let recent;
 const note = writable({});
 let updating = false;
 const jobs = writable([]);
+const notesEditor = writable({});
 
 export function stores() {
   let update = false;
@@ -20,7 +21,7 @@ export function stores() {
     update = true;
   }
   if (update && !updating) updateCollections();
-  return { ...book, ...layout, ...doc, collections, recent, note, jobs };
+  return { ...book, ...layout, ...doc, collections, recent, note, jobs, notesEditor };
 }
 
 function updateCollections() {

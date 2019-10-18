@@ -5,6 +5,8 @@
   import { update } from "../api/update.js";
   import TextButton from "../components/TextButton.svelte";
   import {afterUpdate, tick} from 'svelte';
+  import { stores } from "../stores";
+  const {notesEditor} = stores();
 
   const purifyConfig = {
     KEEP_CONTENT: false,
@@ -17,17 +19,12 @@
   let highlight;
   let comment;
   let commented;
-  $: if (note) {
-    highlight = DOMPurify.sanitize(note.content, purifyConfig);
-    comment = "";
-    commented = false;
-    if (note.json.comment) {
-      comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
-      commented = true
-    }
-  }
-  $: if (comment) {
-    console.log(comment)
+  highlight = DOMPurify.sanitize(note.content, purifyConfig);
+  comment = "";
+  commented = false;
+  if (note.json.comment) {
+    comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
+    commented = true
   }
   let selected;
   $: if (current === note.id) {
@@ -37,6 +34,7 @@
   $: if (note.json.archived) {
     archived = true;
   }
+  let commentElement
   function handlePaste (event) {
     event.stopPropagation();
     event.preventDefault();
@@ -46,14 +44,29 @@
   }
   function handleFocus (event) {
     document.execCommand("defaultParagraphSeparator", false, "p");
+    notesEditor.update((config) => {
+      return {...config, editor: commentElement}
+    })
   }
-  let commentElement
-  afterUpdate(async () => {
-    await tick()
-    if (current && commentElement && current === note.id) {
-      commentElement.focus()
+  function handleBlur (event) {
+    notesEditor.update((config) => {
+      return {...config, editor: null,  focus: document.getSelection().getRangeAt(0).cloneRange()}
+    })
+  }
+  function handleButtonStatus (event) {
+    let focus = document.getSelection().focusNode;
+    if (!focus.closest && focus.parentElement) {
+      focus = focus.parentElement
     }
-  });
+    const bold = focus.closest('b,strong');
+    const italic = focus.closest('i,em');
+    notesEditor.update((config) => {
+      return {...config, bold, italic}
+    })
+  }
+  $: if (current && commentElement && current === note.id) {
+    commentElement.focus()
+  }
 </script>
 
 <style>
@@ -210,7 +223,7 @@
         </TextButton>
       </span>
     </div>
-      <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment} on:paste={handlePaste} on:focus={handleFocus} bind:this={commentElement} class:commented data-note-id={note.id}>
+      <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment}  on:paste={handlePaste} on:focus={handleFocus} on:blur={handleBlur} on:keyup={handleButtonStatus} on:mouseup={handleButtonStatus} bind:this={commentElement} class:commented data-note-id={note.id}>
       </div>
   {/if}
 </div>

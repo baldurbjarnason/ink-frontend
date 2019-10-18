@@ -2,18 +2,13 @@
   import { stores } from "../stores";
   import NotesList from '../library/NotesList.svelte'
   import Toolbar from "../components/Toolbar.svelte";
+  import NotesBar from "./NotesBar.svelte";
   export let modal = false;
   const {
-    docStore,
-    chapterStore,
     chapterTitle,
     notes,
     updateNotes
   } = stores();
-  let items
-  $: if ($notes) {
-    items = $notes.items
-  }
 </script>
 
 <style>
@@ -30,5 +25,6 @@
         <span slot="right-button" class="LeftButton" />
   </Toolbar>
 {/if}
-  <NotesList notes={items} current={modal && $updateNotes} />
+  <NotesList notes={$notes.items} current={modal && $updateNotes} />
+  <NotesBar />
 </div>
