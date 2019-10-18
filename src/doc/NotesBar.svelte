@@ -34,28 +34,7 @@
     height: 32px;
     grid-area: notesbar;
   }
-  .NotesBar-link {
-    font-size: 1.25rem;
-    line-height: 1rem;
-    cursor: pointer;
-    text-align: center;
-    white-space: nowrap;
-    text-transform: uppercase;
-    color: #32a5a5;
-    color: var(--rc-dark);
-  }
-  .NotesBar-title {
-    text-transform: uppercase;
-    font-size: 0.65rem;
-    font-weight: 400;
-    color: #555;
-    color: var(--medium);
-    flex: 1 1 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-  .TextButton {
+  .Button {
     font-family: var(--sans-fonts);
     font-weight: 400;
     flex: 0 1 auto;
@@ -84,38 +63,23 @@
     font-size: 0.65rem;
     border-radius: 0.1rem;
   }
-  .TextButton:hover {
+  .Button:hover {
     color: var(--hover);
     text-decoration: none;
     box-shadow: none;
   }
 
-  .TextButton:active, .TextButton.active {
+  .Button:active, .Button.active {
     color: white;
     background-color: var(--rc-dark)
   }
 
-  .TextButton:focus {
+  .Button:focus {
     box-shadow: 0 0 0 3px var(--rc-medium);
   }
 
-  .TextButton[disabled],
-  .TextButton[disabled]:hover {
-    color: var(--disabled);
-    cursor: not-allowed;
-  }
-  .TextButton[disabled]:focus {
-    color: white;
-    border-color: var(--disabled);
-    background-color: var(--disabled);
-    box-shadow: inset 0 0px 2px 0 rgba(0, 66, 98, 0.15);
-  }
-
-  .TextButton:focus {
+  .Button:focus {
     outline: solid transparent;
-  }
-  .TextButton.warning {
-    color: var(--error);
   }
 </style>
 
@@ -123,12 +87,12 @@
 <div class="NotesBar">
 {#if $notes.items}
     <span>
-    <button class="TextButton" type="button" aria-label="Bold" class:active={$notesEditor.bold} on:click={(event) =>{
+    <button class="Button" type="button" aria-label="Bold" class:active={$notesEditor.bold} on:click={(event) =>{
       event.preventDefault();
       buttonAction('bold')
     }}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg></button>
 
-    <button class="TextButton" type="button" aria-label="Italic" class:active={$notesEditor.italic} on:click={(event) =>{
+    <button class="Button" type="button" aria-label="Italic" class:active={$notesEditor.italic} on:click={(event) =>{
       event.preventDefault();
       buttonAction('italic')
     }}><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M19 4h-9M14 20H5M14.7 4.7L9.2 19.4"/></svg></button>
