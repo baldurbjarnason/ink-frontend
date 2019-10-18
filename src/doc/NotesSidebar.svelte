@@ -24,7 +24,9 @@
 {#if !modal}
   <Toolbar notes={true}>
         <span slot="left-button" class="LeftButton" />
-        <span slot="toolbar-title">Notes</span>
+        <span slot="toolbar-title">Chapter Notes
+         <!-- – {$chapterTitle} -->
+         </span>
         <span slot="right-button" class="LeftButton" />
   </Toolbar>
 {/if}

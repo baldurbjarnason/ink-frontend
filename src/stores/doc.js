@@ -59,8 +59,10 @@ export const chapterTitle = derived(
   [chapterStore, contents],
   ([$chapterStore, $contents]) => {
     function findTitle(currentTitle, entry) {
-      const path = new URL(entry.url, "http://example.com/").pathname;
-      if ($chapterStore.url.includes(path)) {
+      const path = new URL(entry.url, "http://example.com/").pathname.replace('/doc', '');
+      if (currentTitle !== "") {
+        return currentTitle;
+      } else if ($chapterStore.url.includes(path)) {
         return entry.label;
       } else if (entry.children) {
         return entry.children.reduce(findTitle, currentTitle);

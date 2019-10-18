@@ -181,7 +181,7 @@
   {#if archived}
     <span>
       {#if collection}{note.publication.name}:{/if}
-      {note['oa:hasSelector'].exact.slice(0, 40)}... (Archived)
+      {note['oa:hasSelector'].exact.slice(0, 50)}...
     </span>
     <TextButton
       click={() => {
