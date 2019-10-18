@@ -172,7 +172,7 @@
   .Chapter mark.Highlight[data-highlight-level="3"] {
     background-color: #fff740;
   }
-  .Chapter a.Highlight:hover, .Chapter mark.Highlight:hover {
+  .Chapter a.Highlight:hover {
     background-color: var(--rc-lighter);
     box-shadow: 0 0 0 3px var(--rc-lighter);
     color: var(--reader-text-color);
@@ -180,7 +180,7 @@
     border-radius: 0;
     cursor: pointer;
   }
-  .Chapter mark.Highlight[data-highlight-level="1"]:hover {
+  /* .Chapter mark.Highlight[data-highlight-level="1"]:hover {
     background-color: var(--rc-light);
     box-shadow: 0 0 0 3px var(--rc-light);
   }
@@ -191,7 +191,7 @@
   .Chapter mark.Highlight[data-highlight-level="3"]:hover {
     background-color: #feff9c;
     box-shadow: 0 0 0 3px #feff9c;
-  }
+  } */
 
   .Chapter mark::before, 
   .Chapter mark::after, .Chapter a.Highlight::before, 
