@@ -16,8 +16,8 @@ export async function get(req, res, next) {
       });
       if (response.body.items) {
         response.body.items.sort(function (first, second) {
-          const start = first.json.startLocation + new Date(first.updated).valueOf()
-          const end = second.json.startLocation + new Date(second.updated).valueOf()
+          const start = first.json.startLocation
+          const end = second.json.startLocation
           return start.localeCompare(end);
         })
       }

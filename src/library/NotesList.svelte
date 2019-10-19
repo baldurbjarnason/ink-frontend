@@ -7,6 +7,7 @@
   export let withSidebar = false;
   export let collection;
   export let current;
+  export let modal = false;
 </script>
 
 <style>
@@ -17,7 +18,7 @@
 <div class="NotesList">
     {#each notes as note}
       <div class="Note">
-        <Highlight {note} {current} {collection} />
+        <Highlight {note} {current} {collection} {modal} />
       </div>
     {/each}
 </div>

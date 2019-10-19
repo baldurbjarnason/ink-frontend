@@ -25,6 +25,6 @@
         <span slot="right-button" class="LeftButton" />
   </Toolbar>
 {/if}
-  <NotesList notes={$notes.items} current={modal && $updateNotes} />
+  <NotesList notes={$notes.items} current={modal && $updateNotes} {modal} />
   <NotesBar />
 </div>

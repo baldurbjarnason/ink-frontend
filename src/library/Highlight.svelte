@@ -7,7 +7,6 @@
   import {afterUpdate, tick} from 'svelte';
   import { stores } from "../stores";
   const {notesEditor} = stores();
-
   const purifyConfig = {
     KEEP_CONTENT: false,
     FORBID_TAGS: ["style", "link"],
@@ -16,6 +15,7 @@
   export let note;
   export let current;
   export let collection;
+  export let modal;
   let highlight;
   let comment;
   let commented;
@@ -48,10 +48,22 @@
       return {...config, editor: commentElement}
     })
   }
-  function handleBlur (event) {
+  async function handleBlur (event) {
+    if (comment) {
+      commented = true
+      await saver()
+    }
     notesEditor.update((config) => {
       return {...config, editor: null,  focus: document.getSelection().getRangeAt(0).cloneRange()}
     })
+  }
+  function saver() {
+    const json = { ...note.json, comment };
+    const payload = { ...note, json };
+    document.querySelectorAll(`[data-note-id="${note.id}"]`).forEach(node => {
+      node.classList.add("Commented");
+    });
+    update(payload);
   }
   function handleButtonStatus (event) {
     let focus = document.getSelection().focusNode;
@@ -73,9 +85,10 @@
   .AnnotationsHighlight {
     --reader-font-size: 0.85rem;
     font-size: var(--reader-font-size);
-    display: grid;
-    grid-template-columns: 1rem 1fr 1rem;
+    /* display: grid;
+    grid-template-columns: 1rem 1fr 1rem; */
     position: relative;
+    margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
   }
   .AnnotationsHighlight.archived {
     display: flex;
@@ -88,7 +101,7 @@
     padding-left: 2rem;
     font-size: 0.75rem;
     margin-top: var(--reader-paragraph-spacing);
-    margin-bottom: var(--reader-paragraph-spacing);
+    margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
   }
   .AnnotationsHighlight.selected {
     border-color: #ddd;
@@ -98,6 +111,7 @@
   }
   .AnnotationsHighlight > .Chapter {
     --reader-font-size: 1rem;
+    --reader-font-size: 0.95rem;
     position: relative;
     margin: 0;
     padding: 0;
@@ -122,7 +136,7 @@
     background-color: white;
     border-left: 0.25rem solid #eded00;
   }
-  .commented {
+  .AnnotationsHighlight .ReaderComment.commented {
     background-color: white;
     border-left: 0.25rem solid #eded00;
   }
@@ -141,7 +155,7 @@
   .archive {
     text-transform: uppercase;
     position: absolute;
-    top: 1rem;
+    top: 0;
     right: 0;
     font-size: 0.85rem;
     z-index: 1;
@@ -168,14 +182,14 @@
     display: block;
     text-decoration: none;
   }
-  .AnnotationsHighlight :global(blockquote)::before {
+  /* .AnnotationsHighlight :global(blockquote)::before {
     position: absolute;
     top: 0.25rem;
     left: 0.25rem;
     color: #eee;
     content: "‘";
     font-size: 4rem;
-  }
+  } */
   /* .AnnotationsHighlight :global(blockquote)::after {
     position: absolute;
     top: 0.25rem;
@@ -184,6 +198,18 @@
     content: "’";
     font-size: 4rem;
   } */
+  .Highlight-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* background-color: var(--main-background-color);
+    border-radius: 0.5rem; */
+    color: var(--medium);
+    z-index: 2;
+  }
+  .archived .Highlight-link {
+    top: 0.25rem;
+  }
 </style>
 
 <!-- markup (zero or more items) goes here -->
@@ -191,6 +217,10 @@
   <a class="title" href={note.publication.url}>{note.publication.name}</a>
 {/if}
 <div class="AnnotationsHighlight" class:selected class:archived>
+  <span class="Highlight-anchor" id={`note-${encode(note.id)}`}>&nbsp;</span>
+{#if !collection && !modal}
+  <a class="Highlight-link" href={`${window.location.pathname}#highlight-${encode(note.id)}`} aria-label="Go to highlight in text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+{/if}
   {#if archived}
     <span>
       {#if collection}{note.publication.name}:{/if}
@@ -223,7 +253,7 @@
         </TextButton>
       </span>
     </div>
-      <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment}  on:paste={handlePaste} on:focus={handleFocus} on:blur={handleBlur} on:keyup={handleButtonStatus} on:mouseup={handleButtonStatus} bind:this={commentElement} class:commented data-note-id={note.id}>
+      <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment}  on:paste={handlePaste} on:focus={handleFocus} on:blur={handleBlur} on:keyup={handleButtonStatus} on:mouseup={handleButtonStatus} bind:this={commentElement} class:commented data-editor-note-id={note.id}>
       </div>
   {/if}
 </div>

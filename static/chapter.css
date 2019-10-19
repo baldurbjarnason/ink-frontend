@@ -162,6 +162,7 @@
     color: var(--reader-text-color);
     text-decoration: none;
     border-radius: 0;
+    position: relative;
   }
   .Chapter mark.Highlight[data-highlight-level="1"] {
     background-color: #7afcff;
@@ -192,7 +193,30 @@
     background-color: #feff9c;
     box-shadow: 0 0 0 3px #feff9c;
   } */
-
+  .Highlight-anchor {
+    clip-path: inset(100%);
+    clip: rect(1px, 1px, 1px, 1px);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+    top: -40px;
+    left: 0;
+  }
+  .Chapter .Highlight-return-link {
+    line-height: 16px;
+    height: 20px;
+    width: 20px;
+    border-radius: 20px;
+    padding-top: 2px;
+    display: inline-block;
+    padding: 2px 0 0 0;
+    margin: 0;
+    vertical-align: middle;
+    text-align: center;
+    background-color: #f7f7f7;
+  }
   .Chapter mark::before, 
   .Chapter mark::after, .Chapter a.Highlight::before, 
   .Chapter a.Highlight::after {
