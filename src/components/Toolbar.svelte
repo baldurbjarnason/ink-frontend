@@ -75,7 +75,7 @@
     background-color: transparent;
   }
   .Toolbar.notes {
-    background-color: #fcfcfc;
+    background-color: var(--reader-sidebar-background);
   }
 </style>
 

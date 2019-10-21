@@ -148,19 +148,22 @@
     padding-left: 1.25rem;
     /* padding-top:24px; */
     padding-right: 2.5rem;
-    background-color: #f9f9f9;
-    border-color: #f0f0f0;
+    background-color: white;
     grid-column: 1 / -1;
     --reader-paragraph-spacing: 0.25rem;
     border-left: 0.25rem solid transparent;
+    outline: 1px solid #e6e6e699;
   }
   .AnnotationsHighlight:hover .ReaderComment, .AnnotationsHighlight .ReaderComment:focus {
     background-color: white;
     border-left: 0.25rem solid #eded00;
+    outline: 2px solid #68d6d499;
+    outline-offset: 1px;
   }
   .AnnotationsHighlight .ReaderComment.commented {
     background-color: white;
     border-left: 0.25rem solid #eded00;
+    outline: none;
   }
   /* .AnnotationsHighlight.selected .ReaderComment {
     background-color: #fafafa;
@@ -173,6 +176,10 @@
     margin-bottom: var(--reader-paragraph-spacing);
     line-height: 1.2;
     font-family: var(--reader-font-family);
+    font-style: italic;
+  }
+  .AnnotationsHighlight .Chapter > :global(blockquote i), .AnnotationsHighlight .Chapter > :global(blockquote em) {
+    font-style: normal;
   }
   .archive {
     text-transform: uppercase;
