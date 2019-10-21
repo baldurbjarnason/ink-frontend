@@ -33,10 +33,12 @@
     "webDependencies": [
       "document-register-element",
       "file-drop-element",
-      "jszip/dist/jszip.js"
+      "jszip/dist/jszip.js",
+      "@github/details-menu-element"
     ]
   },
   "dependencies": {
+    "@github/details-menu-element": "^1.0.6",
     "@pika/web": "^0.5.3",
     "async-es": "^2.6.3",
     "cheerio": "^1.0.0-rc.3",

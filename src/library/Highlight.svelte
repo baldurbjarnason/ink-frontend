@@ -1,6 +1,7 @@
 <script>
   // your script goes here
   import DOMPurify from "dompurify";
+  import LabelMenu from '../components/LabelMenu.svelte'
   import { decode, encode } from "universal-base64url";
   import { update } from "../api/update.js";
   import TextButton from "../components/TextButton.svelte";
@@ -29,10 +30,6 @@
   let selected;
   $: if (current === note.id) {
     selected = true;
-  }
-  let archived;
-  $: if (note.json.archived) {
-    archived = true;
   }
   let commentElement
   function handlePaste (event) {
@@ -79,16 +76,42 @@
   $: if (current && commentElement && current === note.id) {
     commentElement.focus()
   }
+  let archived;
+  let noteLabel = "show";
+  $: if (note.json.label) {
+    noteLabel = note.json.label;
+  }
+  let label
+  $: if (label) {
+    if (label === 'demote') {
+      archived = true;
+    } else {
+      archived = false;
+    }
+    // updateLabel().catch(err => console.error(err));
+  }
+  function updateLabel (event) {
+    const json = { ...note.json, label: event.detail.label };
+    note = { ...note, json };
+    try {
+      return update({ ...note, json });
+    } catch (err) {}
+  }
 </script>
 
 <style>
   .AnnotationsHighlight {
     --reader-font-size: 0.85rem;
     font-size: var(--reader-font-size);
-    /* display: grid;
-    grid-template-columns: 1rem 1fr 1rem; */
     position: relative;
     margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
+  }
+  .body {
+    display: grid;
+    grid-template-columns: 2rem 1fr 3rem;
+    align-items: center;
+
+    width: 100%;
   }
   .AnnotationsHighlight.archived {
     display: flex;
@@ -97,8 +120,8 @@
     font-style: italic;
     color: #666;
     padding-bottom: 0;
-    padding: 0.25rem;
-    padding-left: 2rem;
+    padding: 0;
+    padding-left: 0;
     font-size: 0.75rem;
     margin-top: var(--reader-paragraph-spacing);
     margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
@@ -109,15 +132,14 @@
   :global(.AnnotationsHighlight > *) {
     grid-column: 2 / 3;
   }
-  .AnnotationsHighlight > .Chapter {
-    --reader-font-size: 1rem;
-    --reader-font-size: 0.95rem;
+  .AnnotationsHighlight .Chapter {
+    --reader-font-size: 1.1rem;
     position: relative;
     margin: 0;
     padding: 0;
     line-height: var(--reader-line-height);
     color: var(--reader-text-color);
-    grid-column: 1 / -1;
+    grid-column: 2 / 3;
   }
   .AnnotationsHighlight .ReaderComment {
     position: relative;
@@ -143,9 +165,9 @@
   /* .AnnotationsHighlight.selected .ReaderComment {
     background-color: #fafafa;
   } */
-  .AnnotationsHighlight > .Chapter > :global(blockquote) {
-    padding-left: 2.5em;
-    padding-right: 2.5rem;
+  .AnnotationsHighlight .Chapter > :global(blockquote) {
+    padding-left: 1em;
+    padding-right: 1rem;
     margin-left: 0;
     margin-top: var(--reader-paragraph-spacing);
     margin-bottom: var(--reader-paragraph-spacing);
@@ -199,13 +221,15 @@
     font-size: 4rem;
   } */
   .Highlight-link {
-    position: absolute;
     top: 0;
     left: 0;
     /* background-color: var(--main-background-color);
     border-radius: 0.5rem; */
     color: var(--medium);
-    z-index: 2;
+    grid-column: 1 / 2;
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
   .archived .Highlight-link {
     top: 0.25rem;
@@ -217,42 +241,27 @@
   <a class="title" href={note.publication.url}>{note.publication.name}</a>
 {/if}
 <div class="AnnotationsHighlight" class:selected class:archived>
-  <span class="Highlight-anchor" id={`note-${encode(note.id)}`}>&nbsp;</span>
-{#if !collection && !modal}
-  <a class="Highlight-link" href={`${window.location.pathname}#highlight-${encode(note.id)}`} aria-label="Go to highlight in text"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
-{/if}
-  {#if archived}
-    <span>
-      {#if collection}{note.publication.name}:{/if}
-      {note['oa:hasSelector'].exact.slice(0, 50)}...
-    </span>
-    <TextButton
-      click={() => {
-        const json = { ...note.json, archived: false };
-        note = { ...note, json };
-        archived = false;
-        try {
-          return update({ ...note, json });
-        } catch (err) {}
-      }}>
-      Show
-    </TextButton>
-  {:else}
-    <div class="Chapter">
-      {@html highlight}
-      <span class="archive">
-        <TextButton
-          click={() => {
-            const json = { ...note.json, archived: true };
-            archived = true;
-            try {
-              return update({ ...note, json });
-            } catch (err) {}
-          }}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
-        </TextButton>
+<div class="body">
+    <span class="Highlight-anchor" id={`note-${encode(note.id)}`}>&nbsp;</span>
+  {#if !collection && !modal && !archived}
+    <a class="Highlight-link" href={`${window.location.pathname}#highlight-${encode(note.id)}`} aria-label="Go to highlight in text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+    {:else}
+      <span></span>
+  {/if}
+    {#if archived}
+      <span>
+        {#if collection}{note.publication.name}:{/if}
+        {note['oa:hasSelector'].exact.slice(0, 50)}...
       </span>
-    </div>
+    {:else}
+      <div class="Chapter">
+        {@html highlight}
+      </div>
+    {/if}
+  <LabelMenu bind:label={label} {noteLabel} {label} on:label-change={updateLabel} />
+</div>
+  {#if !archived}
+    
       <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment}  on:paste={handlePaste} on:focus={handleFocus} on:blur={handleBlur} on:keyup={handleButtonStatus} on:mouseup={handleButtonStatus} bind:this={commentElement} class:commented data-editor-note-id={note.id}>
       </div>
   {/if}
