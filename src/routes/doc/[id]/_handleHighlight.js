@@ -28,12 +28,20 @@ export function handleHighlight(range, root, chapter) {
     }
     let html = serializeRange(range);
     let content = `<blockquote data-original-quote>${html}</blockquote>`;
+    let common = range.commonAncestorContainer
+    if (!common.closest) {
+      common = common.parentElement.closest("[data-location]")
+    } else {
+      common = common.closest("[data-location]")
+    }
+    const startOffset = common.textContent.indexOf(selector.exact);
     const note = {
       type: "Note",
       noteType: "reader:Highlight",
       inReplyTo: chapter.url,
       "oa:hasSelector": selector,
       json: {
+        startOffset,
         startLocation,
         endLocation
       },
@@ -64,7 +72,7 @@ export function handleHighlight(range, root, chapter) {
       });
       document.getElementById("highlight-" + encode(tempId)).id = "highlight-" + encode(activity.object.id)
       updateNotes.set(activity.object.id)
-      document.querySelector(`[href=${window.location.pathname}#note-${encode(tempId)}]`).href = `[href=${window.location.pathname}#note-${encode(activity.object.id)}]`
+      document.querySelector(`[href="${window.location.pathname}#note-${encode(tempId)}"]`).href = `[href="${window.location.pathname}#note-${encode(activity.object.id)}"]`
     });
   }
 }

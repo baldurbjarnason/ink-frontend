@@ -13,6 +13,7 @@
 
 <style>
   .wrapper {
+    min-height: 100vh;
   }
 </style>
 <div class="wrapper">

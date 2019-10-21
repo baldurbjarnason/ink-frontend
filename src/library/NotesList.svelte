@@ -12,6 +12,9 @@
 
 <style>
   /* your styles go here */
+  .NotesList {
+    min-height: calc(100vh - 64px);
+  }
 </style>
 
 <!-- markup (zero or more items) goes here -->

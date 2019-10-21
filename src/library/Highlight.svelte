@@ -20,10 +20,10 @@
   let highlight;
   let comment;
   let commented;
-  highlight = DOMPurify.sanitize(note.content, purifyConfig);
+  $: highlight = DOMPurify.sanitize(note.content, purifyConfig);
   comment = "";
   commented = false;
-  if (note.json.comment) {
+  $: if (note.json.comment) {
     comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
     commented = true
   }

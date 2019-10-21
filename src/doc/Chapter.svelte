@@ -86,7 +86,7 @@
     display: block;
     contain: content;
     padding: 0;
-    padding-top: 25vh;
+    padding-top: 5vh;
     display: grid;
     grid-template-columns:
       minmax(var(--reader-left-margin), 1fr) minmax(

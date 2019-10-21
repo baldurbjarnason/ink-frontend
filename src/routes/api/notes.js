@@ -18,7 +18,11 @@ export async function get(req, res, next) {
         response.body.items.sort(function (first, second) {
           const start = first.json.startLocation
           const end = second.json.startLocation
-          return start.localeCompare(end);
+          if (start === end && first.json.startLocation && second.json.startLocation) {
+            return parseInt(first.json.startOffset, 10) - parseInt(second.json.startOffset, 10)
+          } else {
+            return start.localeCompare(end);
+          }
         })
       }
       return res.json(response.body);

@@ -104,7 +104,7 @@
       if (!common.querySelector) {
         common = common.parentElement
       }
-      if (!common.querySelector("[data-no-highlight], .Highlight") && !common.closest("[data-no-highlight], .Highlight")) {
+      if (!common.closest("[data-no-highlight], .Highlight")) {
         selectionRange = selection.getRangeAt(0);
       }
     } else {
