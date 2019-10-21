@@ -70,7 +70,6 @@
   }
   :global(.reader) .RightSidebar {
     background-color: var(--reader-sidebar-background);
-    border-left: 1px solid #eee;;
   }
 </style>
 

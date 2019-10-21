@@ -31,9 +31,9 @@
     transform: translateX(-100%);
   }
   .Modal:not([hidden]) [role="document"] {
-    background-color: rgba(255, 255, 255, 0.95);
-    -webkit-backdrop-filter: blur(7px) saturate(50%);
-    backdrop-filter: blur(7px) saturate(50%);
+    background-color: rgba(255, 255, 255, 0.99);
+    -webkit-backdrop-filter: blur(10px) saturate(50%);
+    backdrop-filter: blur(10px) saturate(50%);
     width: 100vw;
     height: 100vh;
     box-sizing: border-box;

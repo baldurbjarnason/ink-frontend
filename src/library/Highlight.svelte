@@ -159,6 +159,7 @@
     --reader-paragraph-spacing: 0.25rem;
     border-left: 0.25rem solid transparent;
     outline: 1px solid #e6e6e699;
+    padding: 0.25rem 1.25rem 0.25rem 1.5rem;
   }
   .AnnotationsHighlight:hover .ReaderComment, .AnnotationsHighlight .ReaderComment:focus {
     background-color: white;
