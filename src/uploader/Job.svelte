@@ -66,7 +66,7 @@
 
 <!-- markup (zero or more items) goes here -->
 <li>
-  {#if job.finished}
-    Processing done
-  {:else if job.error}Error processing epub{:else}Processing epub{/if}
+  {#if job.error}
+    Error processing epub
+  {:else}&nbsp;{/if}
 </li>
