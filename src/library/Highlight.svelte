@@ -106,6 +106,12 @@
     position: relative;
     margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
   }
+  .AnnotationsHighlight[data-label="flag"] {
+    background-color: #feff9c;
+  }
+  .AnnotationsHighlight[data-label="question"] {
+    background-color: var(--rc-lighter);
+  }
   .body {
     display: grid;
     grid-template-columns: 2rem 1fr 3rem;
@@ -247,7 +253,7 @@
 {#if !archived && collection}
   <a class="title" href={note.publication.url}>{note.publication.name}</a>
 {/if}
-<div class="AnnotationsHighlight" class:selected class:archived>
+<div class="AnnotationsHighlight" class:selected class:archived data-label={label}>
 <div class="body">
     <span class="Highlight-anchor" id={`note-${encode(note.id)}`}>&nbsp;</span>
   {#if !collection && !modal && !archived}
