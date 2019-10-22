@@ -106,6 +106,13 @@
       return update({ ...note, json });
     } catch (err) {}
   }
+  let publicationURL;
+  if (collection && note.publication.id) {
+    const query = new window.URLSearchParams(window.location.search);
+    query.set("item", encode(note.publication.id));
+    // We base64url encode the url here because a lot of CDNs have problems with urls in urls, even when properly escaped as URL components.
+    publicationURL = `/collections/${collection}/notes/?${query.toString()}`;
+  }
 </script>
 
 <style>
@@ -263,7 +270,7 @@
 
 <!-- markup (zero or more items) goes here -->
 {#if !archived && collection}
-  <a class="title" href={note.publication.id}>{note.publication.name}</a>
+  <a class="title" href={publicationURL}>{note.publication.name}</a>
 {/if}
 <div class="AnnotationsHighlight" class:selected class:archived data-label={label}>
 <div class="body">
