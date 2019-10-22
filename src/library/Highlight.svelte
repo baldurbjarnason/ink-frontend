@@ -19,12 +19,14 @@
   export let modal;
   let highlight;
   let comment;
+  let oldComment;
   let commented;
   $: highlight = DOMPurify.sanitize(note.content, purifyConfig);
-  comment = "";
   commented = false;
-  $: if (note.json.comment) {
-    comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
+  let focused = false;
+  oldComment = comment = "";
+  $: if (note.json.comment && !focused && oldComment === comment) {
+    oldComment = comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
     commented = true
   }
   let selected;
@@ -41,17 +43,20 @@
   }
   function handleFocus (event) {
     document.execCommand("defaultParagraphSeparator", false, "p");
+    focused = true
     notesEditor.update((config) => {
-      return {...config, editor: commentElement}
+      return {...config, editor: commentElement, ...checkButtonStatus()}
     })
   }
   async function handleBlur (event) {
+    focused = false
+    console.log('blur handled')
     if (comment) {
       commented = true
       await saver()
     }
     notesEditor.update((config) => {
-      return {...config, editor: null,  focus: document.getSelection().getRangeAt(0).cloneRange()}
+      return {...config, editor: null, bold: null, italic: null}
     })
   }
   function saver() {
@@ -62,15 +67,19 @@
     });
     update(payload);
   }
-  function handleButtonStatus (event) {
+  function checkButtonStatus () {
     let focus = document.getSelection().focusNode;
     if (!focus.closest && focus.parentElement) {
       focus = focus.parentElement
     }
     const bold = focus.closest('b,strong');
     const italic = focus.closest('i,em');
+    return {bold, italic}
+  }
+  function handleButtonStatus (event) {
+    
     notesEditor.update((config) => {
-      return {...config, bold, italic}
+      return {...config, ...checkButtonStatus()}
     })
   }
   $: if (current && commentElement && current === note.id) {
@@ -105,6 +114,7 @@
     font-size: var(--reader-font-size);
     position: relative;
     margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
+    padding-bottom: 0.25rem;
   }
   .AnnotationsHighlight[data-label="flag"] {
     background-color: #feff9c;
@@ -131,6 +141,7 @@
     font-size: 0.75rem;
     margin-top: var(--reader-paragraph-spacing);
     margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
+    background-color: #fafafa;
   }
   .AnnotationsHighlight.selected {
     border-color: #ddd;
@@ -158,8 +169,9 @@
     grid-column: 1 / -1;
     --reader-paragraph-spacing: 0.25rem;
     border-left: 0.25rem solid transparent;
-    outline: 1px solid #e6e6e699;
+    outline: 1px solid #f0f0f0;
     padding: 0.25rem 1.25rem 0.25rem 1.5rem;
+    margin: 0.25rem;
   }
   .AnnotationsHighlight:hover .ReaderComment, .AnnotationsHighlight .ReaderComment:focus {
     background-color: white;
@@ -170,7 +182,6 @@
   .AnnotationsHighlight .ReaderComment.commented {
     background-color: white;
     border-left: 0.25rem solid #eded00;
-    outline: none;
   }
   /* .AnnotationsHighlight.selected .ReaderComment {
     background-color: #fafafa;
@@ -213,8 +224,8 @@
   .title {
     text-transform: uppercase;
     font-size: 0.75rem;
-    margin: 0;
-    padding: 0 1rem;
+    margin: 0.25rem 0;
+    padding: 0;
     display: block;
     text-decoration: none;
   }
@@ -252,7 +263,7 @@
 
 <!-- markup (zero or more items) goes here -->
 {#if !archived && collection}
-  <a class="title" href={note.publication.url}>{note.publication.name}</a>
+  <a class="title" href={note.publication.id}>{note.publication.name}</a>
 {/if}
 <div class="AnnotationsHighlight" class:selected class:archived data-label={label}>
 <div class="body">
