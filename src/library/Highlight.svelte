@@ -113,7 +113,7 @@
     --reader-font-size: 0.85rem;
     font-size: var(--reader-font-size);
     position: relative;
-    margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
+    margin-bottom: 0;
     padding-bottom: 0.25rem;
   }
   .AnnotationsHighlight[data-label="flag"] {
@@ -139,8 +139,8 @@
     padding: 0;
     padding-left: 0;
     font-size: 0.75rem;
-    margin-top: var(--reader-paragraph-spacing);
-    margin-bottom: calc(var(--reader-paragraph-spacing) * 2);
+    margin-top: 0;
+    margin-bottom: 0;
     background-color: #fafafa;
   }
   .AnnotationsHighlight.selected {
