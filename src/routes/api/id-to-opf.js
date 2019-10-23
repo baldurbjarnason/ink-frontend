@@ -18,7 +18,7 @@ export async function get(req, res, next) {
     // const opf = book.resources.find(
     //   item => item.encodingFormat === "application/oebps-package+xml"
     // );
-    return res.json(normalise(book));
+    return res.json(book);
     // if (true) {
     // } else {
     //   const url = new URL(opf.url, process.env.API_SERVER);
