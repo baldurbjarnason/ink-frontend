@@ -172,7 +172,7 @@
     padding-left: 1.25rem;
     /* padding-top:24px; */
     padding-right: 2.5rem;
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.5);
     grid-column: 1 / -1;
     --reader-paragraph-spacing: 0.25rem;
     border-left: 0.25rem solid transparent;
