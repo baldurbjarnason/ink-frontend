@@ -179,6 +179,7 @@
     outline: 1px solid #f0f0f0;
     padding: 0.25rem 1.25rem 0.25rem 1.5rem;
     margin: 0.25rem;
+    box-shadow: 1px 2px 2px 0 rgba(133, 133, 133, 0.1);
   }
   .AnnotationsHighlight:hover .ReaderComment,
   .AnnotationsHighlight .ReaderComment:focus {
