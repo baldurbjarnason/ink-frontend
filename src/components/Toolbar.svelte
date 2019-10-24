@@ -83,6 +83,7 @@
 <nav
   class="Toolbar"
   class:transparent
+  data-no-highlight
   class:notes
   on:click={() => {
     if (scrollTop) {

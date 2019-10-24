@@ -84,7 +84,7 @@
   class:right-sidebar={rightsidebar}
   class:show-right-sidebar={showRightSidebar}>
   {#if sidebar}
-    <div class="Sidebar">
+    <div class="Sidebar" data-no-highlight>
       <slot name="left-sidebar">
         <!-- optional fallback -->
       </slot>
@@ -171,7 +171,7 @@
     <slot />
   </div>
   {#if showRightSidebar}
-    <div class="RightSidebar">
+    <div class="RightSidebar" data-no-highlight>
       <slot name="right-sidebar">
         <!-- optional fallback -->
       </slot>
