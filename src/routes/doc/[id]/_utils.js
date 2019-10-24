@@ -40,3 +40,19 @@ export async function getChapter (chapter, index) {
   const chapterBody = await chapterResponse.json();
   return {...chapter, ...chapterBody}
 }
+
+export async function preRender (publication) {
+  try {
+    const response = await window.fetch(
+      `/api/id-to-opf?id=${encodeURIComponent(publication.id)}`,
+      {
+        credentials: "include"
+      }
+    );
+    const book = await response.json();
+    const resources = book.readingOrder.map(getChapter)
+    await Promise.all(resources)
+  } catch (err) {
+    console.log(err)
+  }
+}

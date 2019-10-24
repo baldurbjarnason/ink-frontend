@@ -62,7 +62,6 @@
       leftSidebar = "collections";
     }
   }
-  $: console.log(leftSidebar, rightSidebar, sidebarId)
   $: if (width <= 1024 && rightSidebar && query[rightSidebar]) {
     opener({ id: rightSidebar + "-modal" });
   } else {

@@ -176,14 +176,13 @@
   }
   async function check() {
     const endTime = Number(new Date()) + 1000 * 60 * 10;
-    const interval = 1000 * 10;
+    const interval = 1000 * 50;
     while (true) {
       try {
         await loadMore(true);
-        if (Number(new Date()) < endTime) {
-          await new Promise(resolve => setTimeout(resolve, interval));
-        }
+        await new Promise(resolve => setTimeout(resolve, interval));
       } catch (err) {
+        console.error(err)
         return err;
       }
     }

@@ -78,7 +78,6 @@
   $: if (input) {
     input.focus();
   }
-  $: console.log(current);
 </script>
 
 <style>
