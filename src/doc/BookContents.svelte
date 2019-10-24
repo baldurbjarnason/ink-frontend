@@ -2,7 +2,7 @@
   import { stores } from "../stores";
   import Contents from "./Contents.svelte";
   import TextButton from "../components/TextButton.svelte";
-  const { contents, docStore, configuringReader } = stores();
+  const { contents, docStore, configuringReader, chapterStore } = stores();
   export let modal = false;
 </script>
 
@@ -103,6 +103,6 @@
     </button>
   </div>
   {#if $contents.children && $docStore}
-    <Contents contents={$contents} book={$docStore} />
+    <Contents contents={$contents} book={$docStore} chapter={$chapterStore} />
   {/if}
 </div>

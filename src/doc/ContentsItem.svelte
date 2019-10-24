@@ -6,6 +6,8 @@
   $: if (current && item.url) {
     if (item.url.includes(new URL(current, window.location).pathname)) {
       isCurrent = true;
+    } else {
+      isCurrent = false;
     }
   }
 </script>
