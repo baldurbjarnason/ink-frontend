@@ -50,6 +50,7 @@
   let book;
   let chapters;
   title.set("Loading...");
+  let selectionRange = null;
   $: if (
     $page.params.id &&
     (!$docStore.id || !$docStore.id.includes($page.params.id))
@@ -69,6 +70,7 @@
     $chapterStore.url &&
     !$chapterStore.url.includes($page.params.path.join("/"))
   ) {
+    selectionRange = null;
     let oldDoc = $docStore;
     book = getChapterFromPath(oldDoc, $page.params.path).then(chapter => {
       chapterStore.set(chapter);
@@ -114,7 +116,6 @@
       }
     }
   }
-  let selectionRange = null;
   document.addEventListener("selectionchange", () => {
     const selection = document.getSelection();
     if (selection && !selection.isCollapsed) {
