@@ -29,8 +29,7 @@
     color: var(--medium);
     font-weight: 600;
   }
-  ol,
-  .return {
+  ol {
     margin: 1rem auto;
     min-width: 250px;
     max-width: 450px;
@@ -54,11 +53,6 @@
   }
   ol li {
     list-style: none;
-  }
-  ol a.current {
-    border-left: 5px solid var(--rc-darker);
-    padding-left: calc(1rem - 6px);
-    font-weight: 600;
   }
   .Collections {
     font-size: 1rem;

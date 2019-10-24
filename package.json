@@ -33,7 +33,6 @@
     "webDependencies": [
       "document-register-element",
       "file-drop-element",
-      "jszip/dist/jszip.js",
       "@github/details-menu-element"
     ]
   },

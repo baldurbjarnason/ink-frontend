@@ -12,12 +12,6 @@
 
 <style>
   /* your styles go here */
-  h2 {
-    text-align: center;
-    margin: 1rem 0;
-    padding: 0;
-    color: var(--medium);
-  }
 </style>
 
 <!-- markup (zero or more items) goes here -->

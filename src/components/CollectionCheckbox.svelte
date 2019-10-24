@@ -13,9 +13,6 @@
     justify-content: flex-start;
     padding: 0.25rem 1rem;
   }
-  label.checked {
-    font-weight: 600;
-  }
   label:hover {
     background-color: var(--hover);
     color: var(--light);

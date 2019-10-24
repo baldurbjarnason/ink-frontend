@@ -207,28 +207,6 @@
   .AnnotationsHighlight .Chapter > :global(blockquote em) {
     font-style: normal;
   }
-  .archive {
-    text-transform: uppercase;
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 0.85rem;
-    z-index: 1;
-    text-decoration: none;
-    visibility: hidden;
-  }
-  .archive:focus {
-    visibility: visible;
-  }
-  .Chapter:hover .archive {
-    visibility: visible;
-  }
-  .AnnotationsHighlight:focus-within .archive {
-    visibility: visible;
-  }
-  .Chapter .archive :global(a) {
-    text-decoration: none;
-  }
   .title {
     text-transform: uppercase;
     font-size: 0.75rem;

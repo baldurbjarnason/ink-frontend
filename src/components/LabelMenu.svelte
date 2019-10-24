@@ -86,8 +86,7 @@
     background-color: var(--main-background-color);
   }
 
-  .Button:active,
-  .Button.active {
+  .Button:active {
     color: white;
     background-color: var(--rc-dark);
   }

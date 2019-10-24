@@ -117,9 +117,6 @@
     justify-content: flex-start;
     padding: 0.25rem 1rem;
   }
-  .CollectionsList label.checked {
-    font-weight: 600;
-  }
   .CollectionsList label:hover {
     background-color: var(--hover);
     color: var(--light);
@@ -157,16 +154,6 @@
       transform: rotate(-45deg);
     }
   }
-  .CollectionBar {
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    background-color: var(--sidebar-background-color);
-    margin: 0 0 0.5rem;
-  }
   h2 {
     text-align: center;
     font-size: 1rem;
@@ -175,12 +162,6 @@
     font-weight: 600;
     font-size: 0.75rem;
     text-transform: uppercase;
-  }
-  .Cover {
-    text-align: center;
-  }
-  .Cover img {
-    height: 150px;
   }
   .wrapper {
     min-width: 300px;
