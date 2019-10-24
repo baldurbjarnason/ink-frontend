@@ -70,8 +70,10 @@
 </style>
 
 <li data-indent={indent}>
-  {#if item.url}
-    <a href={item.url} class:current={isCurrent}>{item.label}</a>
+  {#if item.url && isCurrent}
+    <a href={item.url} class:current={isCurrent} aria-current="page">{item.label}</a>
+  {:else if item.url}
+    <a href={item.url}>{item.label}</a>
   {:else}
     <span>{item.label}</span>
   {/if}
