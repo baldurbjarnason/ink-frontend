@@ -407,7 +407,7 @@
           {#if selectionRange}
             <Button
               click={() => {
-                handleHighlight(selectionRange, bookBody, $chapterStore);
+                handleHighlight(selectionRange, bookBody, $chapterStore, $chapterTitle);
               }}>
               Highlight
             </Button>

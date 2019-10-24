@@ -6,7 +6,7 @@ import { encode } from "universal-base64url";
 import { stores } from "../../../stores";
 const { updateNotes } = stores();
 
-export function handleHighlight(range, root, chapter) {
+export function handleHighlight(range, root, chapter, chapterTitle) {
   if (range && root) {
     const selector = textQuote.fromRange(root, range);
     let startLocation;
@@ -43,7 +43,8 @@ export function handleHighlight(range, root, chapter) {
       json: {
         startOffset,
         startLocation,
-        endLocation
+        endLocation,
+        chapterTitle
       },
       content
     };
