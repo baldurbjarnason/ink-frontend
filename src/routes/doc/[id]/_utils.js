@@ -1,6 +1,6 @@
 export async function getBook({ params, query }) {
   const { id, path } = params;
-  if (!id || !path) return
+  if (!id || !path) return;
   const response = await window.fetch(
     `/api/id-to-opf?id=%2F${encodeURIComponent(id)}`,
     {
@@ -11,37 +11,33 @@ export async function getBook({ params, query }) {
   const chapter = book.resources.find(item =>
     item.url.endsWith(path.join("/"))
   );
-  chapter.index = book.readingOrder
-    .map(item => item.url)
-    .indexOf(chapter.url);
+  chapter.index = book.readingOrder.map(item => item.url).indexOf(chapter.url);
 
   book.url = book.id;
   book.id = id;
   return { book, chapter };
 }
 
-export async function getChapterFromPath (book, path) {
+export async function getChapterFromPath(book, path) {
   const chapter = book.resources.find(item =>
     item.url.endsWith(path.join("/"))
   );
-  chapter.index = book.readingOrder
-    .map(item => item.url)
-    .indexOf(chapter.url);
+  chapter.index = book.readingOrder.map(item => item.url).indexOf(chapter.url);
   return getChapter(chapter, chapter.index);
 }
 
-export async function getChapter (chapter, index) {
+export async function getChapter(chapter, index) {
   const chapterResponse = await window.fetch(
-    `/api/parse-chapter?chapter=${encodeURIComponent(
-      chapter.url
-    )}&index=${chapter.index}`,
+    `/api/parse-chapter?chapter=${encodeURIComponent(chapter.url)}&index=${
+      chapter.index
+    }`,
     { credentials: "include" }
   );
   const chapterBody = await chapterResponse.json();
-  return {...chapter, ...chapterBody}
+  return { ...chapter, ...chapterBody };
 }
 
-export async function preRender (publication) {
+export async function preRender(publication) {
   try {
     const response = await window.fetch(
       `/api/id-to-opf?id=${encodeURIComponent(publication.id)}`,
@@ -50,9 +46,9 @@ export async function preRender (publication) {
       }
     );
     const book = await response.json();
-    const resources = book.readingOrder.map(getChapter)
-    await Promise.all(resources)
+    const resources = book.readingOrder.map(getChapter);
+    await Promise.all(resources);
   } catch (err) {
-    console.log(err)
+    console.log(err);
   }
 }

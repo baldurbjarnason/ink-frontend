@@ -15,15 +15,22 @@ export async function get(req, res, next) {
         json: true
       });
       if (response.body.items) {
-        response.body.items.sort(function (first, second) {
-          const start = first.json.startLocation
-          const end = second.json.startLocation
-          if (start === end && first.json.startLocation && second.json.startLocation) {
-            return parseInt(first.json.startOffset, 10) - parseInt(second.json.startOffset, 10)
+        response.body.items.sort(function(first, second) {
+          const start = first.json.startLocation;
+          const end = second.json.startLocation;
+          if (
+            start === end &&
+            first.json.startLocation &&
+            second.json.startLocation
+          ) {
+            return (
+              parseInt(first.json.startOffset, 10) -
+              parseInt(second.json.startOffset, 10)
+            );
           } else {
             return start.localeCompare(end);
           }
-        })
+        });
       }
       return res.json(response.body);
     } catch (err) {

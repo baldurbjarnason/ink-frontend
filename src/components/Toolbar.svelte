@@ -80,11 +80,15 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-<nav class="Toolbar" class:transparent class:notes on:click={() => {
-  if (scrollTop) {
-    window.scrollTo({left: 0, top: 0, behavior: "smooth"});
-  }
-}}>
+<nav
+  class="Toolbar"
+  class:transparent
+  class:notes
+  on:click={() => {
+    if (scrollTop) {
+      window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+    }
+  }}>
   <slot name="left-button">
     <a href="/" class="Toolbar-link">
       <svg

@@ -1,6 +1,6 @@
 <script>
   import { onMount, onDestroy, createEventDispatcher } from "svelte";
-  import {highlightNotes} from '../routes/doc/[id]/_handleHighlight.js'
+  import { highlightNotes } from "../routes/doc/[id]/_handleHighlight.js";
   import { stores } from "../stores";
   import { fade } from "svelte/transition";
   import ChapterBody from "./ChapterBody.svelte";
@@ -71,7 +71,11 @@
       locationObserver.observe(element);
     });
   }
-  $: if (chapterElement && $notes.items && $notes.chapter === $chapterStore.url) {
+  $: if (
+    chapterElement &&
+    $notes.items &&
+    $notes.chapter === $chapterStore.url
+  ) {
     highlightNotes(chapterElement, $notes);
   }
 </script>

@@ -1,13 +1,13 @@
 <script>
   // your script goes here
   import DOMPurify from "dompurify";
-  import LabelMenu from '../components/LabelMenu.svelte'
+  import LabelMenu from "../components/LabelMenu.svelte";
   import { decode, encode } from "universal-base64url";
   import { update } from "../api/update.js";
   import TextButton from "../components/TextButton.svelte";
-  import {afterUpdate, tick} from 'svelte';
+  import { afterUpdate, tick } from "svelte";
   import { stores } from "../stores";
-  const {notesEditor} = stores();
+  const { notesEditor } = stores();
   const purifyConfig = {
     KEEP_CONTENT: false,
     FORBID_TAGS: ["style", "link"],
@@ -27,37 +27,37 @@
   oldComment = comment = "";
   $: if (note.json.comment && !focused && oldComment === comment) {
     oldComment = comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
-    commented = true
+    commented = true;
   }
   let selected;
   $: if (current === note.id) {
     selected = true;
   }
-  let commentElement
-  function handlePaste (event) {
+  let commentElement;
+  function handlePaste(event) {
     event.stopPropagation();
     event.preventDefault();
     const clipboardData = event.clipboardData || window.clipboardData;
-    const text = clipboardData.getData('Text');
-    document.execCommand('inserttext', false, text);
+    const text = clipboardData.getData("Text");
+    document.execCommand("inserttext", false, text);
   }
-  function handleFocus (event) {
+  function handleFocus(event) {
     document.execCommand("defaultParagraphSeparator", false, "p");
-    focused = true
-    notesEditor.update((config) => {
-      return {...config, editor: commentElement, ...checkButtonStatus()}
-    })
+    focused = true;
+    notesEditor.update(config => {
+      return { ...config, editor: commentElement, ...checkButtonStatus() };
+    });
   }
-  async function handleBlur (event) {
-    focused = false
-    console.log('blur handled')
+  async function handleBlur(event) {
+    focused = false;
+    console.log("blur handled");
     if (comment) {
-      commented = true
-      await saver()
+      commented = true;
+      await saver();
     }
-    notesEditor.update((config) => {
-      return {...config, editor: null, bold: null, italic: null}
-    })
+    notesEditor.update(config => {
+      return { ...config, editor: null, bold: null, italic: null };
+    });
   }
   function saver() {
     const json = { ...note.json, comment };
@@ -67,39 +67,38 @@
     });
     update(payload);
   }
-  function checkButtonStatus () {
+  function checkButtonStatus() {
     let focus = document.getSelection().focusNode;
     if (!focus.closest && focus.parentElement) {
-      focus = focus.parentElement
+      focus = focus.parentElement;
     }
-    const bold = focus.closest('b,strong');
-    const italic = focus.closest('i,em');
-    return {bold, italic}
+    const bold = focus.closest("b,strong");
+    const italic = focus.closest("i,em");
+    return { bold, italic };
   }
-  function handleButtonStatus (event) {
-    
-    notesEditor.update((config) => {
-      return {...config, ...checkButtonStatus()}
-    })
+  function handleButtonStatus(event) {
+    notesEditor.update(config => {
+      return { ...config, ...checkButtonStatus() };
+    });
   }
   $: if (current && commentElement && current === note.id) {
-    commentElement.focus()
+    commentElement.focus();
   }
   let archived;
   let noteLabel = "show";
   $: if (note.json.label) {
     noteLabel = note.json.label;
   }
-  let label
+  let label;
   $: if (label) {
-    if (label === 'demote') {
+    if (label === "demote") {
       archived = true;
     } else {
       archived = false;
     }
     // updateLabel().catch(err => console.error(err));
   }
-  function updateLabel (event) {
+  function updateLabel(event) {
     const json = { ...note.json, label: event.detail.label };
     note = { ...note, json };
     try {
@@ -180,7 +179,8 @@
     padding: 0.25rem 1.25rem 0.25rem 1.5rem;
     margin: 0.25rem;
   }
-  .AnnotationsHighlight:hover .ReaderComment, .AnnotationsHighlight .ReaderComment:focus {
+  .AnnotationsHighlight:hover .ReaderComment,
+  .AnnotationsHighlight .ReaderComment:focus {
     background-color: white;
     border-left: 0.25rem solid #eded00;
     outline: 2px solid #68d6d499;
@@ -203,7 +203,8 @@
     font-family: var(--reader-font-family);
     font-style: italic;
   }
-  .AnnotationsHighlight .Chapter > :global(blockquote i), .AnnotationsHighlight .Chapter > :global(blockquote em) {
+  .AnnotationsHighlight .Chapter > :global(blockquote i),
+  .AnnotationsHighlight .Chapter > :global(blockquote em) {
     font-style: normal;
   }
   .archive {
@@ -220,7 +221,7 @@
     visibility: visible;
   }
   .Chapter:hover .archive {
-    visibility:visible;
+    visibility: visible;
   }
   .AnnotationsHighlight:focus-within .archive {
     visibility: visible;
@@ -272,14 +273,34 @@
 {#if !archived && collection}
   <a class="title" href={publicationURL}>{note.publication.name}</a>
 {/if}
-<div class="AnnotationsHighlight" class:selected class:archived data-label={label}>
-<div class="body">
+<div
+  class="AnnotationsHighlight"
+  class:selected
+  class:archived
+  data-label={label}>
+  <div class="body">
     <span class="Highlight-anchor" id={`note-${encode(note.id)}`}>&nbsp;</span>
-  {#if !collection && !modal && !archived}
-    <a class="Highlight-link" href={`${window.location.pathname}#highlight-${encode(note.id)}`} aria-label="Go to highlight in text"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></a>
+    {#if !collection && !modal && !archived}
+      <a
+        class="Highlight-link"
+        href={`${window.location.pathname}#highlight-${encode(note.id)}`}
+        aria-label="Go to highlight in text">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="square"
+          stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </a>
     {:else}
-      <span></span>
-  {/if}
+      <span />
+    {/if}
     {#if archived}
       <span>
         {#if collection}{note.publication.name}:{/if}
@@ -290,11 +311,20 @@
         {@html highlight}
       </div>
     {/if}
-  <LabelMenu bind:label={label} {noteLabel} {label} on:label-change={updateLabel} />
-</div>
+    <LabelMenu bind:label {noteLabel} {label} on:label-change={updateLabel} />
+  </div>
   {#if !archived}
-    
-      <div class="ReaderComment" contenteditable="true" bind:innerHTML={comment}  on:paste={handlePaste} on:focus={handleFocus} on:blur={handleBlur} on:keyup={handleButtonStatus} on:mouseup={handleButtonStatus} bind:this={commentElement} class:commented data-editor-note-id={note.id}>
-      </div>
+    <div
+      class="ReaderComment"
+      contenteditable="true"
+      bind:innerHTML={comment}
+      on:paste={handlePaste}
+      on:focus={handleFocus}
+      on:blur={handleBlur}
+      on:keyup={handleButtonStatus}
+      on:mouseup={handleButtonStatus}
+      bind:this={commentElement}
+      class:commented
+      data-editor-note-id={note.id} />
   {/if}
 </div>

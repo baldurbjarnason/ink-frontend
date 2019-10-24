@@ -31,11 +31,12 @@
     color: var(--dark);
   } */
 </style>
-  <h1 class="ContentsHeading">{book.name}</h1>
-  <ol class="Contents">
+
+<h1 class="ContentsHeading">{book.name}</h1>
+<ol class="Contents">
   {#if contents.children}
     {#each contents.children as item}
       <ContentsItem {item} {current} />
     {/each}
   {/if}
-  </ol>
+</ol>

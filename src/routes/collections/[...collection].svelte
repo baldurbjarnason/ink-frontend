@@ -182,7 +182,7 @@
         await loadMore(true);
         await new Promise(resolve => setTimeout(resolve, interval));
       } catch (err) {
-        console.error(err)
+        console.error(err);
         return err;
       }
     }

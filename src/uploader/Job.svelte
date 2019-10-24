@@ -1,12 +1,12 @@
 <script>
   import { onMount, tick } from "svelte";
   import { collection as setCollection } from "../api/collection.js";
-  import {preRender} from '../routes/doc/[id]/_utils.js'
+  import { preRender } from "../routes/doc/[id]/_utils.js";
   import { stores } from "../stores";
   const { collections, recent, jobs } = stores();
   export let job;
   export let collection;
-  let publication
+  let publication;
   onMount(() => {
     check(testJob, 300000, 3000);
   });
@@ -48,8 +48,8 @@
         { id: `/publication-${job.publicationId}/` },
         true
       );
-    };
-    return preRender(publication)
+    }
+    return preRender(publication);
   }
   async function testJob() {
     try {
@@ -72,7 +72,5 @@
 <li>
   {#if job.error}
     Error processing epub
-    {:else if publication}
-       {publication.name} imported
-  {:else}&nbsp;{/if}
+  {:else if publication}{publication.name} imported{:else}&nbsp;{/if}
 </li>

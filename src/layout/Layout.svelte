@@ -26,10 +26,10 @@
     }
     if (params.infoBook) {
       leftSidebar = "info";
-      rightSidebar = "empty"
+      rightSidebar = "empty";
     } else if (params.path) {
       leftSidebar = "contents";
-      rightSidebar = "notes"
+      rightSidebar = "notes";
     } else {
       leftSidebar = "collections";
     }
@@ -37,12 +37,12 @@
       collection = params.collection[0];
     }
     if (query.item) {
-      sidebarId = decode(query.item)
+      sidebarId = decode(query.item);
       rightSidebar = "item";
     } else if (query.upload) {
       rightSidebar = "upload";
     } else if (query.note) {
-      sidebarId = decode(query.note)
+      sidebarId = decode(query.note);
       rightSidebar = "note";
     } else if (query.chapternotes) {
       rightSidebar = "chapternotes";
@@ -81,7 +81,7 @@
 </style>
 
 <svelte:window bind:innerWidth={width} />
-<svelte:body/>
+<svelte:body />
 <Modals {leftSidebar} {rightSidebar} {collection} id={sidebarId} />
 <main class:reader={params.path}>
   <WithSidebars
@@ -94,11 +94,17 @@
         sidebar={leftSidebar}
         {collection}
         history={false}
-        side={'left'} id={sidebarId} />
+        side={'left'}
+        id={sidebarId} />
     </div>
     <slot />
     <div slot="right-sidebar" data-no-highlight>
-      <Sidebar sidebar={rightSidebar} {collection} {history} side={'right'} id={sidebarId} />
+      <Sidebar
+        sidebar={rightSidebar}
+        {collection}
+        {history}
+        side={'right'}
+        id={sidebarId} />
     </div>
   </WithSidebars>
 </main>

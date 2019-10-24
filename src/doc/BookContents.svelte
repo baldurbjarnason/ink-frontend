@@ -19,7 +19,7 @@
   }
   @media (max-width: 400px) {
     .BookContents {
-    font-size: 0.65rem;
+      font-size: 0.65rem;
     }
   }
   .BookContents.modal {
