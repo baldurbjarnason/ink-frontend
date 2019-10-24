@@ -9,6 +9,12 @@
       return { ...config };
     });
   }
+  let visible = false
+  $: if ($notesEditor.editor) {
+    visible = true
+  } else {
+    visible = false
+  }
 </script>
 
 <style>
@@ -77,12 +83,18 @@
   .Button:focus {
     outline: solid transparent;
   }
+  .buttons {
+    visibility: hidden;
+  }
+  .buttons.visible {
+    visibility: visible;
+  }
 </style>
 
 <!-- markup (zero or more items) goes here -->
 <div class="NotesBar">
   {#if $notes.items}
-    <span>
+    <span class:visible class="buttons">
       <button
         class="Button"
         type="button"

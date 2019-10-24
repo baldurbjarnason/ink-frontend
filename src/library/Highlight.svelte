@@ -69,6 +69,7 @@
   }
   function checkButtonStatus() {
     let focus = document.getSelection().focusNode;
+    if (!focus) return
     if (!focus.closest && focus.parentElement) {
       focus = focus.parentElement;
     }
