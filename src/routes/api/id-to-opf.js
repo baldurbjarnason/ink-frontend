@@ -1,5 +1,5 @@
 // import * as fs from "fs";
-import { parseOPF } from "../../api/opf-to-metadata.js";
+// import { parseOPF } from "../../api/opf-to-metadata.js";
 import got from "got";
 import { normalise } from "../../api/normalise-publication.js";
 
