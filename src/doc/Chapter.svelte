@@ -79,6 +79,9 @@
     document
       .querySelectorAll(`.Chapter mark[data-note-id]`)
       .forEach(highlight => highlight.replaceWith(...highlight.childNodes));
+    document
+      .querySelectorAll(`.Chapter .Highlight-return-link`)
+      .forEach(arrow => arrow.parentElement.removeChild(arrow));
     highlightNotes(chapterElement, $notes);
   }
 </script>
