@@ -76,6 +76,9 @@
     $notes.items &&
     $notes.chapter === $chapterStore.url
   ) {
+    document
+      .querySelectorAll(`.Chapter mark[data-note-id]`)
+      .forEach(highlight => highlight.replaceWith(...highlight.childNodes));
     highlightNotes(chapterElement, $notes);
   }
 </script>
