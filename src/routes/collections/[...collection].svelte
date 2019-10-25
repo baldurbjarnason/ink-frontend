@@ -325,6 +325,7 @@
     z-index: 1;
     font-size: 0.85rem;
     color: var(--medium);
+    padding: 0.5rem;
   }
 </style>
 
