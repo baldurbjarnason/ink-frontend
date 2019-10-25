@@ -50,7 +50,6 @@
   }
   async function handleBlur(event) {
     focused = false;
-    console.log("blur handled");
     if (comment) {
       commented = true;
       await saver();

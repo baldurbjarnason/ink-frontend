@@ -53,6 +53,7 @@
   import NotesList from "../../library/NotesList.svelte";
   import CollectionTabs from "../../library/CollectionTabs.svelte";
   import InfoActions from "../../components/InfoActions.svelte";
+  import NotesBar from "../../doc/NotesBar.svelte";
   import * as sapper from "@sapper/app";
   import { profile } from "../_profile.js";
   import { open } from "../../actions/modal.js";
@@ -69,7 +70,6 @@
   export let type;
   export let sidebar;
   $: title.set(collection);
-  $: console.log(type);
   let notes;
   let library;
   const search = writable(window.location.search);
@@ -362,4 +362,7 @@
       Load More...
     </Button>
   </span>
+  {#if type === "notes"}
+    <NotesBar collection={true} />
+  {/if}
 </div>

@@ -15,6 +15,7 @@
   } else {
     visible = false
   }
+  export let collection = false;
 </script>
 
 <style>
@@ -34,6 +35,9 @@
     align-items: center;
     height: 32px;
     grid-area: notesbar;
+  }
+  .NotesBar.collection {
+    background-color: var(--main-background-color);
   }
   .Button {
     font-family: var(--sans-fonts);
@@ -92,8 +96,8 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-<div class="NotesBar">
-  {#if $notes.items}
+<div class="NotesBar" class:collection>
+  {#if $notes.items || collection}
     <span class:visible class="buttons">
       <button
         class="Button"
