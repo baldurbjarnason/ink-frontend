@@ -307,6 +307,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 32px;
+    background-color: var(--main-background-color);
+    z-index: 1;
+    font-size: 0.85rem;
+    color: var(--medium);
   }
 </style>
 
