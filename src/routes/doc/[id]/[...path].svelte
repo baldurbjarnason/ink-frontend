@@ -242,7 +242,7 @@
   }
   .BookBody {
     display: grid;
-    grid-template-columns: 24px 1fr 24px;
+    grid-template-columns: var(--reader-left-margin) 1fr var(--reader-left-margin);
     grid-template-rows: 1fr 40px;
     grid-template-areas:
       "sidebar main right"

@@ -95,12 +95,11 @@
     padding: 0;
     padding-top: 5vh;
     display: grid;
-    grid-template-columns:
-      minmax(var(--reader-left-margin), 1fr) minmax(
+    grid-template-columns: minmax(0, 1fr) minmax(
         var(--reader-min-column-width),
         var(--reader-max-column-width)
       )
-      minmax(var(--reader-left-margin), 1fr);
+      minmax(0, 1fr);
     grid-template-areas: "leftmargin maintext rightmargin";
     grid-row-gap: var(--reader-paragraph-spacing);
     min-height: 100vh;
