@@ -3,8 +3,12 @@
   import NotesList from "../library/NotesList.svelte";
   import Toolbar from "../components/Toolbar.svelte";
   import NotesBar from "./NotesBar.svelte";
+  import NotesFilter from "./NotesFilter.svelte";
   export let modal = false;
-  const { chapterTitle, notes, updateNotes, docStore } = stores();
+  const { chapterTitle, notes, updateNotes, docStore, notesCollection } = stores();
+  function handleCollection (event) {
+    notesCollection.set(event.detail)
+  }
 </script>
 
 <style>
@@ -26,6 +30,7 @@
       </span>
     </Toolbar>
   {/if}
+  <NotesFilter on:notes-collection={handleCollection} on:notes-flag-filter={event => console.log(event)}  />
   <NotesList notes={$notes.items} current={modal && $updateNotes} {modal} />
   <NotesBar />
 </div>

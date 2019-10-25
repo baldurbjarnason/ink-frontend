@@ -24,9 +24,12 @@ export const contents = derived(docStore, ($docStore, set) => {
     set({});
   }
 });
+
+export const notesCollection = writable("all");
+
 export const notes = derived(
-  [chapterStore, updateNotes],
-  ([$chapterStore, $updateNotes], set) => {
+  [chapterStore, updateNotes, notesCollection],
+  ([$chapterStore, $updateNotes, $notesCollection], set) => {
     try {
       if ($chapterStore.url && $updateNotes) {
         window
@@ -34,6 +37,9 @@ export const notes = derived(
           .then(response => response.json())
           .then(notesData => {
             notesData.chapter = $chapterStore.url;
+            if ($notesCollection !== "all") {
+              notesData.items = notesData.items.filter(item => item.json.collection === $notesCollection)
+            }
             return set(notesData);
           });
       } else {
