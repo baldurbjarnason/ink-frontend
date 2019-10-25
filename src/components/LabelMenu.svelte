@@ -1,13 +1,10 @@
 <script>
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
-  export let label;
+  let label = "show";
   export let noteLabel;
   $: if (noteLabel) {
     label = noteLabel;
-  }
-  $: if (label !== noteLabel) {
-    dispatch("label-change", { label });
   }
 </script>
 
@@ -98,7 +95,7 @@
   .Button:focus {
     outline: solid transparent;
   }
-  [data-menu-button-contents] {
+  .Button > span {
     justify-self: start;
   }
 </style>
@@ -194,9 +191,10 @@
       type="button"
       role="menuitem"
       on:click={event => {
-        label = 'show';
+        label = "show"
+        dispatch("label-change", { label: 'show' });
       }}>
-      <span data-menu-button-contents>
+      <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -218,9 +216,10 @@
       type="button"
       role="menuitem"
       on:click={event => {
-        label = 'flag';
+        label = "flag"
+        dispatch("label-change", { label: 'flag' });
       }}>
-      <span data-menu-button-contents>
+      <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -245,9 +244,10 @@
       type="button"
       role="menuitem"
       on:click={event => {
-        label = 'question';
+        label = "question"
+        dispatch("label-change", { label: 'question' });
       }}>
-      <span data-menu-button-contents>
+      <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"
@@ -273,9 +273,10 @@
       type="button"
       role="menuitem"
       on:click={event => {
-        label = 'demote';
+        label = "demote"
+        dispatch("label-change", { label: 'demote' });
       }}>
-      <span data-menu-button-contents>
+      <span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="16"

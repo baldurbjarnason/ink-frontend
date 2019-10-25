@@ -3,11 +3,14 @@
   export async function preload(page, session) {
     try {
       const [collection, type = "library"] = page.params.collection;
-      const {
+      let {
         orderBy = "datePublished",
         reverse = "false",
         layout = "list"
       } = page.query;
+      if (type === "notes" && orderBy === "datePublished") {
+        orderBy = "created"
+      }
       let books = { items: [] };
       if (session.user) {
         books = await this.fetch(
@@ -35,7 +38,9 @@
         hideLoadMore,
         sidebar,
         layout,
-        type
+        type,
+        orderBy,
+        reverse
       };
     } catch (err) {
       console.log(err);
@@ -64,18 +69,34 @@
   export let items;
   export let collection;
   export let selected;
-  export let page;
   export let hideLoadMore = false;
   export let layout;
   export let type;
   export let sidebar;
+  export let page;
+  export let orderBy;
+  export let reverse;
   $: title.set(collection);
   let notes;
   let library;
   const search = writable(window.location.search);
   $: if ($search) {
-    notes = `/collections/${collection}/notes${$search}`;
-    library = `/collections/${collection}${$search}`;
+    const query = new window.URLSearchParams(window.location.search);
+    if (type === "notes") {
+      if (orderBy === 'created') {
+        query.set("orderBy", "datePublished")
+      }
+      query.delete("updated")
+      notes = `/collections/${collection}/notes${window.location.search}`;
+      library = `/collections/${collection}?${query.toString()}`;
+    } else {
+      if (orderBy === 'datePublished') {
+        query.set("orderBy", "created")
+      }
+      query.delete("title")
+      notes = `/collections/${collection}/notes?${query.toString()}`;
+      library = `/collections/${collection}${window.location.search}`; 
+    }
   } else {
     notes = `/collections/${collection}/notes`;
     library = `/collections/${collection}`;
@@ -131,15 +152,9 @@
     ];
   }
 
-  let order = {
-    orderBy: "",
-    reverse: "",
-    page: 1
-  };
   function onSelect(event) {
     const value = event.target.value.split("-");
     const query = new window.URLSearchParams(window.location.search);
-    query.set("noHistory", "true");
     if (value[0] === "datePublished") {
       query.delete("orderBy");
       query.delete("reverse");
@@ -150,16 +165,10 @@
         query.set("page", 1);
       }
     } else {
-      order = {
-        orderBy: `?orderBy=${value[0]}`,
-        reverse: "",
-        page: 1
-      };
       query.set("orderBy", value[0]);
       query.delete("reverse");
       query.set("page", 1);
       if (value[1]) {
-        order.reverse = "&reverse=true";
         query.set("reverse", "true");
       }
     }
@@ -189,17 +198,20 @@
   }
   async function loadMore(prepend) {
     try {
-      let page;
       if (prepend) {
         page = 1;
       } else {
-        page = order.page + 1;
-        order.page = order.page + 1;
+        page = page + 1;
       }
+      const query = new window.URLSearchParams(window.location.search);
+      query.set("page", page);
+      query.set("orderBy", orderBy);
+      query.set("reverse", reverse);
+      query.set("collection", collection);
+      query.set("type", type);
       const libraryAdditions = await window
         .fetch(
-          `/api/collections?collection=${collection}&page=${page}${order.orderBy &&
-            order.orderBy.slice(1)}${order.reverse}&type=${type}`,
+          `/api/collections?${query.toString()}`,
           {
             credentials: "include"
           }

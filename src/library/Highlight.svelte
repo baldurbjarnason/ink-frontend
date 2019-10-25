@@ -24,10 +24,13 @@
   $: highlight = DOMPurify.sanitize(note.content, purifyConfig);
   commented = false;
   let focused = false;
-  oldComment = comment = "";
-  $: if (note.json.comment && !focused && oldComment === comment) {
-    oldComment = comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
-    commented = true;
+  // oldComment = comment = "";
+  // $: if (note.json.comment && !focused && oldComment !== note.json.comment && oldComment === comment) {
+  //   oldComment = comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
+  //   commented = true;
+  // }
+  $: if (note.json.comment || comment) {
+    commented = true
   }
   let selected;
   $: if (current === note.id) {
@@ -84,20 +87,11 @@
   $: if (current && commentElement && current === note.id) {
     commentElement.focus();
   }
-  let archived;
   let noteLabel = "show";
   $: if (note.json.label) {
     noteLabel = note.json.label;
   }
   let label;
-  $: if (label) {
-    if (label === "demote") {
-      archived = true;
-    } else {
-      archived = false;
-    }
-    // updateLabel().catch(err => console.error(err));
-  }
   function updateLabel(event) {
     const json = { ...note.json, label: event.detail.label };
     note = { ...note, json };
@@ -249,17 +243,17 @@
 </style>
 
 <!-- markup (zero or more items) goes here -->
-{#if !archived && collection}
+{#if note.json.label !== "demote" && collection}
   <a class="title" href={publicationURL}>{note.publication.name}</a>
 {/if}
 <div
   class="AnnotationsHighlight"
   class:selected
-  class:archived
-  data-label={label}>
+  class:archived={note.json.label === "demote"}
+  data-label={note.json.label}>
   <div class="body">
     <span class="Highlight-anchor" id={`note-${encode(note.id)}`}>&nbsp;</span>
-    {#if !collection && !modal && !archived}
+    {#if !collection && !modal && note.json.label !== "demote"}
       <a
         class="Highlight-link"
         href={`${window.location.pathname}#highlight-${encode(note.id)}`}
@@ -280,7 +274,7 @@
     {:else}
       <span />
     {/if}
-    {#if archived}
+    {#if note.json.label === "demote"}
       <span>
         {#if collection}{note.publication.name}:{/if}
         {note['oa:hasSelector'].exact.slice(0, 50)}...
@@ -290,9 +284,11 @@
         {@html highlight}
       </div>
     {/if}
-    <LabelMenu bind:label {noteLabel} {label} on:label-change={updateLabel} />
+    <div>
+      <LabelMenu bind:label noteLabel={note.json.label} on:label-change={updateLabel} />
+    </div>
   </div>
-  {#if !archived}
+  {#if note.json.label !== "demote"}
     <div
       class="ReaderComment"
       contenteditable="true"
@@ -304,6 +300,6 @@
       on:mouseup={handleButtonStatus}
       bind:this={commentElement}
       class:commented
-      data-editor-note-id={note.id} />
+      data-editor-note-id={note.id}>{@html DOMPurify.sanitize(note.json.comment, purifyConfig)}</div>
   {/if}
 </div>

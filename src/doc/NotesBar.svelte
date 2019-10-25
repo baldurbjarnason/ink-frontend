@@ -106,10 +106,8 @@
         class:active={$notesEditor.bold}
         on:mousedown={event => {
           event.preventDefault();
-          console.log('mousedown', $notesEditor);
         }}
         on:click={event => {
-          console.log('click', $notesEditor);
           buttonAction('bold');
         }}>
         <svg
