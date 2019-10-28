@@ -4,7 +4,7 @@ import { normalise } from "../../api/normalise-publication.js";
 // import * as fs from "fs";
 export async function get(req, res, next) {
   if (req.user) {
-    const { id } = req.query;
+    const { id, collection } = req.query;
     try {
       const url = new URL(id, process.env.API_SERVER);
       const response = await got.get(url.href, {
@@ -16,7 +16,7 @@ export async function get(req, res, next) {
       const book = normalise(response.body);
       const notes = await Promise.all(book.readingOrder.map(getAndRenderNotes(req)))
       res.set('Content-Disposition', `attachment; filename="${slugify(book.name)}-notes.html"`)
-      return res.send(renderHTML(notes.join('\n'), book));
+      return res.send(renderHTML(notes.join('\n'), book, collection));
     } catch (err) {
       console.log(err);
       return res.sendStatus(err.statusCode || 500);
@@ -26,6 +26,7 @@ export async function get(req, res, next) {
 
 function getAndRenderNotes (req) {
   return async function getAndRender (chapter, index) {
+    const {collection} = req.query
     const notesEndpoint = `${req.user.profile.id}/notes`;
     const url = new URL(
       `${notesEndpoint}?limit=100&document=${chapter.url}`,
@@ -61,6 +62,9 @@ function getAndRenderNotes (req) {
     } else {
       chapterTitle = `Chapter ${index + 1}`
     }
+    if (collection && collection !== "all") {
+      response.body.items = response.body.items.filter(item => item.json.collection === collection)
+    }
     return renderNotes(response.body, chapterTitle)
   }
 }
@@ -83,16 +87,16 @@ function renderNotes ({items}, chapter = "") {
   }
 }
 
-function renderHTML  (notes, book) {
+function renderHTML  (notes, book, collection) {
   return `<!doctype html>
   <html>
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width,initial-scale=1.0'>
-    <title>Notes for ${book.name}</title>
+    <title>Notes for ${book.name} ${collection ? `in <em>${collection}</em>` : "" }</title>
   </head>
   <body id="body">
-  <h1>Notes for ${book.name}</h1>
+  <h1>Notes for ${book.name} ${collection ? `in <em>${collection}</em>` : "" }</h1>
   ${notes}
   </body>
   </html>

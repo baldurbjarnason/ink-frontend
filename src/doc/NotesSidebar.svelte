@@ -9,6 +9,12 @@
   function handleCollection (event) {
     notesCollection.set(event.detail)
   }
+  let download
+  $: if ($notesCollection !== "all") {
+    download = `/api/notes-book-export?id=${encodeURIComponent($docStore.id)}&collection=${encodeURIComponent($notesCollection)}`
+  } else {
+    download = `/api/notes-book-export?id=${encodeURIComponent($docStore.id)}`
+  }
 </script>
 
 <style>
@@ -26,7 +32,7 @@
         <!-- – {$chapterTitle} -->
       </span>
       <span slot="right-button" class="LeftButton">
-      <a href="/api/notes-book-export?id={encodeURIComponent($docStore.id)}" aria-label="Download HTML notes for this book" download><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/></svg></a>
+      <a href="{download}" aria-label="Download HTML notes for this book" download><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/></svg></a>
       </span>
     </Toolbar>
   {/if}
