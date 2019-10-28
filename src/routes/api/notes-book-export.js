@@ -1,10 +1,16 @@
 import got from "got";
 import slugify from "slugify";
 import { normalise } from "../../api/normalise-publication.js";
+import TurndownService from 'turndown';
+import {gfm} from 'turndown-plugin-gfm';
+const turndownService = new TurndownService({headingStyle: "atx"});
+turndownService.use(gfm)
+turndownService.remove('title')
+turndownService.keep(['svg', 'math'])
 // import * as fs from "fs";
 export async function get(req, res, next) {
   if (req.user) {
-    const { id, collection } = req.query;
+    const { id, collection, markdown } = req.query;
     try {
       const url = new URL(id, process.env.API_SERVER);
       const response = await got.get(url.href, {
@@ -15,8 +21,15 @@ export async function get(req, res, next) {
       });
       const book = normalise(response.body);
       const notes = await Promise.all(book.readingOrder.map(getAndRenderNotes(req)))
-      res.set('Content-Disposition', `attachment; filename="${slugify(book.name)}-notes.html"`)
-      return res.send(renderHTML(notes.join('\n'), book, collection));
+      const html = renderHTML(notes.join('\n'), book, collection)
+      if (!markdown) {
+        res.set('Content-Disposition', `attachment; filename="${slugify(book.name)}-notes.html"`)
+        return res.send(html);
+      } else {
+        res.type('text/plain')
+        res.set('Content-Disposition', `attachment; filename="${slugify(book.name)}-notes.md"`)
+        return res.send(turndownService.turndown(html));
+      }
     } catch (err) {
       console.log(err);
       return res.sendStatus(err.statusCode || 500);
