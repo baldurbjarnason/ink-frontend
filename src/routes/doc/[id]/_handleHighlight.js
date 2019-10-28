@@ -6,7 +6,7 @@ import { encode } from "universal-base64url";
 import { stores } from "../../../stores";
 const { updateNotes } = stores();
 
-export function handleHighlight(range, root, chapter, chapterTitle) {
+export function handleHighlight(range, root, chapter, chapterTitle, notesCollection) {
   if (range && root) {
     const selector = textQuote.fromRange(root, range);
     let startLocation;
@@ -67,6 +67,9 @@ export function handleHighlight(range, root, chapter, chapterTitle) {
     highlightNote(selector, root, tempId, note);
     console.log(`${startLocation}–${endLocation}`);
     document.getSelection().collapse(root, 0);
+    if (notesCollection) {
+      note.json.collection = notesCollection
+    }
     return create(note).then(activity => {
       document.querySelectorAll(`[data-note-id="${tempId}"]`).forEach(node => {
         node.dataset.noteId = activity.object.id;

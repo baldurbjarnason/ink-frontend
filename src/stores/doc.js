@@ -32,17 +32,15 @@ export const notes = derived(
   ([$chapterStore, $updateNotes, $notesCollection], set) => {
     try {
       if ($chapterStore.url && $updateNotes) {
-        let url
-        if ($notesCollection && $notesCollection !== "all") {
-          url = `/api/notes?path=${encodeURIComponent($chapterStore.url)}&stack=${$notesCollection}`
-        } else {
-          url = `/api/notes?path=${encodeURIComponent($chapterStore.url)}`
-        }
+        const url = `/api/notes?path=${encodeURIComponent($chapterStore.url)}`
         window
           .fetch(url)
           .then(response => response.json())
           .then(notesData => {
             notesData.chapter = $chapterStore.url;
+            if ($notesCollection !== "all") {
+              notesData.items = notesData.items.filter(item => item.json.collection === $notesCollection)
+            }
             return set(notesData);
           });
       } else {

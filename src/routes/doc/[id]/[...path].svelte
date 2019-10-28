@@ -25,6 +25,7 @@
     chapterTitle,
     configuringReader,
     notes,
+    notesCollection,
     title,
     updateNotes
   } = stores();
@@ -410,7 +411,7 @@
           {#if selectionRange}
             <Button
               click={() => {
-                handleHighlight(selectionRange, bookBody, $chapterStore, $chapterTitle);
+                handleHighlight(selectionRange, bookBody, $chapterStore, $chapterTitle, $notesCollection);
               }}>
               Highlight
             </Button>

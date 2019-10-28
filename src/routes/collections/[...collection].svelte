@@ -30,6 +30,9 @@
       if (page.query.item) {
         sidebar = decode(page.query.item);
       }
+      if (collection !== "all" && type === "notes") {
+        books.items = books.items.filter(item => item.json.collection === collection)
+      }
       return {
         items: books.items,
         collection,
@@ -218,6 +221,9 @@
         )
         .then(response => response.json());
       const itemIds = items.map(item => item.id);
+      if (collection !== "all" && type === "notes") {
+        libraryAdditions.items = libraryAdditions.items.filter(item => item.json.collection === collection)
+      }
       const additions = libraryAdditions.items.filter(
         item => itemIds.indexOf(item.id) === -1
       );
