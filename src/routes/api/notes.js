@@ -1,11 +1,19 @@
 import got from "got";
+import querystring from "querystring";
 export async function get(req, res, next) {
   if (req.user) {
     const notesEndpoint = `${req.user.profile.id}/notes`;
-    const { page, path } = req.query;
+    const { page, path, stack } = req.query;
+    const query = {
+      page,
+      document: path
+    }
+    if (stack) {
+      query.stack = stack
+    }
     try {
       const url = new URL(
-        `${notesEndpoint}?limit=100&page=${page}&document=${path}`,
+        `${notesEndpoint}?${querystring.stringify(query)}`,
         process.env.API_SERVER
       );
       const response = await got.get(url.href, {
