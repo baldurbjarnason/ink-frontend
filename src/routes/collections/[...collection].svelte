@@ -85,6 +85,7 @@
   const search = writable(window.location.search);
   $: if ($search) {
     const query = new window.URLSearchParams(window.location.search);
+      query.delete("item")
     if (type === "notes") {
       if (orderBy === 'created') {
         query.set("orderBy", "datePublished")
