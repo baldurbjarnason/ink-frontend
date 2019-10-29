@@ -21,6 +21,10 @@
     display: none;
     background-color: var(--sidebar-background-color);
   }
+  .center {
+    box-shadow: 0px 0px 2px 0px rgba(33, 33, 33, 0.1);
+    z-index: 1;
+  }
   @media (min-width: 1024px) {
     .Main.sidebar {
       display: grid;

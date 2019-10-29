@@ -20,7 +20,7 @@
     justify-content: space-between;
     align-items: center;
     height: 32px;
-    box-shadow: 1px 2px 2px 0 rgba(133, 133, 133, 0.1);
+    /* box-shadow: 1px 2px 2px 0 rgba(133, 133, 133, 0.1); */
   }
   .Toolbar-link {
     font-size: 1.25rem;
