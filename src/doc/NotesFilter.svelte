@@ -152,7 +152,7 @@
         <label>
           <input type="checkbox" value="show" checked
               on:change={event => {
-                dispatch("notes-flag-filter", event.target.value)
+                dispatch("notes-flag-filter", {filter: event.target.value, checked: event.target.checked})
               }}> 
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -171,7 +171,7 @@
         <label>
           <input type="checkbox" value="flag" checked
               on:change={event => {
-                dispatch("notes-flag-filter", event.target.value)
+                dispatch("notes-flag-filter", {filter: event.target.value, checked: event.target.checked})
               }}> 
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -193,7 +193,7 @@
         <label>
           <input type="checkbox" value="question" checked
               on:change={event => {
-                dispatch("notes-flag-filter", event.target.value)
+                dispatch("notes-flag-filter", {filter: event.target.value, checked: event.target.checked})
               }}> 
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -216,7 +216,7 @@
         <label>
           <input type="checkbox" value="demote" checked
               on:change={event => {
-                dispatch("notes-flag-filter", event.target.value)
+                dispatch("notes-flag-filter", {filter: event.target.value, checked: event.target.checked})
               }}> 
           <svg
             xmlns="http://www.w3.org/2000/svg"

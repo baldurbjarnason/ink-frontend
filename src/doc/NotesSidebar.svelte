@@ -15,6 +15,24 @@
   } else {
     download = `/api/notes-book-export?id=${encodeURIComponent($docStore.id)}`
   }
+  let filters = {
+    show: true,
+    question: true,
+    flag: true,
+    demote: true
+  }
+  function handleFilter (event) {
+    const {filter, checked} = event.detail
+    const addition = {}
+    addition[filter] = checked
+    filters = {...filters, ...addition}
+  }
+  let items = []
+  $: if ($notes.items) {
+    items = $notes.items.filter(item => {
+      return filters[item.json.label || "show"]
+    })
+  }
 </script>
 
 <style>
@@ -36,7 +54,7 @@
       </span>
     </Toolbar>
   {/if}
-  <NotesFilter on:notes-collection={handleCollection} on:notes-flag-filter={event => console.log(event)}  />
-  <NotesList notes={$notes.items} current={modal && $updateNotes} {modal} />
+  <NotesFilter on:notes-collection={handleCollection} on:notes-flag-filter={handleFilter}  />
+  <NotesList notes={items} current={modal && $updateNotes} {modal} />
   <NotesBar />
 </div>
