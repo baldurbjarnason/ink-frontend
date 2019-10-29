@@ -15,8 +15,9 @@
   };
   export let note;
   export let current;
-  export let collection;
-  export let modal;
+  export let collection = false;
+  export let modal = false;
+  export let info = false;
   let highlight;
   let comment;
   let oldComment;
@@ -253,7 +254,7 @@
   data-label={note.json.label}>
   <div class="body">
     <span class="Highlight-anchor" id={`note-${encode(note.id)}`}>&nbsp;</span>
-    {#if !collection && !modal && note.json.label !== "demote"}
+    {#if !info && !collection && !modal && note.json.label !== "demote"}
       <a
         class="Highlight-link"
         href={`${window.location.pathname}#highlight-${encode(note.id)}`}

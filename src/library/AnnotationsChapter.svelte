@@ -19,6 +19,9 @@
   {#await annotations}
     <p class="Loading">Loading...</p>
   {:then notes}
+    {#if notes.items[0] && notes.items[0].json && notes.items[0].json.chapterTitle}
+      <h2>{notes.items[0].json.chapterTitle}</h2>
+    {/if}
     <InfoNotesList notes={notes.items} {id} {type} />
   {:catch error}
     <!-- promise was rejected -->
