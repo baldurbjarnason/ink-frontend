@@ -84,8 +84,8 @@ function getAndRenderNotes (req) {
 
 function renderNotes ({items}, chapter = "") {
   const htmlNotes = items.map(item => {
-    return `<div class="Note">${item.content}
-    <div class="Comment">${item.json.comment || ""}</div>
+    return `<div class="Note" data-label="${item.json.label}">${item.content}
+    <div class="Content ${item.json.comment ? "Commented": "Empty"}">${item.json.comment || ""}</div>
   </div>`
   })
   if (items.length > 0) {
@@ -110,6 +110,93 @@ function renderHTML  (notes, book, collection) {
 
     <style>
     
+:root {
+  --rc-darker: #2e9595;
+  --rc-dark: #32a5a5;
+  --rc-main: #37b5b5;
+  --rc-medium: #6dc9c9;
+  --rc-light: #b8f4f2;
+  --rc-lighter: #e4fffe;
+  --sidebar-background-color: #f3f7fa;
+  --main-background-color: #fefefe;
+  --warm-background-color: #f7f6f4;
+  --highlight-color: #ffff98;
+  --dark: #333333;
+  --medium: #555555;
+  --light: #fafafa;
+  --link: #2e9595;
+  --hover: #6dc9c9;
+  --active: #00ccee;
+  --primary: #cd4b18;
+  --visited: #2e9595;
+  --error: #ff3b3b;
+  --error-light: #fff5f4;
+  --valid: #2ed0ac;
+  --valid-light: #eefffc;
+  --warning: #ffd943;
+  --warning-light: #fffbef;
+  --disabled: #c6c6c6;
+  --button-background-color: #f9f9f9;
+  --reader-sidebar-background: #ffffff;
+}
+:root {
+  --reader-font-size: 1.4rem;
+  --reader-paragraph-spacing: 1rem;
+  --reader-left-margin: 2.5rem;
+  --reader-text-color: #000;
+  --reader-min-column-width: 12rem;
+  --reader-max-column-width: 36rem;
+  --reader-background-color: white;
+  --reader-border-color: #fafaef;
+  --reader-line-height: 1.45;
+  --reader-font-family: var(--old-style-fonts);
+}
+@media (max-width: 820px) {
+  :root {
+    --reader-font-size: 1rem;
+    --reader-paragraph-spacing: 1rem;
+    --reader-left-margin: 2rem;
+  }
+}
+@media (max-width: 550px) {
+  :root {
+    --reader-font-size: 1rem;
+    --reader-paragraph-spacing: 0.85rem;
+    --reader-left-margin: 2rem;
+  }
+}
+
+:root {
+  --xx-small: 0.6rem;
+  --x-small: 0.7rem;
+  --small: 0.85rem;
+  --regular: 1rem;
+  --bigger: 1.1rem;
+  --large: 1.25rem;
+  --x-large: 1.5rem;
+  --xx-large: 1.75rem;
+}
+
+
+:root {
+  --sans-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --old-style-fonts: "Iowan Old Style", "Sitka Text", Palatino, "Book Antiqua",
+    serif;
+  --modern-serif-fonts: Athelas, Constantia, Georgia, serif;
+  --neutral-fonts: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Noto, "Helvetica Neue", Arial, sans-serif;
+  --humanist-sans-fonts: Seravek, Calibri, Roboto, Arial, sans-serif;
+  --monospace-fonts: "Andale Mono", Consolas, monospace;
+  --duo-accessible-fonts: Duo, sans-serif;
+  --font-size: 125%;
+  --line-height: 1.5;
+  --border-radius: 4px;
+}
   .Chapter > * {
     grid-column: 2 / 3;
     margin: 0 auto;
@@ -129,16 +216,6 @@ function renderHTML  (notes, book, collection) {
     border-left: 0.75rem solid #b4312e;
     border-bottom: 0.75rem solid transparent;
   }
-  /* .Highlight.Commented::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    margin-left: -50vw;
-    display: block;
-    top: 0;
-    height: 1.25rem;
-    border-left: 1.25rem solid #b4312e;
-  } */
 
   .Chapter .Highlight {
     background-color: #ffff98;
@@ -248,22 +325,6 @@ function renderHTML  (notes, book, collection) {
   .Chapter a {
     border-radius: 0;
   }
-  @keyframes readableChapterPop {
-    0% {
-      box-shadow: 0 0 0 1px rgb(228, 255, 254, 0.2);
-      background-color: rgb(228, 255, 254, 0.2);
-      transform: scale(0.5);
-    }
-    50% {
-      box-shadow: 0 0 0 8px var(--rc-lighter);
-      transform: scale(1.5);
-    }
-    100% {
-      box-shadow: 0 0 0 3px var(--rc-lighter);
-      background-color: var(--rc-lighter);
-      transform: scale(1);
-    }
-  }
   .Highlight.Commented {
     position: relative;
     border-bottom: 0.125rem solid #eded00;
@@ -295,18 +356,6 @@ function renderHTML  (notes, book, collection) {
     border-radius: 0;
     cursor: pointer;
   }
-  /* .Chapter mark.Highlight[data-highlight-level="1"]:hover {
-    background-color: var(--rc-light);
-    box-shadow: 0 0 0 3px var(--rc-light);
-  }
-  .Chapter mark.Highlight[data-highlight-level="2"]:hover {
-    background-color: #ff7eb9;
-    box-shadow: 0 0 0 3px #ff7eb9;
-  }
-  .Chapter mark.Highlight[data-highlight-level="3"]:hover {
-    background-color: #feff9c;
-    box-shadow: 0 0 0 3px #feff9c;
-  } */
   .Highlight-anchor {
     clip-path: inset(100%);
     clip: rect(1px, 1px, 1px, 1px);
@@ -398,17 +447,21 @@ grid-column: 2 / 3;
     box-shadow: 0px 0px 2px 0px rgba(33, 33, 33, 0.1), 1px 1px 3px 0px rgba(133, 133, 133, 0.1);
 }
 
-.Comment {
+.Commented {
 	display: block;
 	font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantrell, "Helvetica Neue", sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1rem;
     margin: 1rem 0;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1.5rem;box-shadow: 1px 2px 2px 0
+    rgba(133, 133, 133, 0.1);
     z-index: 1;
+    background-color: white;
+    border-left: 0.25rem solid #eded00;
+    outline: 1px solid #f0f0f0;
 	}
-	.Comment > p {
+	.Commented > p {
     font-size: 1rem;
 	
     }
@@ -424,6 +477,21 @@ grid-column: 2 / 3;
     font-style: italic;
     font-weight: normal;
     }
+    [data-label="flag"] {
+      background-color: #feff9c;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='square' stroke-linejoin='round'%3E%3Cpath d='M4 17s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z' /%3E%3Cline x1='4' y1='22' x2='4' y2='15' /%3E%3Cg transform='scale(0.475) translate(14, 10)' stroke='currentColor'%3E%3Cpolyline points='20 6 9 17 4 12' stroke-width='4' /%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 98% 2rem;
+  }[data-label="question"] {
+    background-color: var(--rc-lighter);
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='square' stroke-linejoin='round'%3E%3Cpath d='M4 17s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z' /%3E%3Cline x1='4' y1='22' x2='4' y2='15' /%3E%3Cg transform='scale(0.65) translate(6, 3)' stroke='currentColor'%3E%3Cpath d='M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3' stroke-width='3' /%3E%3Cline x1='12' y1='17' x2='12' y2='17' stroke-width='3' /%3E%3C/g%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: 98% 2rem;
+}
+[data-label="demote"] {
+  display: none;
+}
     </style>
   </head>
   <body id="body">
