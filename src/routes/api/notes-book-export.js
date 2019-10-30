@@ -5,7 +5,7 @@ import TurndownService from 'turndown';
 import {gfm} from 'turndown-plugin-gfm';
 const turndownService = new TurndownService({headingStyle: "atx"});
 turndownService.use(gfm)
-turndownService.remove('title')
+turndownService.remove(['title', 'style'])
 turndownService.keep(['svg', 'math'])
 // import * as fs from "fs";
 export async function get(req, res, next) {
