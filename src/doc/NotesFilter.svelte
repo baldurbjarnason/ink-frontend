@@ -18,7 +18,6 @@
     top: 32px;
     left: 0;
     width: 100%;
-    background-color: var(--sidebar-background-color);
     z-index: 2;
     line-height: 1;
     padding: 0.25rem 0.5rem;
@@ -143,9 +142,11 @@
                 dispatch("notes-collection", event.target.value)
               }}>
               <option value="all" 
-                selected={current === 'all'}>All ({items.length})</option>
+                selected={current === 'all'}>All {#if items.length !== 0}({items.length})
+                {/if}</option>
               {#each $collections as collection}
-                <option value={collection.name} selected={current === collection.name}>{collection.name} ({items.filter(item => item.json.collection === collection.name).length})</option>
+                <option value={collection.name} selected={current === collection.name}>{collection.name} {#if items.length !== 0}({items.filter(item => item.json.collection === collection.name).length})
+                {/if} </option>
               {/each}
             </select>
           </label>

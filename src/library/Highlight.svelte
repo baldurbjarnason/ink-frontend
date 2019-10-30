@@ -21,17 +21,14 @@
   let highlight;
   let comment;
   let oldComment;
-  let commented;
+  let commented = false;
   $: highlight = DOMPurify.sanitize(note.content, purifyConfig);
-  commented = false;
   let focused = false;
-  // oldComment = comment = "";
-  // $: if (note.json.comment && !focused && oldComment !== note.json.comment && oldComment === comment) {
-  //   oldComment = comment = DOMPurify.sanitize(note.json.comment, purifyConfig);
-  //   commented = true;
-  // }
+
   $: if (note.json.comment || comment) {
-    commented = true
+    commented = true;
+  } else {
+    commented = false;
   }
   let selected;
   $: if (current === note.id) {

@@ -19,8 +19,9 @@
   import InfoActions from "../../components/InfoActions.svelte";
   import AnnotationsChapter from "../../library/AnnotationsChapter.svelte";
   import Contents from "../../doc/Contents.svelte";
+  import NotesFilter from "../../doc/NotesFilter.svelte";
   import { stores } from "../../stores";
-  const { infoBook, currentInfoBook, infoContents, title } = stores();
+  const { infoBook, currentInfoBook, infoContents, title, notesCollection, notes } = stores();
   export let book;
   export let type;
   export let id;
@@ -31,7 +32,26 @@
   $: currentInfoBook.set(type);
   $: title.set(type);
   let download = `/api/notes-book-export?id=${encodeURIComponent(`/${id}/`)}`
-  $: console.log(download)
+  function handleCollection (event) {
+    notesCollection.set(event.detail)
+  }
+  $: if ($notesCollection !== "all") {
+    download = `/api/notes-book-export?id=${encodeURIComponent(`/${id}/`)}&collection=${encodeURIComponent($notesCollection)}`
+  } else {
+    download = `/api/notes-book-export?id=${encodeURIComponent(`/${id}/`)}`
+  }
+  let filters = {
+    show: true,
+    question: true,
+    flag: true,
+    demote: true
+  }
+  function handleFilter (event) {
+    const {filter, checked} = event.detail
+    const addition = {}
+    addition[filter] = checked
+    filters = {...filters, ...addition}
+  }
 </script>
 
 <style>
@@ -152,6 +172,9 @@
   .DownloadButtons {
     text-align: right;
   }
+  .filterWrapper {
+    margin: 1rem 0;
+  }
 </style>
 
 <svelte:window bind:innerWidth={width} />
@@ -166,9 +189,12 @@
       <a class="Button" href="{download + "&markdown=true"}" aria-label="Download HTML notes for this book" download><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="round"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/></svg> .md</a>
       </div>
     <h1>{book.name}</h1>
+  <div class="filterWrapper">
+    <NotesFilter on:notes-collection={handleCollection} on:notes-flag-filter={handleFilter}  />
+  </div>
 
     {#each book.readingOrder as chapter, i}
-      <AnnotationsChapter {chapter} index={i} {type} {id} />
+      <AnnotationsChapter {chapter} index={i} {type} {id} {filters} collection={$notesCollection} />
     {/each}
   </div>
 {:else if type === 'contents'}
