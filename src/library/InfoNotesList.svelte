@@ -1,10 +1,8 @@
 <script>
   import Highlight from "./Highlight.svelte";
   export let notes;
-  export let index;
   export let withSidebar = false;
   export let type;
-  export let current;
   export let id;
 </script>
 
@@ -17,7 +15,7 @@
   {#if notes}
     {#each notes as note}
       <div class="Note">
-        <Highlight {note} {current} collection={false} modal={false} info={true} />
+        <Highlight {note} collection={false} current={false} modal={false} info={true} />
       </div>
     {/each}
   {/if}
