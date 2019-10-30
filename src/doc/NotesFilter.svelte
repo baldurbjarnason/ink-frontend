@@ -2,8 +2,12 @@
   import { stores as inkStores } from "../stores";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
-  const { collections } = inkStores();
+  const { collections, notes } = inkStores();
   let current = 'all';
+  let items = []
+  $: if ($collections && $notes && $notes.items) {
+    items = $notes.items
+  }
 </script>
 
 <style>
@@ -139,9 +143,11 @@
                 dispatch("notes-collection", event.target.value)
               }}>
               <option value="all" 
-                selected={current === 'all'}>All</option>
+                selected={current === 'all'}>All ({items.filter(item => {
+      return (item.json.collection === "all" || !item.json.collection)
+    }).length})</option>
               {#each $collections as collection}
-                <option value={collection.name} selected={current === collection.name}>{collection.name}</option>
+                <option value={collection.name} selected={current === collection.name}>{collection.name} ({items.filter(item => item.json.collection === collection.name).length})</option>
               {/each}
             </select>
           </label>
