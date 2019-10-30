@@ -143,9 +143,7 @@
                 dispatch("notes-collection", event.target.value)
               }}>
               <option value="all" 
-                selected={current === 'all'}>All ({items.filter(item => {
-      return (item.json.collection === "all" || !item.json.collection)
-    }).length})</option>
+                selected={current === 'all'}>All ({items.length})</option>
               {#each $collections as collection}
                 <option value={collection.name} selected={current === collection.name}>{collection.name} ({items.filter(item => item.json.collection === collection.name).length})</option>
               {/each}
