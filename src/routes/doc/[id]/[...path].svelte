@@ -132,7 +132,6 @@
       selectionRange = null;
     }
   });
-  $: console.log($configuringReader)
 </script>
 
 <style>
