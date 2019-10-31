@@ -130,8 +130,10 @@
         type="button"
         aria-label="Italic"
         class:active={$notesEditor.italic}
-        on:click={event => {
+        on:mousedown={event => {
           event.preventDefault();
+        }}
+        on:click={event => {
           buttonAction('italic');
         }}>
         <svg
