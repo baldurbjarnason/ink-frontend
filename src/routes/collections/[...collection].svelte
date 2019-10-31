@@ -189,7 +189,7 @@
   }
   async function check() {
     const endTime = Number(new Date()) + 1000 * 60 * 10;
-    const interval = 1000 * 50;
+    const interval = 1000 * 5;
     while (true) {
       try {
         await loadMore(true);
