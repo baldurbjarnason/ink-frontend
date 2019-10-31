@@ -21,14 +21,14 @@
   import Contents from "../../doc/Contents.svelte";
   import NotesFilter from "../../doc/NotesFilter.svelte";
   import { stores } from "../../stores";
-  const { infoBook, currentInfoBook, infoContents, title, notesCollection, notes } = stores();
+  const { docStore, currentInfoBook, contents, title, notesCollection, notes } = stores();
   export let book;
   export let type;
   export let id;
   let width = 0;
   let sidebar = true;
   let sidebargrid = true;
-  $: infoBook.set(book);
+  $: docStore.set(book);
   $: currentInfoBook.set(type);
   $: title.set(type);
   let download = `/api/notes-book-export?id=${encodeURIComponent(`/${id}/`)}`
@@ -200,7 +200,7 @@
 {:else if type === 'contents'}
   <div class="InfoBody">
     <div class="InfoMetadata">
-      <Contents contents={$infoContents} {book} />
+      <Contents contents={$contents} {book} />
     </div>
   </div>
 {:else}

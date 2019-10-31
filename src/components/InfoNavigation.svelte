@@ -3,14 +3,14 @@
   import TextButton from "./TextButton.svelte";
   import { collection } from "../api/collection.js";
   import { stores } from "../stores";
-  const { infoBook, currentInfoBook, collections } = stores();
+  const { docStore, currentInfoBook, collections } = stores();
   export let modal;
   export let sidebar = false;
   export let history = false;
   export let side;
   let book = { navigation: { current: {} }, json: { epubVersion: "2.0" } };
-  $: if ($infoBook.id && $infoBook.id !== book.id) {
-    updateBook($infoBook.id);
+  $: if ($docStore.id && $docStore.id !== book.id) {
+    updateBook($docStore.id);
   }
   let bookTags = [];
   $: if (book.tags) {
@@ -35,7 +35,7 @@
   url.search = search.toString();
   let closeURL = url.href;
   function handleCollection(tag, input) {
-    collection(tag, $infoBook, input.checked);
+    collection(tag, $docStore, input.checked);
   }
 </script>
 
@@ -188,7 +188,7 @@
       </a>
     {/if}
     {#if modal}
-      <h1>{$infoBook.name || ''}</h1>
+      <h1>{$docStore.name || ''}</h1>
     {/if}
     <ol>
       {#if book.json.epubVersion}
