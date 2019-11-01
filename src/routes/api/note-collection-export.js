@@ -1,6 +1,5 @@
 import got from "got";
 import slugify from "slugify";
-import { normalise } from "../../api/normalise-publication.js";
 import TurndownService from 'turndown';
 import {gfm} from 'turndown-plugin-gfm';
 const turndownService = new TurndownService({headingStyle: "atx"});
@@ -8,26 +7,38 @@ turndownService.use(gfm)
 turndownService.remove(['title', 'style'])
 turndownService.keep(['svg', 'math'])
 // import * as fs from "fs";
+
+const PAGELENGTH = 25
+
 export async function get(req, res, next) {
   if (req.user) {
-    const { id, collection, markdown } = req.query;
+    const { collection = "all", markdown = false, orderBy = "published", reverse = "false" } = req.query;
     try {
-      const url = new URL(id, process.env.API_SERVER);
+      const notesEndpoint = `${req.user.profile.id}/notes`;
+      const url = new URL(`${notesEndpoint}?limit=${PAGELENGTH}&page=1&orderBy=${orderBy}&reverse=${reverse}`, process.env.API_SERVER);
       const response = await got.get(url.href, {
         headers: {
           Authorization: `Bearer ${req.user.token}`
         },
         json: true
       });
-      const book = normalise(response.body);
-      const notes = await Promise.all(book.readingOrder.map(getAndRenderNotes(req)))
-      const html = renderHTML(notes.join('\n'), book, collection)
+      const totalItems = response.body.totalItems
+      if (collection && collection !== "all") {
+        response.body.items = response.body.items.filter(item => item.json.collection === collection)
+      }
+      let notes = [renderNotes(response.body)]
+      const pages = Math.ceil(totalItems / PAGELENGTH);
+      for (let page = 1; page <= pages; page++) {
+        notes = notes.concat(getAndRenderNotes(req, page))
+      }
+      const renderedNotes = await Promise.all(notes)
+      const html = renderHTML(renderedNotes.join('\n'), collection)
       if (!markdown) {
-        res.set('Content-Disposition', `attachment; filename="${slugify(book.name)}-notes.html"`)
+        res.set('Content-Disposition', `attachment; filename="${slugify(collection)}-notes.html"`)
         return res.send(html);
       } else {
         res.type('text/plain')
-        res.set('Content-Disposition', `attachment; filename="${slugify(book.name)}-notes.md"`)
+        res.set('Content-Disposition', `attachment; filename="${slugify(collection)}-notes.md"`)
         return res.send(turndownService.turndown(html));
       }
     } catch (err) {
@@ -37,12 +48,11 @@ export async function get(req, res, next) {
   }
 }
 
-function getAndRenderNotes (req) {
-  return async function getAndRender (chapter, index) {
-    const {collection} = req.query
+async function getAndRenderNotes (req, page) {
+    const { collection = "all", orderBy = "published", reverse = "false" } = req.query;
     const notesEndpoint = `${req.user.profile.id}/notes`;
     const url = new URL(
-      `${notesEndpoint}?limit=100&document=${chapter.url}`,
+      `${notesEndpoint}?limit=${PAGELENGTH}&page=${page + 1}&orderBy=${orderBy}&reverse=${reverse}`,
       process.env.API_SERVER
     );
     const response = await got.get(url.href, {
@@ -51,47 +61,24 @@ function getAndRenderNotes (req) {
       },
       json: true
     });
-    if (response.body.items) {
-      response.body.items.sort(function(first, second) {
-        const start = first.json.startLocation;
-        const end = second.json.startLocation;
-        if (
-          start === end &&
-          first.json.startLocation &&
-          second.json.startLocation
-        ) {
-          return (
-            parseInt(first.json.startOffset, 10) -
-            parseInt(second.json.startOffset, 10)
-          );
-        } else {
-          return start.localeCompare(end);
-        }
-      });
-    }
-    let chapterTitle
-    if (response.body.items[0] && response.body.items[0].json && response.body.items[0].json.chapterTitle) {
-      chapterTitle = response.body.items[0].json.chapterTitle
-    } else {
-      chapterTitle = `Chapter ${index + 1}`
-    }
     if (collection && collection !== "all") {
       response.body.items = response.body.items.filter(item => item.json.collection === collection)
     }
-    return renderNotes(response.body, chapterTitle)
-  }
+    return renderNotes(response.body)
 }
 
-function renderNotes ({items}, chapter = "") {
+function renderNotes ({items}) {
   const htmlNotes = items.map(item => {
-    return `<div class="Note" data-label="${item.json.label}">${item.content}
+    return `<div class="Note" data-label="${item.json.label}">
+    <h2>${item.publication.name}</h2>
+      ${item.content}
     <div class="Content ${item.json.comment ? "Commented": "Empty"}">${item.json.comment || ""}</div>
+    ${item.json.collection ? `<div class="Collection">${item.json.collection}</div>` : ""}
   </div>`
   })
   if (items.length > 0) {
     return `
     <div class="Chapter">
-      ${chapter ? `<h2>${chapter}</h2>` : ""}
       ${htmlNotes.join('\n')}
     </div>
     `
@@ -100,13 +87,13 @@ function renderNotes ({items}, chapter = "") {
   }
 }
 
-function renderHTML  (notes, book, collection) {
+function renderHTML  (notes, collection) {
   return `<!doctype html>
   <html>
   <head>
     <meta charset='utf-8'>
     <meta name='viewport' content='width=device-width,initial-scale=1.0'>
-    <title>Notes for ${book.name} ${collection ? `in ${collection}` : "" }</title>
+    <title>Notes ${collection ? `in ${collection}` : "" }</title>
 
     <style>
     
@@ -196,6 +183,14 @@ function renderHTML  (notes, book, collection) {
   --font-size: 125%;
   --line-height: 1.5;
   --border-radius: 4px;
+}
+.Collection {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #666;
 }
   .Chapter > * {
     grid-column: 2 / 3;
@@ -466,10 +461,12 @@ grid-column: 2 / 3;
 	
     }
     .Chapter h2 {
-    margin: 1rem 0;
-    font-size: 2rem;
-    text-transform: uppercase;
-    font-weight: normal;
+      margin: 1rem 0;
+      padding: 0 3rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      font-weight: normal;
+      text-align: right;
     }
      h1 {
     margin: 3rem 0;
@@ -495,7 +492,7 @@ grid-column: 2 / 3;
     </style>
   </head>
   <body id="body">
-  <h1>Notes for ${book.name} ${collection ? `in <em>${collection}</em>` : "" }</h1>
+  <h1>Notes ${collection ? `in <em>${collection}</em>` : "" }</h1>
   ${notes}
   </body>
   </html>
