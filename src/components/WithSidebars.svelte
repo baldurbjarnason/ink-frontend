@@ -79,6 +79,14 @@
     background-color: var(--reader-sidebar-background);
     background-color: var(--sidebar-background-color);
   }
+  .SignOut {
+    position: absolute;
+    bottom: 0.5rem;
+    left: 0.5rem;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    text-decoration: none;
+  }
 </style>
 
 <svelte:window bind:innerWidth={width} />
@@ -92,6 +100,7 @@
       <slot name="left-sidebar">
         <!-- optional fallback -->
       </slot>
+      <a href="/logout" class="SignOut">Sign Out</a>
     </div>
   {/if}
   <div class="center">
