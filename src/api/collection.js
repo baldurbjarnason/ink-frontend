@@ -21,7 +21,9 @@ export async function collection(tag, book, checked) {
       }
     };
   } else {
+    const csrfToken = getToken();
     payload = {
+      _csrf: csrfToken,
       "@context": [
         "https://www.w3.org/ns/activitystreams",
         { reader: "https://rebus.foundation/ns/reader" }

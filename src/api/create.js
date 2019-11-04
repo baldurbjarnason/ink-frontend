@@ -5,12 +5,13 @@ export async function create(payload) {
   const response = await window.fetch("/api/whoami", {
     credentials: "include"
   });
+  const csrfToken = getToken();
   const { profile } = await response.json();
   try {
-    const csrfToken = getToken();
     const response = await fetchWrap("/api/create", {
       method: "POST",
       body: JSON.stringify({
+        _csrf: csrfToken,
         "@context": [
           "https://www.w3.org/ns/activitystreams",
           { reader: "https://rebus.foundation/ns/reader" }
@@ -19,8 +20,7 @@ export async function create(payload) {
         object: payload
       }),
       headers: new window.Headers({
-        "content-type": "application/json",
-        "csrf-token": csrfToken
+        "content-type": "application/json"
       })
     });
     const url = new URL(response.headers.get("location"), profile.outbox);

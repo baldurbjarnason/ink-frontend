@@ -47,7 +47,6 @@
     create(tag).then(() => {
       name = "";
       collections.update(list => [tag, ...list]);
-      return update();
     });
   }
   function submitDelete(event) {

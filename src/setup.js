@@ -5,7 +5,7 @@ import csurf from "csurf";
 import { setup as authSetup } from "./auth.js";
 import dotenv from "dotenv";
 import session from "express-session";
-import levelStore from "level-session-store";
+import firesession from 'firestore-store'
 
 const { NODE_ENV } = process.env;
 const dev = NODE_ENV === "development";
@@ -16,25 +16,22 @@ if (dev) {
   }
   process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 }
-let defaultSession;
 if (dev) {
-  const LevelStore = levelStore(session);
-  defaultSession = session({
-    store: new LevelStore(),
-    secret: process.env.COOKIE_KEY,
-    resave: false,
-    rolling: true,
-    saveUninitialized: false,
-    cookie: {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      secure: !dev,
-      name: "__session"
-    }
-  });
 }
 
 export function setup(sapper, options = {}) {
-  const { session = defaultSession, firebase } = options;
+  const { firebase } = options;
+  const database = firebase.firestore();
+  const FirestoreStore = firesession(session);
+  const sessionMiddleware = session({
+    store: new FirestoreStore({database}),
+    secret: process.env.COOKIE_KEY,
+    resave: true,
+    rolling: true,
+    saveUninitialized: false,
+    name: "__session",
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000, secure: !dev, name: "__session", httpOnly: false }
+  });
   const app = express();
 
   app.enable("strict routing");
@@ -53,7 +50,7 @@ export function setup(sapper, options = {}) {
     })
   );
 
-  app.use(session);
+  app.use(sessionMiddleware);
   if (firebase) {
     app.use((req, res, next) => {
       req.firebase = firebase;
@@ -78,7 +75,13 @@ export function setup(sapper, options = {}) {
       }
     },
     (req, res, next) => {
-      res.cookie("XSRF-TOKEN", req.csrfToken());
+      if (req.body && req.body._csrf) {
+        delete req.body._csrf;
+      }
+      next();
+    },
+    (req, res, next) => {
+      res.cookie("XSRF-TOKEN", req.csrfToken(), {httpOnly: false});
       next();
     },
     sapper.middleware({

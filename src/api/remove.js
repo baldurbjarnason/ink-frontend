@@ -16,6 +16,7 @@ export async function remove(payload) {
     const response = await fetchWrap("/api/create", {
       method: "POST",
       body: JSON.stringify({
+        _csrf: csrfToken,
         "@context": [
           "https://www.w3.org/ns/activitystreams",
           { reader: "https://rebus.foundation/ns/reader" }
@@ -24,8 +25,7 @@ export async function remove(payload) {
         object: payload
       }),
       headers: new window.Headers({
-        "content-type": "application/json",
-        "csrf-token": csrfToken
+        "content-type": "application/json"
       })
     });
     const url = new URL(response.headers.get("location"), profile.outbox);
