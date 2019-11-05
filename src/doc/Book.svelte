@@ -98,7 +98,6 @@
       selectionRange = null;
     }
   });
-  console.log("gets to the end of render");
 </script>
 
 <style>

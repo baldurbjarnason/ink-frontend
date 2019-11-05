@@ -2,7 +2,6 @@
   export let tag;
   export let tags;
   export let handleCollection;
-  $: console.log(tag, tags, handleCollection);
 </script>
 
 <style>

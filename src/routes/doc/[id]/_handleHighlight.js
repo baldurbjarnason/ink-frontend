@@ -65,7 +65,7 @@ export function handleHighlight(range, root, chapter, chapterTitle, notesCollect
     // }
     const tempId = "temp-" + Math.floor(Math.random() * 10000000000000);
     highlightNote(selector, root, tempId, note);
-    console.log(`${startLocation}–${endLocation}`);
+    // console.log(`${startLocation}–${endLocation}`);
     document.getSelection().collapse(root, 0);
     if (notesCollection) {
       note.json.collection = notesCollection
