@@ -3,15 +3,6 @@
   import { onMount } from "svelte";
   export let upload = files => console.log(files);
   let form;
-  onMount(() => {
-    if (!document.getElementById("import-pdf-cover-page")) {
-      const canvas = document.createElement("canvas");
-      canvas.id = "import-pdf-cover-page";
-      canvas.hidden = true;
-      canvas.setAttribute("style", "display: none;");
-      document.body.appendChild(canvas);
-    }
-  });
 </script>
 
 <style>
@@ -85,7 +76,7 @@
 
 <file-drop
   class="FileDrop"
-  accept=".epub,.pdf,application/epub+zip,application/pdf"
+  accept=".epub,application/epub+zip"
   multiple
   on:filedrop={event => upload(event.files)}>
   <p>Drop file here</p>
@@ -95,7 +86,7 @@
       type="file"
       name="file-selector"
       id="file-selector"
-      accept=".epub,.pdf,application/epub+zip,application/pdf"
+      accept=".epub,application/epub+zip"
       multiple
       on:change={event => {
         upload(event.target.files);
