@@ -9,7 +9,7 @@ export async function get(req, res, next) {
     const file = req.query.toc;
     const url = new URL(file, process.env.API_SERVER);
     const bucket = req.firebase.storage().bucket();
-    const storedFile = bucket.file(encode(url.href));
+    const storedFile = bucket.file(`cache/${encode(req.user.profile.id)}/${encode(url.href)}`);
     const exists = await storedFile.exists();
     if (exists[0]) {
       res.type("json");
@@ -48,7 +48,7 @@ export async function get(req, res, next) {
         // );
         await storedFile.save(JSON.stringify(toc), {
           metadata: {
-            contentType: "image/jpeg"
+            contentType: "application/json"
           },
           resumable: false
         });
