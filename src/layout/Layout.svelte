@@ -82,6 +82,9 @@
 </style>
 
 <svelte:window bind:innerWidth={width} />
+  <svelte:head>
+    <meta name="csrftoken" content={$session.csrfToken}>
+  </svelte:head>
 <svelte:body />
 
 {#if $profile.user}

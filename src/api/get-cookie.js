@@ -12,5 +12,5 @@ export function getCookie(name) {
 }
 
 export function getToken() {
-  return getCookie("XSRF-TOKEN");
+  return document.querySelector('[name="csrftoken"]').getAttribute("content")
 }

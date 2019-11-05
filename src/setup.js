@@ -30,7 +30,7 @@ export function setup(sapper, options = {}) {
     rolling: true,
     saveUninitialized: false,
     name: "__session",
-    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000, secure: !dev, name: "__session", httpOnly: false }
+    cookie: { maxAge: 30 * 24 * 60 * 60 * 1000, secure: !dev, name: "__session", httpOnly: true, sameSite: 'lax' }
   });
   const app = express();
 
@@ -80,13 +80,13 @@ export function setup(sapper, options = {}) {
       }
       next();
     },
-    (req, res, next) => {
-      res.cookie("XSRF-TOKEN", req.csrfToken(), {httpOnly: false});
-      next();
-    },
+    // (req, res, next) => {
+    //   res.cookie("XSRF-TOKEN", req.csrfToken(), {httpOnly: false});
+    //   next();
+    // },
     sapper.middleware({
       session: (req, res) => {
-        return { user: req.user };
+        return { user: req.user, csrfToken: req.csrfToken() };
       }
     })
   );
