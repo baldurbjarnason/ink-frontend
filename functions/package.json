@@ -31,7 +31,7 @@
     "document-register-element": "^1.14.3",
     "dom-anchor-text-quote": "^4.0.2",
     "dom-seek": "^4.0.3",
-    "dompurify": "^2.0.7",
+    "dompurify": "^2.0.17",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
